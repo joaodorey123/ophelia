@@ -5,7 +5,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { ImageSlot } from '@/components/ui/ImageSlot';
 import { FavouriteCard, PantryCard } from '@/components/product/ProductCard';
 import { Kicker, SectionHeader } from '@/components/ui/Type';
-import { HeroFrame, Watercolour } from '@/components/ui/Watercolour';
+import { Watercolour } from '@/components/ui/Watercolour';
 import { catalogue } from '@/lib/commerce';
 import type { Product } from '@/lib/commerce/types';
 import { pageMetadata } from '@/lib/seo/metadata';
@@ -69,7 +69,6 @@ export default async function HomePage() {
           />
         </div>
         <div className={styles.heroScrim} />
-        <HeroFrame />
 
         <div className={`${styles.heroContent} oph-animate-fade`}>
           <span className={styles.heroKicker}>Ophelia · Guarda · Estoril</span>
