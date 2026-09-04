@@ -159,7 +159,16 @@ The only generated images in the repository are the Open Graph card and the favi
 `public/brand/`, composed from supplied brand artwork — the wordmark and the wildflower border.
 No product photography has been fabricated.
 
----
+### One deliberate exception: the homepage hero
+
+`public/photography/hero-cookie-jars.jpg` is a stock photograph (Pexels, photographer og_mpango),
+placed in the hero slot at the client's explicit request after I flagged it as stock and recommended
+against it — the shot shows a generic café's cookie jars, including a visible "Macadamia Cookies"
+label that has nothing to do with Ophelia. It is **not** Ophelia product photography and does not
+meet the "no stock photography" rule this document otherwise holds to everywhere else.
+
+Treat it as a temporary placeholder, not as approved art direction: swap it for the real hero shot
+from the photography brief above the moment one exists, and remove this note when that happens.
 
 ## Content provenance
 

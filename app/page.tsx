@@ -55,6 +55,12 @@ export default async function HomePage() {
       <section className={styles.hero} aria-labelledby="hero-title">
         <div className={styles.heroMedia}>
           <ImageSlot
+            image={{
+              url: '/photography/hero-cookie-jars.jpg',
+              altText: 'Cookies em jarros de vidro sobre um balcão',
+              width: 1920,
+              height: 1272,
+            }}
             brief="Mesa Ophelia — cookies, bolos, mãos a servir (editorial, luz natural)"
             fill
             priority
