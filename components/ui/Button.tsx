@@ -80,7 +80,8 @@ export function ButtonLink({
 }: StyleProps & ComponentProps<typeof Link> & { children: ReactNode }) {
   return (
     <Link {...props} className={buttonClassName({ variant, size, block, grow, className })}>
-      {children}
+      {/* The underlined "Ver tudo" rule belongs to the text, not the tap area. */}
+      {variant === 'link' ? <span className={styles.linkText}>{children}</span> : children}
     </Link>
   );
 }

@@ -112,7 +112,7 @@ export function Header() {
           <span />
         </button>
 
-        <Link href="/" aria-label="Ophelia — página inicial">
+        <Link href="/" aria-label="Ophelia — página inicial" className={styles.mobileWordmarkLink}>
           <Image
             src="/brand/logo-azul.png"
             alt="Ophelia"

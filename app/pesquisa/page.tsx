@@ -93,7 +93,7 @@ async function Results({ term }: { term: string }) {
       </p>
       <div className={sections.gridCollection}>
         {products.map((product) => (
-          <PantryCard key={product.id} product={product} />
+          <PantryCard key={product.id} product={product} headingLevel={2} />
         ))}
       </div>
     </>

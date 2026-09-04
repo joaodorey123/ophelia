@@ -37,7 +37,10 @@ type CartContextValue = {
   open: () => void;
   close: () => void;
   add: (lines: CartLineInput[], options?: AddOptions) => void;
+  /** Sets an absolute quantity. Use `stepLine` for +/- controls. */
   updateLine: (lineId: string, quantity: number) => void;
+  /** Nudges a line by ±1, accumulating correctly across rapid clicks. */
+  stepLine: (lineId: string, delta: number) => void;
   removeLine: (lineId: string) => void;
   dismissError: () => void;
 };
@@ -60,6 +63,16 @@ export function CartProvider({
   const [isPending, startTransition] = useTransition();
 
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /**
+   * The quantity each line is heading towards.
+   *
+   * A stepper reads `line.quantity` from the last render, so five rapid clicks
+   * can all compute the same "+1" before React re-renders — the later responses
+   * then overwrite the earlier ones and the total goes backwards. Accumulating
+   * in a ref makes each click build on the previous one regardless of render
+   * timing, and the entry is dropped once the server confirms.
+   */
+  const targetQuantities = useRef<Map<string, number>>(new Map());
   /**
    * Cart mutations are serialised through this promise chain. Without it,
    * hammering the + button races two `cartLinesUpdate` calls and the later
@@ -102,6 +115,22 @@ export function CartProvider({
     return result.ok;
   }, []);
 
+  /** Optimistically writes a quantity, removing the line when it hits zero. */
+  const applyQuantityLocally = useCallback((lineId: string, quantity: number) => {
+    setCart((current) => {
+      if (!current) return current;
+      const lines =
+        quantity <= 0
+          ? current.lines.filter((line) => line.id !== lineId)
+          : current.lines.map((line) => (line.id === lineId ? { ...line, quantity } : line));
+      return {
+        ...current,
+        lines,
+        totalQuantity: lines.reduce((total, line) => total + line.quantity, 0),
+      };
+    });
+  }, []);
+
   const enqueue = useCallback(
     (task: () => Promise<void>) => {
       const next = queue.current.then(task, task);
@@ -127,31 +156,50 @@ export function CartProvider({
     [apply, enqueue, flash],
   );
 
-  const updateLine = useCallback(
+  const commitQuantity = useCallback(
     (lineId: string, quantity: number) => {
       // Optimistic: the stepper must feel immediate even on a slow connection.
-      setCart((current) => {
-        if (!current) return current;
-        const lines =
-          quantity <= 0
-            ? current.lines.filter((line) => line.id !== lineId)
-            : current.lines.map((line) => (line.id === lineId ? { ...line, quantity } : line));
-        return {
-          ...current,
-          lines,
-          totalQuantity: lines.reduce((total, line) => total + line.quantity, 0),
-        };
-      });
+      applyQuantityLocally(lineId, quantity);
 
       enqueue(async () => {
-        apply(await updateCartLine(lineId, quantity));
+        const result = await updateCartLine(lineId, quantity);
+        // Only adopt the server's answer once no newer click is outstanding,
+        // so a slow early response cannot undo a later one.
+        if (targetQuantities.current.get(lineId) === quantity) {
+          targetQuantities.current.delete(lineId);
+          apply(result);
+        } else if (!result.ok) {
+          setError(result.message);
+        }
       });
     },
-    [apply, enqueue],
+    [apply, applyQuantityLocally, enqueue],
+  );
+
+  const updateLine = useCallback(
+    (lineId: string, quantity: number) => {
+      targetQuantities.current.set(lineId, quantity);
+      commitQuantity(lineId, quantity);
+    },
+    [commitQuantity],
+  );
+
+  const stepLine = useCallback(
+    (lineId: string, delta: number) => {
+      const current =
+        targetQuantities.current.get(lineId) ??
+        cart?.lines.find((line) => line.id === lineId)?.quantity ??
+        0;
+      const next = Math.min(99, current + delta);
+      targetQuantities.current.set(lineId, next);
+      commitQuantity(lineId, next);
+    },
+    [cart, commitQuantity],
   );
 
   const removeLine = useCallback(
     (lineId: string) => {
+      targetQuantities.current.delete(lineId);
       setCart((current) => {
         if (!current) return current;
         const lines = current.lines.filter((line) => line.id !== lineId);
@@ -171,6 +219,7 @@ export function CartProvider({
 
   const dismissError = useCallback(() => {
     setError(null);
+    targetQuantities.current.clear();
     enqueue(async () => {
       const fresh = await refreshCart();
       setCart(fresh);
@@ -189,10 +238,11 @@ export function CartProvider({
       close: () => setIsOpen(false),
       add,
       updateLine,
+      stepLine,
       removeLine,
       dismissError,
     }),
-    [add, cart, dismissError, error, isOpen, isPending, removeLine, toast, updateLine],
+    [add, cart, dismissError, error, isOpen, isPending, removeLine, stepLine, toast, updateLine],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

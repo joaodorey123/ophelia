@@ -26,8 +26,19 @@ export default defineConfig({
     locale: 'pt-PT',
   },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
-    { name: 'mobile', use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 }, isMobile: false } },
+    {
+      // The designed desktop state, and the home of the audits that drive the
+      // viewport themselves (responsive) or read the document head (SEO).
+      name: 'desktop',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
+    {
+      // The behavioural suites re-run at phone width, where the compact header,
+      // the overlay menu and the sticky buy bar take over.
+      name: 'mobile',
+      testMatch: /(cart|a11y|navigation)\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 } },
+    },
   ],
   webServer: {
     command: `npm run build && npx next start --port ${PORT}`,

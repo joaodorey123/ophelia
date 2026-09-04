@@ -40,7 +40,6 @@
   position: relative;
   padding: 0 var(--oph-section-px) var(--oph-section-px);
   max-width: 900px;
-  animation: ophFade 0.9s ease both;
   pointer-events: none;
 }
 

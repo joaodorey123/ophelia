@@ -24,7 +24,6 @@
   box-shadow: var(--oph-shadow-drawer);
   display: flex;
   flex-direction: column;
-  animation: ophDrawer 0.32s var(--oph-ease-drawer) both;
 }
 
 .head {
@@ -175,7 +174,6 @@
   border-radius: var(--oph-r-pill);
   font-size: 13.5px;
   box-shadow: var(--oph-shadow-toast);
-  animation: ophToast 2.4s ease both;
   pointer-events: none;
   max-width: min(90vw, 420px);
   text-align: center;

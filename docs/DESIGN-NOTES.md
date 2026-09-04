@@ -105,6 +105,26 @@ here for sign-off rather than made quietly.
 
 ---
 
+## Defects found by the QA pass
+
+Each of these was a real bug in the first implementation, found by the browser suite and fixed.
+They are recorded here because several of them were invisible in a screenshot.
+
+| Defect | Symptom | Fix |
+| --- | --- | --- |
+| **No animation ran at all** | CSS Modules scope `animation-name`, so `animation: ophFade …` inside a module resolved to a scoped name with no matching `@keyframes`. The hero fade, drawer slide and toast were silently dead. | The keyframes stay global; components apply `.oph-animate-fade` / `-drawer` / `-toast` utility classes. Guarded by a test that asserts `getAnimations().length > 0`. |
+| **The page scrolled sideways** | The top-right watercolour bleeds to `right: -6%`, and nothing clipped it — 86px of real horizontal scroll at 1440, 23px at 390. | Section wrappers clip their own overflow, as the prototype's shell did. |
+| **Lost updates in the cart stepper** | Five rapid `+` clicks settled on 3 items, not 6: each click read `line.quantity` from the last render, so later responses overwrote earlier ones. | `stepLine(id, delta)` accumulates the target quantity in a ref and ignores a stale response when a newer click is outstanding. |
+| **Heading levels skipped** | Collection and search pages went `h1` → `h3`, because the product card hardcoded `h3` for its homepage context. | Cards take a `headingLevel` prop; collections and search pass `2`. |
+| **Duplicate SKUs** | The coffee's two 250 g variants generated the same SKU, which would have shipped in the Product structured data. | SKUs are built from an accent-folded slug plus the variant index. |
+| **Soft 404s** | `notFound()` returned HTTP 200, because a root `loading.tsx` opened a Suspense boundary that flushed the response before the status could be set. | Removed the root loading file; 404s now return 404. |
+| **Global cache purge on every add-to-cart** | `revalidatePath('/', 'layout')` threw away cached catalogue renders for every visitor whenever anyone added an item. | `refresh()`, which refreshes only the calling client's router cache. |
+| **Contrast failures** | The "photography missing" caption measured 2.44:1 on sand; inline links in prose were distinguished by colour alone (1.85:1 against the surrounding ink). | Caption uses the muted-ink scale; links inside `p` and `address` carry an underline. The handoff scopes its "no underline" rule to the footer and nav. |
+| **Sub-44px tap targets on phone** | Footer links (21px), sort chips (37px), the quantity stepper (40px), the mobile wordmark (40px) and "Ver tudo" (24px). | Phone-only minimums. "Ver tudo" keeps its 1px rule on an inner span so the rule stays tight to the text while the link grows. |
+| **A live region that never updated** | The catalogue banner carried `role="status"`, so screen readers announced a static notice as a status change. | Removed the role. |
+
+---
+
 ## Screens built without a design
 
 These did not exist in the handoff. They are built in the approved visual language — the same

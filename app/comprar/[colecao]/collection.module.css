@@ -1,6 +1,8 @@
+/* Hosts the top-left watercolour wash, which bleeds past the left edge. */
 .header {
   padding: clamp(26px, 6vw, 86px) var(--oph-section-px) clamp(16px, 3vw, 44px);
   position: relative;
+  overflow: hidden;
 }
 
 .title {
@@ -45,11 +47,19 @@
 }
 
 .sortLink {
+  display: inline-flex;
+  align-items: center;
   font-size: 12.5px;
   padding: 8px 16px;
   border-radius: var(--oph-r-pill);
   border: 1px solid var(--oph-border-option);
   color: var(--oph-ink);
+}
+
+@media (max-width: 767px) {
+  .sortLink {
+    min-height: 44px;
+  }
 }
 
 .sortLinkActive {

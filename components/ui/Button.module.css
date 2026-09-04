@@ -85,20 +85,35 @@
   background: rgba(251, 246, 238, 0.12);
 }
 
-/* "Ver tudo" — keeps a 1px bottom rule, per the handoff. */
+/*
+ * "Ver tudo" — keeps a 1px bottom rule tight to the text, per the handoff.
+ * The rule lives on an inner span so the link itself can grow to a 44px tap
+ * target on phones without dragging the rule away from the words.
+ */
 .link {
-  display: inline-block;
-  padding: 0 0 3px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
   color: var(--oph-blue);
-  border-bottom: 1px solid rgba(27, 49, 96, 0.35);
   border-radius: 0;
 }
 
-.link:hover {
+.linkText {
+  display: inline-block;
+  padding-bottom: 3px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(27, 49, 96, 0.35);
+}
+
+.link:hover .linkText {
   color: var(--oph-terracotta-ink);
   border-bottom-color: var(--oph-terracotta-ink);
+}
+
+@media (max-width: 767px) {
+  .link {
+    min-height: 44px;
+  }
 }
 
 .block {

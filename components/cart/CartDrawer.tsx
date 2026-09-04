@@ -83,7 +83,7 @@ export function CartDrawer({ crossSell }: { crossSell: CrossSellItem[] }) {
         role="dialog"
         aria-modal="true"
         aria-label="O teu cesto"
-        className={styles.drawer}
+        className={`${styles.drawer} oph-animate-drawer`}
       >
         <div className={styles.head}>
           <h2 className={styles.title}>O teu cesto</h2>
@@ -187,7 +187,7 @@ export function CartToast() {
   const { toast } = useCart();
   return (
     <div role="status" aria-live="polite">
-      {toast ? <div className={styles.toast}>{toast}</div> : null}
+      {toast ? <div className={`${styles.toast} oph-animate-toast`}>{toast}</div> : null}
     </div>
   );
 }

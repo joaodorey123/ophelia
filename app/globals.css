@@ -69,6 +69,19 @@ a:hover {
   color: var(--oph-terracotta-ink);
 }
 
+/*
+ * Links inside running text carry an underline: colour alone does not meet
+ * WCAG 1.4.1, and the blue does not reach 3:1 against the muted body ink.
+ * The handoff's "no underline" rule is scoped to the footer and nav, which are
+ * link lists rather than prose, so they are untouched.
+ */
+p a,
+address a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
 button {
   font: inherit;
   color: inherit;
@@ -162,6 +175,26 @@ select {
 }
 
 /* ── Motion ────────────────────────────────────────────────────────────── */
+/*
+ * Motion utilities.
+ *
+ * These are global classes rather than keyframe names referenced from a CSS
+ * Module: CSS Modules scope `animation-name`, so `animation: ophFade …` inside
+ * a module resolves to a scoped name with no matching @keyframes and silently
+ * does nothing. Applying the class keeps one definition and one behaviour.
+ */
+.oph-animate-fade {
+  animation: ophFade 0.9s ease both;
+}
+
+.oph-animate-drawer {
+  animation: ophDrawer 0.32s var(--oph-ease-drawer) both;
+}
+
+.oph-animate-toast {
+  animation: ophToast 2.4s ease both;
+}
+
 @keyframes ophFade {
   from {
     opacity: 0;

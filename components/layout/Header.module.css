@@ -132,6 +132,13 @@
   background: var(--oph-blue);
 }
 
+/* The wordmark keeps its designed 40px; the link around it reaches 44px. */
+.mobileWordmarkLink {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .mobileWordmark {
   height: 40px;
   width: auto;

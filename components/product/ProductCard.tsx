@@ -15,14 +15,40 @@ import styles from './ProductCard.module.css';
  * The design uses three distinct product cards. They share data but not
  * layout, so they are three components rather than one with a `variant` prop
  * that would fork on every line.
+ *
+ * `headingLevel` exists because the same card appears at two depths: under a
+ * section h2 on the homepage (so h3), and directly under the page h1 on a
+ * collection page (so h2). Hardcoding h3 skipped a level there.
  */
+type CardHeading = 2 | 3;
+
+function Heading({
+  level,
+  className,
+  children,
+}: {
+  level: CardHeading;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const Tag = level === 2 ? 'h2' : 'h3';
+  return <Tag className={className}>{children}</Tag>;
+}
 
 function imageBrief(product: Product): string {
   return product.editorial.shortDescription ?? product.title;
 }
 
 /** Homepage — "Os favoritos da Ophelia". 330px image, adds the smallest size. */
-export function FavouriteCard({ product, priority = false }: { product: Product; priority?: boolean }) {
+export function FavouriteCard({
+  product,
+  priority = false,
+  headingLevel = 3,
+}: {
+  product: Product;
+  priority?: boolean;
+  headingLevel?: CardHeading;
+}) {
   const variant = cheapestVariant(product);
   const href = productPath(product.handle);
 
@@ -45,9 +71,9 @@ export function FavouriteCard({ product, priority = false }: { product: Product;
 
       <div className={styles.favouriteMeta}>
         {product.editorial.kicker ? <CardKicker>{product.editorial.kicker}</CardKicker> : null}
-        <h3 className={styles.favouriteTitle}>
+        <Heading level={headingLevel} className={styles.favouriteTitle}>
           <Link href={href}>{product.title}</Link>
-        </h3>
+        </Heading>
         <span className={styles.favouritePrice}>
           {formatFrom(product.priceRange.minVariantPrice)}
         </span>
@@ -68,7 +94,15 @@ export function FavouriteCard({ product, priority = false }: { product: Product;
 }
 
 /** Cookies collection. 380px image, size chips, "Escolher" into the PDP. */
-export function CategoryCard({ product, priority = false }: { product: Product; priority?: boolean }) {
+export function CategoryCard({
+  product,
+  priority = false,
+  headingLevel = 3,
+}: {
+  product: Product;
+  priority?: boolean;
+  headingLevel?: CardHeading;
+}) {
   const href = productPath(product.handle);
   const steps = sizeSteps(product);
 
@@ -90,9 +124,9 @@ export function CategoryCard({ product, priority = false }: { product: Product; 
       </Link>
 
       <div>
-        <h3 className={styles.categoryTitle}>
+        <Heading level={headingLevel} className={styles.categoryTitle}>
           <Link href={href}>{product.title}</Link>
-        </h3>
+        </Heading>
         {product.editorial.shortDescription ? (
           <p className={styles.categoryDesc}>{product.editorial.shortDescription}</p>
         ) : (
@@ -123,11 +157,13 @@ export function PantryCard({
   bordered = false,
   imageHeight = 200,
   addLabel = 'Adicionar',
+  headingLevel = 3,
 }: {
   product: Product;
   bordered?: boolean;
   imageHeight?: number;
   addLabel?: string;
+  headingLevel?: CardHeading;
 }) {
   const variant = defaultVariant(product);
   const href = productPath(product.handle);
@@ -146,9 +182,9 @@ export function PantryCard({
       </Link>
 
       <div>
-        <h3 className={styles.pantryTitle}>
+        <Heading level={headingLevel} className={styles.pantryTitle}>
           <Link href={href}>{product.title}</Link>
-        </h3>
+        </Heading>
         {variant ? <span className={styles.pantrySub}>{sizeLabel(variant)}</span> : null}
       </div>
 

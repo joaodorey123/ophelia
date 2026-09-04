@@ -18,7 +18,7 @@ function monogram(title: string): string {
 }
 
 export function CartLineRow({ line }: { line: CartLine }) {
-  const { updateLine, removeLine } = useCart();
+  const { stepLine, removeLine } = useCart();
 
   const variant = variantLabel({
     ...line.merchandise,
@@ -65,7 +65,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
             <button
               type="button"
               className={styles.stepperButton}
-              onClick={() => updateLine(line.id, line.quantity - 1)}
+              onClick={() => stepLine(line.id, -1)}
               aria-label={`Diminuir quantidade de ${line.merchandise.product.title}`}
             >
               −
@@ -76,7 +76,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
             <button
               type="button"
               className={styles.stepperButton}
-              onClick={() => updateLine(line.id, line.quantity + 1)}
+              onClick={() => stepLine(line.id, 1)}
               disabled={line.quantity >= 99}
               aria-label={`Aumentar quantidade de ${line.merchandise.product.title}`}
             >

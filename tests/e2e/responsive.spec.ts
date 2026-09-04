@@ -9,8 +9,6 @@ import { ALL_ROUTES, VIEWPORTS } from './routes';
  * it twice would just repeat the same assertions.
  */
 test.describe('responsive layout', () => {
-  test.skip(({ browserName }, testInfo) => testInfo.project.name !== 'desktop');
-
   for (const viewport of VIEWPORTS) {
     test.describe(viewport.name, () => {
       for (const route of ALL_ROUTES) {
@@ -35,8 +33,9 @@ test.describe('responsive layout', () => {
             for (const el of Array.from(document.body.querySelectorAll<HTMLElement>('*'))) {
               const style = getComputedStyle(el);
               if (style.display === 'none' || style.visibility === 'hidden') continue;
-              // Deliberate full-bleed decoration is allowed to bleed.
-              if (el.getAttribute('aria-hidden') === 'true') continue;
+              // Deliberate decoration and hidden inputs are exempt — but the
+              // page must still not scroll, which the check above enforces.
+              if (el.closest('[aria-hidden="true"]')) continue;
               const rect = el.getBoundingClientRect();
               if (rect.width === 0 || rect.height === 0) continue;
               if (rect.right > limit || rect.left < -1) {
@@ -58,8 +57,6 @@ test.describe('responsive layout', () => {
 });
 
 test.describe('touch targets on phones', () => {
-  test.skip(({ browserName }, testInfo) => testInfo.project.name !== 'desktop');
-
   for (const route of ['/', '/comprar/cookies', '/produto/ophelia-cookies', '/eventos']) {
     test(`${route} keeps interactive controls at 44px on a phone`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 });
@@ -73,9 +70,16 @@ test.describe('touch targets on phones', () => {
         for (const el of Array.from(controls)) {
           const rect = el.getBoundingClientRect();
           if (rect.width === 0 || rect.height === 0) continue;
-          // Inline text links inside a paragraph are not tap targets.
-          const inProse = el.closest('p, address, li, ol, nav[aria-label="Trilho de navegação"]');
-          if (el.tagName === 'A' && inProse) continue;
+          if (el.closest('[aria-hidden="true"]')) continue;
+
+          // Inline links inside running text are exempt (WCAG 2.2 target-size
+          // exception), as is a card title whose image is the large target.
+          const inline = el.closest('p, address, li, ol, h1, h2, h3, h4');
+          if (el.tagName === 'A' && inline) continue;
+
+          // A control wrapped in its own label is tapped through the label.
+          const label = el.closest('label');
+          if (label && label.getBoundingClientRect().height >= 44) continue;
           if (rect.height < 44) {
             bad.push({
               text: (el.textContent ?? el.getAttribute('aria-label') ?? '').trim().slice(0, 40),

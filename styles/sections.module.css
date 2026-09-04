@@ -4,19 +4,32 @@
  * always punctuation, never the whole page.
  */
 
+/*
+ * Sections clip their own overflow.
+ *
+ * The watercolour washes are designed to bleed past the section edge (the
+ * top-right wash sits at `right: -6%`). The prototype got away with it because
+ * everything lived inside one `overflow: hidden` shell; here, without clipping,
+ * the bleed dragged the whole document sideways — 86px of real horizontal
+ * scroll at 1440. Nothing sticky lives inside these wrappers, so clipping here
+ * is safe.
+ */
 .section {
   padding: var(--oph-section-py) var(--oph-section-px);
   position: relative;
+  overflow: hidden;
 }
 
 .sectionTight {
   padding: 0 var(--oph-section-px) var(--oph-section-py);
   position: relative;
+  overflow: hidden;
 }
 
 .band {
   padding: var(--oph-band-py) var(--oph-section-px);
   position: relative;
+  overflow: hidden;
 }
 
 .groundSand {

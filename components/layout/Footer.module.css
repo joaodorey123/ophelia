@@ -45,6 +45,23 @@
   color: var(--oph-cream-85);
 }
 
+/*
+ * The handoff requires a 44px minimum hit target on phone. The footer's
+ * stacked link lists are 21px tall at the designed 9px rhythm, so on phones the
+ * padding grows and the gap shrinks to keep the visual spacing similar.
+ */
+@media (max-width: 767px) {
+  .column {
+    gap: 0;
+  }
+
+  .column a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 .column a:hover {
   color: var(--oph-terracotta-light);
 }

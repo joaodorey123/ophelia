@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { refresh } from 'next/cache';
 
 import { cartSource, isCheckoutAvailable } from '@/lib/commerce';
 import type { Cart, CartLineInput } from '@/lib/commerce/types';
@@ -46,10 +46,17 @@ async function currentCart(): Promise<Cart | null> {
   }
 }
 
-/** Persists the returned cart id and refreshes every route that shows a cart. */
+/**
+ * Persists the returned cart id and refreshes this client's router cache so the
+ * layout re-renders with the new cart.
+ *
+ * Deliberately `refresh()` and not `revalidatePath('/', 'layout')`: the cart is
+ * per-visitor state held in a cookie, so purging the shared route cache on every
+ * add-to-cart would throw away cached catalogue renders for everyone else.
+ */
 async function commit(cart: Cart): Promise<CartActionResult> {
   await writeCartId(cart.id);
-  revalidatePath('/', 'layout');
+  refresh();
   return { ok: true, cart };
 }
 

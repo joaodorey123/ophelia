@@ -48,7 +48,37 @@ which is disabled with an explanation rather than simulated.
 | `npm start` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
-| `npm run check` | Typecheck + lint |
+| `npm test` | Unit tests (Vitest) |
+| `npm run test:e2e` | End-to-end, responsive and accessibility suite (Playwright) |
+| `npm run check` | Typecheck + lint + unit tests |
+
+---
+
+## Testing
+
+```bash
+npm run check        # typecheck, lint, 99 unit tests
+npm run test:e2e     # builds, boots, then runs the browser suite
+```
+
+**Unit tests** (`tests/unit/`, Vitest) cover the rules the handoff states exactly: Portuguese money
+formatting, variant and option resolution, catalogue data integrity, every cart rule, enquiry
+validation, SEO metadata and structured data, and Shopify webhook signature verification.
+
+**Browser tests** (`tests/e2e/`, Playwright) run against a production build on the local catalogue,
+so they need no Shopify credentials:
+
+| Spec | Covers |
+| --- | --- |
+| `responsive.spec.ts` | Every route at 375/390/430/768/1024/1280/1440/1920 — no horizontal scroll, no element out of bounds, 44px phone tap targets |
+| `navigation.spec.ts` | Status codes, real 404s, no placeholder links, every internal link resolves, sitemap and robots |
+| `seo.spec.ts` | Unique titles and descriptions, canonicals, robots directives, one h1 and an ordered heading tree per page, JSON-LD matching the page |
+| `cart.spec.ts` | Variant selection, quantity bounds, gift card and message, line merging, rapid stepping, persistence, checkout handoff |
+| `forms.spec.ts` | Labels, validation, error announcement, loading, server and network failure, honest 503 |
+| `a11y.spec.ts` | axe (WCAG 2.1 A/AA) on every route plus the open drawer and menu, focus trap, Escape, scroll lock, reduced motion |
+
+The suite runs both a desktop (1440) and a phone (390) project, since the handoff designs those two
+states.
 
 ---
 
@@ -75,6 +105,7 @@ lib/
   navigation.ts         Route map and nav configuration
   product.ts            Variant and option helpers
 styles/                 Design tokens, shared section scaffolding
+tests/                  Unit tests, browser suite, shared fixtures
 public/brand/           Brand artwork (web copies) and generated icons
 design-handoff/         The original Claude Design handoff, unmodified
 docs/                   Shopify setup, integrations, design decisions

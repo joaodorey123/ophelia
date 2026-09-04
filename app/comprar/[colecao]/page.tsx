@@ -149,9 +149,14 @@ export default async function CollectionPage({ params, searchParams }: PageProps
             <div className={isCookies ? sections.gridCategory : sections.gridCollection}>
               {products.map((product, index) =>
                 isCookies ? (
-                  <CategoryCard key={product.id} product={product} priority={index < 2} />
+                  <CategoryCard
+                    key={product.id}
+                    product={product}
+                    priority={index < 2}
+                    headingLevel={2}
+                  />
                 ) : (
-                  <PantryCard key={product.id} product={product} />
+                  <PantryCard key={product.id} product={product} headingLevel={2} />
                 ),
               )}
             </div>

@@ -65,7 +65,7 @@ export default async function HomePage() {
         <div className={styles.heroScrim} />
         <HeroFrame />
 
-        <div className={styles.heroContent}>
+        <div className={`${styles.heroContent} oph-animate-fade`}>
           <span className={styles.heroKicker}>Ophelia · Guarda · Estoril</span>
           <h1 id="hero-title" className={styles.heroTitle}>
             As melhores memórias constroem-se à volta de uma mesa.
