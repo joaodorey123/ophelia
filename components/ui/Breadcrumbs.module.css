@@ -1,0 +1,23 @@
+.crumbs {
+  font-size: 12px;
+  color: var(--oph-ink-55);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 0;
+}
+
+.crumbs li {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.separator {
+  color: var(--oph-ink-50);
+}
+
+.current {
+  color: var(--oph-ink-72);
+}

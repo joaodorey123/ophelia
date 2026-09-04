@@ -1,0 +1,98 @@
+.opening {
+  position: relative;
+  padding: clamp(36px, 8vw, 116px) var(--oph-section-px) var(--oph-section-py);
+  text-align: center;
+  overflow: hidden;
+}
+
+.openingInner {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.openingTitle {
+  font-size: var(--oph-t-story-h1);
+  line-height: 1.02;
+  margin: 20px 0 22px;
+  color: var(--oph-blue);
+}
+
+.openingLead {
+  font-size: var(--oph-t-lead-lg);
+  line-height: 1.7;
+  color: var(--oph-ink-75);
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 2vw, 28px);
+}
+
+.chapter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(18px, 3vw, 44px);
+  align-items: center;
+  padding: clamp(20px, 3vw, 44px) 0;
+  border-top: 1px solid var(--oph-divider);
+}
+
+/* 30–52px, so the brand accent itself is used: large text needs 3:1 and
+   #C67139 on cream measures 3.35:1. */
+.chapterYear {
+  display: block;
+  font-family: var(--oph-font-display);
+  font-size: var(--oph-t-chapter-year);
+  color: var(--oph-terracotta);
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.chapterTitle {
+  font-size: var(--oph-t-chapter-h3);
+  margin: 0 0 12px;
+  color: var(--oph-blue);
+}
+
+.chapterBody {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--oph-ink-72);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.chapterMedia {
+  position: relative;
+  height: 300px;
+  border-radius: var(--oph-r-lg);
+  overflow: hidden;
+  background: var(--oph-sand);
+}
+
+.closingProp {
+  height: 180px;
+  width: auto;
+  margin: 0 auto 30px;
+  border-radius: 10px;
+  box-shadow: var(--oph-shadow-prop);
+}
+
+.closingTitle {
+  font-size: var(--oph-t-h2-closing);
+  line-height: 1.08;
+  margin: 0 auto;
+  max-width: 26ch;
+}
+
+.closingActions {
+  margin-top: 34px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}

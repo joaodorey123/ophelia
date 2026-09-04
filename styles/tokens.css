@@ -1,0 +1,161 @@
+/*
+ * Ophelia design tokens.
+ *
+ * Ported verbatim from the Claude Design handoff (design-handoff/README.md →
+ * "Design tokens") and from the inline values in Ophelia.dc.html. Do not
+ * re-derive these by eye; change them here and nowhere else.
+ *
+ * Fluid sizes: the prototype sized type against its container (`cqw`) because
+ * it rendered the phone view inside a 430px shell. In production the container
+ * *is* the viewport, so every `Ncqw` becomes `Nvw` with the same clamp bounds.
+ */
+
+:root {
+  /* ── Colour ─────────────────────────────────────────────────────────── */
+  --oph-blue: #1b3160;          /* accent: buttons, headings on cream, nav, prices */
+  --oph-blue-deep: #142545;     /* button hover, footer ground, toast */
+  --oph-blue-press: #0e1b33;    /* button pressed */
+  --oph-cream: #fbf6ee;         /* page ground, text on blue */
+  --oph-sand: #f1e7d6;          /* alternating sections, cards on cream, image slots */
+  --oph-ink: #201e1d;           /* body copy, product titles */
+  --oph-terracotta: #c67139;    /* the brand accent, at display sizes */
+
+  /*
+   * Contrast-safe terracottas.
+   *
+   * The brand accent #C67139 measures 3.35:1 on cream and 2.94:1 on sand —
+   * below WCAG AA for text, and on sand below even the large-text floor. The
+   * handoff is aware of the risk ("Body copy is never set in terracotta … on
+   * cream (contrast)") but still sets kickers, small numerals and the badge in
+   * it. These two derivatives keep the hue and pass AA:
+   *   --oph-terracotta-ink   5.24:1 on cream, 4.61:1 on sand
+   *   --oph-terracotta-light 5.80:1 on blue,  6.96:1 on blue-deep
+   * The accent itself is unchanged and still carries the display sizes
+   * (the Quem Somos chapter years, 30–52px). Revert by pointing these two at
+   * --oph-terracotta. See docs/DESIGN-NOTES.md.
+   */
+  --oph-terracotta-ink: #a0521f;   /* terracotta text and badges on cream/sand */
+  --oph-terracotta-light: #e3a171; /* terracotta text on blue grounds */
+
+  --oph-hairline: rgba(27, 49, 96, 0.14);
+  --oph-divider: rgba(27, 49, 96, 0.16);
+  --oph-border-soft: rgba(27, 49, 96, 0.25);
+  --oph-border-pill: rgba(27, 49, 96, 0.3);
+  --oph-border-option: rgba(27, 49, 96, 0.28);
+
+  /*
+   * Muted ink scale. The handoff's lightest three levels (.5 / .55 / .6) carry
+   * meta lines, breadcrumbs and captions at 10.5–12.5px, where they measure
+   * 3.18–4.30:1 on cream — under WCAG AA. The scale below keeps the same six
+   * tiers and the same visual hierarchy, with the floor raised so every tier
+   * passes AA on both cream (≥4.85:1) and sand (≥4.64:1). Token names keep the
+   * handoff's numbering so the mapping back to the design stays legible.
+   */
+  --oph-ink-50: rgba(32, 30, 29, 0.64);
+  --oph-ink-55: rgba(32, 30, 29, 0.66);
+  --oph-ink-60: rgba(32, 30, 29, 0.68);
+  --oph-ink-65: rgba(32, 30, 29, 0.7);
+  --oph-ink-72: rgba(32, 30, 29, 0.72);
+  --oph-ink-75: rgba(32, 30, 29, 0.75);
+
+  --oph-cream-25: rgba(251, 246, 238, 0.25);
+  --oph-cream-30: rgba(251, 246, 238, 0.3);
+  --oph-cream-40: rgba(251, 246, 238, 0.4);
+  --oph-cream-55: rgba(251, 246, 238, 0.55);
+  --oph-cream-60: rgba(251, 246, 238, 0.6);
+  --oph-cream-70: rgba(251, 246, 238, 0.7);
+  --oph-cream-82: rgba(251, 246, 238, 0.82);
+  --oph-cream-85: rgba(251, 246, 238, 0.85);
+  --oph-cream-88: rgba(251, 246, 238, 0.88);
+  --oph-cream-90: rgba(251, 246, 238, 0.9);
+
+  --oph-scrim: rgba(20, 37, 69, 0.42);
+  --oph-hero-scrim: linear-gradient(
+    180deg,
+    rgba(20, 37, 69, 0.28) 0%,
+    rgba(20, 37, 69, 0) 38%,
+    rgba(20, 37, 69, 0.72) 100%
+  );
+  --oph-header-bg: rgba(251, 246, 238, 0.93);
+  --oph-header-bg-mobile: rgba(251, 246, 238, 0.95);
+  --oph-buybar-bg: rgba(251, 246, 238, 0.96);
+
+  /* ── Typography ─────────────────────────────────────────────────────── */
+  /* Faces are supplied by next/font (Caprasimo 400, Figtree 400/600/700). */
+  --oph-font-display: var(--font-caprasimo), Georgia, "Times New Roman", serif;
+  --oph-font-body: var(--font-figtree), system-ui, -apple-system, sans-serif;
+
+  /* Display roles — bounds taken from the prototype's own clamp() calls. */
+  --oph-t-hero-h1: clamp(30px, 6.2vw, 78px);
+  --oph-t-page-h1: clamp(32px, 6vw, 74px);       /* category */
+  --oph-t-story-h1: clamp(30px, 6vw, 80px);      /* Quem Somos */
+  --oph-t-pdp-h1: clamp(28px, 4.6vw, 52px);
+  --oph-t-h2-lg: clamp(28px, 4.6vw, 60px);       /* cookies band */
+  --oph-t-h2: clamp(28px, 4.2vw, 54px);          /* favoritos, presente perfeito */
+  --oph-t-h2-sm: clamp(26px, 4vw, 52px);         /* mercearia, gifting */
+  --oph-t-h2-centred: clamp(26px, 4.4vw, 56px);  /* personalizadas */
+  --oph-t-h2-closing: clamp(24px, 4.4vw, 58px);  /* Quem Somos closing */
+  --oph-t-h2-xs: clamp(24px, 3.4vw, 42px);       /* cross-sell */
+  --oph-t-chapter-year: clamp(30px, 4vw, 52px);
+  --oph-t-chapter-h3: clamp(20px, 2.4vw, 30px);
+
+  /* Body roles */
+  --oph-t-lead: clamp(14px, 1.5vw, 18px);
+  --oph-t-lead-lg: clamp(15px, 1.6vw, 19px);
+  --oph-t-lead-blue: clamp(14px, 1.4vw, 17px);
+  --oph-t-body: 15px;
+  --oph-t-body-sm: 13.5px;
+  --oph-t-kicker: 11px;
+  --oph-t-nav: 13px;
+  --oph-t-announce: 11.5px;
+  --oph-t-price-pdp: 24px;
+
+  --oph-ls-kicker: 0.22em;
+  --oph-ls-meta: 0.14em;
+  --oph-ls-meta-wide: 0.18em;
+  --oph-ls-nav: 0.04em;
+  --oph-ls-announce: 0.11em;
+
+  /* ── Spacing ─────────────────────────────────────────────────────────── */
+  /* 7cqw/6cqw at 1440 ≈ 100/86px; at 430 ≈ 30/26px. */
+  --oph-section-py: clamp(30px, 7vw, 100px);
+  --oph-section-px: clamp(26px, 6vw, 86px);
+  --oph-band-py: clamp(24px, 5vw, 72px);
+  --oph-gutter: clamp(20px, 3vw, 44px);
+  --oph-col-gap: clamp(26px, 5vw, 72px);
+
+  /* Grid minimums — the handoff calls these the contract. */
+  --oph-grid-favourites: 240px;
+  --oph-grid-category: 280px;
+  --oph-grid-pantry: 190px;
+  --oph-grid-crosssell: 200px;
+
+  --oph-max-header: 1360px;
+  --oph-max-detail: 560px;
+
+  /* ── Radius ──────────────────────────────────────────────────────────── */
+  --oph-r-pill: 999px;
+  --oph-r-xl: 28px;
+  --oph-r-lg: 26px;
+  --oph-r-md: 24px;
+  --oph-r-card: 22px;
+  --oph-r-option: 18px;
+  --oph-r-sm: 16px;
+  --oph-r-xs: 14px;
+
+  /* ── Elevation ───────────────────────────────────────────────────────── */
+  --oph-shadow-drawer: -20px 0 60px rgba(20, 37, 69, 0.28);
+  --oph-shadow-toast: 0 12px 30px rgba(20, 37, 69, 0.35);
+  --oph-shadow-prop: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+  /* ── Motion ──────────────────────────────────────────────────────────── */
+  --oph-ease-drawer: cubic-bezier(0.22, 0.8, 0.28, 1);
+  --oph-t-fast: 0.18s;
+
+  /* ── Layering ────────────────────────────────────────────────────────── */
+  --oph-z-buybar: 35;
+  --oph-z-menu: 39;
+  --oph-z-header: 40;
+  --oph-z-drawer: 60;
+  --oph-z-toast: 70;
+}

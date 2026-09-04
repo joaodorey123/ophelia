@@ -1,0 +1,144 @@
+.header {
+  padding: clamp(26px, 6vw, 86px) var(--oph-section-px) clamp(16px, 3vw, 44px);
+  position: relative;
+}
+
+.title {
+  font-size: var(--oph-t-page-h1);
+  line-height: 1.02;
+  margin: 14px 0 18px;
+  color: var(--oph-blue);
+}
+
+.lead {
+  font-size: var(--oph-t-lead);
+  line-height: 1.65;
+  color: var(--oph-ink-72);
+  max-width: 56ch;
+  margin: 0;
+}
+
+.crumbs {
+  padding: 22px var(--oph-section-px) 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--oph-section-px) 24px;
+}
+
+.count {
+  font-size: 12.5px;
+  letter-spacing: var(--oph-ls-meta);
+  text-transform: uppercase;
+  color: var(--oph-ink-55);
+}
+
+.sort {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sortLink {
+  font-size: 12.5px;
+  padding: 8px 16px;
+  border-radius: var(--oph-r-pill);
+  border: 1px solid var(--oph-border-option);
+  color: var(--oph-ink);
+}
+
+.sortLinkActive {
+  background: var(--oph-blue);
+  border-color: var(--oph-blue);
+  color: var(--oph-cream);
+}
+
+.sortLinkActive:hover {
+  color: var(--oph-cream);
+}
+
+.empty {
+  padding: clamp(40px, 8vw, 96px) var(--oph-section-px);
+  text-align: center;
+}
+
+.emptyTitle {
+  font-size: var(--oph-t-h2-xs);
+  color: var(--oph-blue);
+  margin: 0 0 12px;
+}
+
+.emptyCopy {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--oph-ink-72);
+  max-width: 46ch;
+  margin: 0 auto 26px;
+}
+
+/* ── "É o presente perfeito." band (cookies only) ──────────────────────── */
+.giftTitle {
+  font-size: var(--oph-t-h2);
+  line-height: 1.05;
+  margin: 0 0 18px;
+  color: var(--oph-blue);
+}
+
+.giftLead {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--oph-ink-75);
+  max-width: 46ch;
+  margin: 0 0 22px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+
+.stepNumber {
+  font-family: var(--oph-font-display);
+  color: var(--oph-terracotta-ink);
+  font-size: 20px;
+}
+
+.stepCopy {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.giftMedia {
+  position: relative;
+  min-height: 420px;
+  border-radius: var(--oph-r-xl);
+  overflow: hidden;
+}
+
+/* ── Personalizadas band (cookies only) ────────────────────────────────── */
+.personalizadasTitle {
+  font-size: var(--oph-t-h2-centred);
+  line-height: 1.05;
+  margin: 0 auto 18px;
+  max-width: 20ch;
+}
+
+.personalizadasLead {
+  font-size: 15.5px;
+  line-height: 1.65;
+  opacity: 0.85;
+  max-width: 52ch;
+  margin: 0 auto 26px;
+}

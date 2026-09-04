@@ -1,0 +1,22 @@
+/*
+ * Shown only when the storefront is running on the local development
+ * catalogue. It exists so nobody mistakes development data for a live store.
+ */
+.notice {
+  background: var(--oph-terracotta-ink);
+  color: var(--oph-cream);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 8px 16px;
+}
+
+.notice a {
+  color: var(--oph-cream);
+  text-decoration: underline;
+}
+
+.notice a:hover {
+  color: var(--oph-cream);
+}

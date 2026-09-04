@@ -1,0 +1,107 @@
+.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  max-width: 760px;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 11.5px;
+  letter-spacing: var(--oph-ls-meta);
+  text-transform: uppercase;
+  color: var(--oph-ink-60);
+}
+
+.optional {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--oph-ink-50);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--oph-r-pill);
+  border: 1px solid var(--oph-border-soft);
+  background: var(--oph-cream);
+  padding: 12px 18px;
+  font-family: var(--oph-font-body);
+  font-size: 14.5px;
+  color: var(--oph-ink);
+}
+
+.textarea {
+  border-radius: var(--oph-r-sm);
+  min-height: 120px;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--oph-blue);
+}
+
+.inputError {
+  border-color: #a8412a;
+}
+
+.error {
+  font-size: 12.5px;
+  color: #8c2f0d;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.status {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  line-height: 1.6;
+  border-radius: var(--oph-r-sm);
+  padding: 14px 18px;
+  margin: 0;
+}
+
+.statusSuccess {
+  background: var(--oph-sand);
+  color: var(--oph-ink-75);
+}
+
+.statusError {
+  background: #f7e3d8;
+  color: #7d2f11;
+}
+
+.help {
+  grid-column: 1 / -1;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--oph-ink-60);
+  margin: 0;
+}

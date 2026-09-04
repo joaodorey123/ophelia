@@ -1,0 +1,182 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--oph-z-drawer);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--oph-scrim);
+  backdrop-filter: blur(2px);
+  border: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(440px, 92%);
+  background: var(--oph-cream);
+  box-shadow: var(--oph-shadow-drawer);
+  display: flex;
+  flex-direction: column;
+  animation: ophDrawer 0.32s var(--oph-ease-drawer) both;
+}
+
+.head {
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--oph-divider);
+}
+
+.title {
+  font-size: 22px;
+  margin: 0;
+  color: var(--oph-blue);
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  color: var(--oph-blue);
+  cursor: pointer;
+  border-radius: var(--oph-r-pill);
+}
+
+.body {
+  flex: 1;
+  overflow: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.emptyIllustration {
+  height: 110px;
+  width: auto;
+  margin: 0 auto 18px;
+  opacity: 0.85;
+}
+
+.emptyCopy {
+  font-size: 14.5px;
+  color: var(--oph-ink-65);
+  margin: 0 0 18px;
+}
+
+.error {
+  background: var(--oph-sand);
+  border-radius: var(--oph-r-sm);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--oph-ink-75);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.suggest {
+  border-top: 1px solid var(--oph-divider);
+  padding-top: 18px;
+}
+
+.suggestTitle {
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: var(--oph-blue);
+}
+
+.suggestList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.suggestRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--oph-sand);
+  border-radius: var(--oph-r-sm);
+  padding: 10px 14px;
+}
+
+.suggestLabel {
+  flex: 1;
+  font-size: 13.5px;
+}
+
+.suggestPrice {
+  color: var(--oph-ink-55);
+}
+
+.summary {
+  border-top: 1px solid var(--oph-divider);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.rowMuted {
+  font-size: 13px;
+  color: var(--oph-ink-60);
+}
+
+.rowTotal {
+  font-size: 17px;
+  color: var(--oph-blue);
+  margin-top: 4px;
+}
+
+.checkout {
+  min-height: 52px;
+  margin-top: 10px;
+}
+
+.note {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--oph-ink-50);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 78px;
+  transform: translateX(-50%);
+  z-index: var(--oph-z-toast);
+  background: var(--oph-blue-deep);
+  color: var(--oph-cream);
+  padding: 13px 22px;
+  border-radius: var(--oph-r-pill);
+  font-size: 13.5px;
+  box-shadow: var(--oph-shadow-toast);
+  animation: ophToast 2.4s ease both;
+  pointer-events: none;
+  max-width: min(90vw, 420px);
+  text-align: center;
+}

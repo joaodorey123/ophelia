@@ -1,0 +1,96 @@
+.line {
+  display: grid;
+  grid-template-columns: 74px 1fr auto;
+  gap: 14px;
+  align-items: start;
+}
+
+.thumb {
+  height: 88px;
+  border-radius: var(--oph-r-xs);
+  background: var(--oph-sand);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.monogram {
+  font-family: var(--oph-font-display);
+  font-size: 24px;
+  color: rgba(27, 49, 96, 0.35);
+}
+
+.thumbImage {
+  object-fit: cover;
+}
+
+.title {
+  font-size: 15px;
+  margin: 0 0 3px;
+}
+
+.title a {
+  color: inherit;
+}
+
+.variant {
+  display: block;
+  font-size: 12px;
+  color: var(--oph-ink-55);
+}
+
+.note {
+  display: block;
+  font-size: 12px;
+  color: var(--oph-terracotta-ink);
+  margin-top: 4px;
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(27, 49, 96, 0.22);
+  border-radius: var(--oph-r-pill);
+}
+
+.stepperButton {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  color: var(--oph-blue);
+  cursor: pointer;
+  border-radius: var(--oph-r-pill);
+}
+
+.stepperValue {
+  min-width: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.remove {
+  border: 0;
+  background: none;
+  font-size: 12px;
+  color: var(--oph-ink-50);
+  text-decoration: underline;
+  padding: 0;
+  cursor: pointer;
+}
+
+.total {
+  font-size: 14px;
+  color: var(--oph-blue);
+}

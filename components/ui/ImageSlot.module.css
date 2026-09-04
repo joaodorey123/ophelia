@@ -1,0 +1,54 @@
+/*
+ * Image slot.
+ *
+ * Photography for Ophelia has not been produced yet (design-handoff/README.md →
+ * "Photography brief"). Every slot therefore keeps its designed dimensions,
+ * radius and crop, and falls back to the sand ground with the intended shot as
+ * a caption — never a broken-image icon, never stock photography.
+ */
+
+.slot {
+  position: relative;
+  overflow: hidden;
+  background: var(--oph-sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+ * In the hero the copy sits bottom-left, so a centred caption would land on
+ * top of the headline. Tuck it into the opposite corner instead.
+ */
+.briefTop {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.briefTop .brief {
+  text-align: right;
+  padding: 22px 26px;
+  max-width: 26ch;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.brief {
+  padding: 16px 22px;
+  max-width: 30ch;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--oph-ink-55);
+}
+
+.briefTag {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10px;
+  letter-spacing: var(--oph-ls-meta-wide);
+  text-transform: uppercase;
+  color: rgba(27, 49, 96, 0.45);
+}

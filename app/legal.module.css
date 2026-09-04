@@ -1,0 +1,87 @@
+/*
+ * Legal and policy pages. Long-form reading measure, the design's own type
+ * scale, no decorative furniture — the copy is the client's, verbatim.
+ */
+
+.page {
+  padding: clamp(26px, 5vw, 72px) var(--oph-section-px) var(--oph-section-py);
+  max-width: 76ch;
+}
+
+.title {
+  font-size: var(--oph-t-h2);
+  line-height: 1.05;
+  margin: 14px 0 12px;
+  color: var(--oph-blue);
+}
+
+.updated {
+  font-size: 12.5px;
+  color: var(--oph-ink-55);
+  margin: 0 0 34px;
+}
+
+.section {
+  margin-bottom: 34px;
+}
+
+.heading {
+  font-size: 22px;
+  margin: 0 0 12px;
+  color: var(--oph-blue);
+}
+
+.subheading {
+  font-size: 17px;
+  margin: 22px 0 8px;
+  color: var(--oph-ink);
+}
+
+.body {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--oph-ink-75);
+  margin: 0 0 14px;
+}
+
+.list {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  list-style: disc;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--oph-ink-75);
+}
+
+.list li {
+  margin-bottom: 6px;
+}
+
+.toc {
+  background: var(--oph-sand);
+  border-radius: var(--oph-r-card);
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+
+.tocTitle {
+  font-size: 11.5px;
+  letter-spacing: var(--oph-ls-meta);
+  text-transform: uppercase;
+  color: var(--oph-ink-60);
+  margin: 0 0 10px;
+  font-family: var(--oph-font-body);
+}
+
+.tocList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 14px;
+  padding: 0;
+}
+
+/* <address> italicises by default; the design does not. */
+address.body {
+  font-style: normal;
+}

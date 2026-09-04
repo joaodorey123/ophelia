@@ -1,0 +1,292 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: var(--oph-max-detail);
+}
+
+.title {
+  font-size: var(--oph-t-pdp-h1);
+  line-height: 1.04;
+  margin: 0 0 12px;
+  color: var(--oph-ink);
+}
+
+.price {
+  font-size: var(--oph-t-price-pdp);
+  color: var(--oph-blue);
+}
+
+.compareAt {
+  margin-left: 10px;
+  font-size: 16px;
+  color: var(--oph-ink-50);
+  text-decoration: line-through;
+}
+
+.description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--oph-ink-72);
+  margin: 16px 0 0;
+}
+
+/* ── Option pills (Sabor) ──────────────────────────────────────────────── */
+.optionGroup {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.pill {
+  font-size: 13px;
+  padding: 12px 20px;
+  border-radius: var(--oph-r-pill);
+  border: 1px solid var(--oph-border-option);
+  background: transparent;
+  color: var(--oph-ink);
+  cursor: pointer;
+  transition: all var(--oph-t-fast) ease;
+}
+
+.pillSelected {
+  background: var(--oph-blue);
+  border-color: var(--oph-blue);
+  color: var(--oph-cream);
+}
+
+.pillUnavailable {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* ── Size cards (Tamanho da caixa) ─────────────────────────────────────── */
+.sizeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.sizeCard {
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: var(--oph-r-option);
+  border: 1px solid var(--oph-border-option);
+  background: transparent;
+  color: var(--oph-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  transition: all var(--oph-t-fast) ease;
+}
+
+.sizeCardSelected {
+  background: var(--oph-blue);
+  border-color: var(--oph-blue);
+  color: var(--oph-cream);
+}
+
+.sizeCardUnavailable {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sizeLabel {
+  font-size: 14px;
+}
+
+.sizePrice {
+  font-size: 12.5px;
+  opacity: 0.7;
+}
+
+/* ── Quantity + add ────────────────────────────────────────────────────── */
+.buyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--oph-border-soft);
+  border-radius: var(--oph-r-pill);
+  padding: 4px;
+}
+
+.stepperButton {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--oph-blue);
+  font-size: 18px;
+  border-radius: var(--oph-r-pill);
+  cursor: pointer;
+}
+
+.stepperValue {
+  min-width: 32px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* ── Personalised card panel ───────────────────────────────────────────── */
+.cardPanel {
+  background: var(--oph-sand);
+  border-radius: var(--oph-r-card);
+  padding: 20px 22px;
+}
+
+.cardLabel {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.cardCheckbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--oph-blue);
+  flex: none;
+}
+
+.cardTitle {
+  display: block;
+  font-size: 14.5px;
+  color: var(--oph-ink);
+}
+
+.cardPrice {
+  color: var(--oph-terracotta-ink);
+}
+
+.cardHelp {
+  display: block;
+  font-size: 12.5px;
+  color: var(--oph-ink-60);
+  margin-top: 3px;
+}
+
+.cardTextarea {
+  width: 100%;
+  margin-top: 14px;
+  border-radius: var(--oph-r-sm);
+  border: 1px solid var(--oph-border-soft);
+  background: var(--oph-cream);
+  padding: 12px 14px;
+  font-family: var(--oph-font-body);
+  font-size: 14px;
+  color: var(--oph-ink);
+  resize: vertical;
+}
+
+.cardCounter {
+  display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--oph-ink-55);
+  text-align: right;
+}
+
+/* ── Notes ─────────────────────────────────────────────────────────────── */
+.shippingNote {
+  border-top: 1px solid var(--oph-divider);
+  padding-top: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--oph-ink-65);
+  margin: 0;
+}
+
+.ingredients {
+  border-top: 1px solid var(--oph-divider);
+  padding-top: 18px;
+}
+
+.ingredientsTitle {
+  font-size: 11.5px;
+  letter-spacing: var(--oph-ls-meta);
+  text-transform: uppercase;
+  color: var(--oph-ink-60);
+  margin: 0 0 8px;
+  font-family: var(--oph-font-body);
+}
+
+.ingredientsBody {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--oph-ink-72);
+  margin: 0;
+}
+
+.soldOut {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--oph-ink-72);
+  background: var(--oph-sand);
+  border-radius: var(--oph-r-sm);
+  padding: 12px 16px;
+  margin: 0;
+}
+
+.error {
+  font-size: 13px;
+  color: #8c2f0d;
+  margin: 0;
+}
+
+/* ── Mobile sticky buy bar ─────────────────────────────────────────────── */
+.buyBar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--oph-z-buybar);
+  background: var(--oph-buybar-bg);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--oph-divider);
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.buyBarMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.buyBarName {
+  font-size: 11px;
+  color: var(--oph-ink-55);
+}
+
+.buyBarTotal {
+  font-size: 15px;
+  color: var(--oph-blue);
+}
+
+.buyBarAction {
+  flex: 1;
+  min-height: 48px;
+}
+
+@media (min-width: 900px) {
+  .buyBar {
+    display: none;
+  }
+}

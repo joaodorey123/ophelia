@@ -1,0 +1,162 @@
+/* ── Favourite card (homepage, "Os favoritos da Ophelia") ──────────────── */
+.favourite {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.favouriteMedia {
+  display: block;
+  position: relative;
+  border-radius: var(--oph-r-md);
+  overflow: hidden;
+}
+
+.favouriteMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.favouriteTitle {
+  font-size: 20px;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--oph-ink);
+}
+
+.favouriteTitle a {
+  color: inherit;
+}
+
+.favouritePrice {
+  font-size: 14px;
+  color: var(--oph-blue);
+}
+
+.badgeBlue,
+.badgeTerracotta {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  color: var(--oph-cream);
+  font-size: 10.5px;
+  letter-spacing: var(--oph-ls-meta);
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: var(--oph-r-pill);
+  z-index: 1;
+}
+
+.badgeBlue {
+  background: var(--oph-blue);
+}
+
+.badgeTerracotta {
+  top: 16px;
+  left: 16px;
+  background: var(--oph-terracotta-ink);
+}
+
+.addSelf {
+  align-self: flex-start;
+}
+
+/* ── Category card (Cookies collection) ────────────────────────────────── */
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.categoryMedia {
+  display: block;
+  position: relative;
+  border-radius: var(--oph-r-lg);
+  overflow: hidden;
+}
+
+.categoryTitle {
+  font-size: 23px;
+  line-height: 1.15;
+  margin: 0 0 8px;
+  color: var(--oph-ink);
+}
+
+.categoryTitle a {
+  color: inherit;
+}
+
+.categoryDesc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--oph-ink-65);
+  margin: 0 0 12px;
+  /* Keeps the CTA row aligned across cards of different copy lengths. */
+  min-height: 44px;
+}
+
+.sizeChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 0;
+}
+
+.sizeChip {
+  font-size: 12px;
+  padding: 7px 13px;
+  border-radius: var(--oph-r-pill);
+  background: var(--oph-sand);
+  color: var(--oph-blue);
+}
+
+/* ── Pantry card (Mercearia) ───────────────────────────────────────────── */
+.pantry {
+  background: var(--oph-cream);
+  border-radius: var(--oph-r-card);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pantryOnCream {
+  border: 1px solid var(--oph-hairline);
+}
+
+.pantryMedia {
+  display: block;
+  position: relative;
+  border-radius: var(--oph-r-xs);
+  overflow: hidden;
+}
+
+.pantryTitle {
+  font-size: 16px;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.pantryTitle a {
+  color: inherit;
+}
+
+.pantrySub {
+  font-size: 12px;
+  color: var(--oph-ink-55);
+}
+
+.pantryFoot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pantryPrice {
+  font-size: 14px;
+  color: var(--oph-blue);
+}

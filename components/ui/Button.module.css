@@ -1,0 +1,119 @@
+/* Button geometry and colour come straight from the prototype's inline styles. */
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: var(--oph-r-pill);
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: var(--oph-font-body);
+  font-weight: 400;
+  letter-spacing: var(--oph-ls-nav);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ── Sizes ─────────────────────────────────────────────────────────────── */
+.sizeXl {
+  padding: 16px 32px;
+  font-size: 14px;
+}
+
+.sizeLg {
+  padding: 15px 30px;
+  font-size: 14px;
+}
+
+.sizeMd {
+  padding: 13px 24px;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+.sizeSm {
+  padding: 11px 20px;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+}
+
+.sizeXs {
+  padding: 9px 16px;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+/* ── Variants ──────────────────────────────────────────────────────────── */
+.primary {
+  background: var(--oph-blue);
+  color: var(--oph-cream);
+}
+
+.cream {
+  background: var(--oph-cream);
+  color: var(--oph-blue);
+}
+
+.outlineBlue {
+  border-color: var(--oph-border-pill);
+  color: var(--oph-blue);
+}
+
+.outlineCream {
+  border-color: var(--oph-cream-60);
+  color: var(--oph-cream);
+}
+
+.link:hover,
+.primary:hover,
+.cream:hover,
+.outlineBlue:hover,
+.outlineCream:hover {
+  color: inherit;
+}
+
+.outlineCream:hover,
+.outlineBlue:hover {
+  filter: none;
+  background: rgba(27, 49, 96, 0.06);
+}
+
+.outlineCream:hover {
+  background: rgba(251, 246, 238, 0.12);
+}
+
+/* "Ver tudo" — keeps a 1px bottom rule, per the handoff. */
+.link {
+  display: inline-block;
+  padding: 0 0 3px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--oph-blue);
+  border-bottom: 1px solid rgba(27, 49, 96, 0.35);
+  border-radius: 0;
+}
+
+.link:hover {
+  color: var(--oph-terracotta-ink);
+  border-bottom-color: var(--oph-terracotta-ink);
+}
+
+.block {
+  width: 100%;
+}
+
+.grow {
+  flex: 1 1 220px;
+  min-height: 52px;
+  font-size: 14.5px;
+}
+
+/* Buttons are hit targets first on phones. */
+@media (max-width: 767px) {
+  .base {
+    min-height: 44px;
+  }
+}

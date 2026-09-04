@@ -1,0 +1,116 @@
+/*
+ * The full cart page was not designed in the handoff (it lists /carrinho under
+ * "Known gaps"). It is built here in the drawer's own visual language —
+ * same line-item anatomy, same summary, same money formatting — so it reads as
+ * part of the approved design rather than a new one.
+ */
+
+.page {
+  padding: clamp(26px, 5vw, 72px) var(--oph-section-px) var(--oph-section-py);
+}
+
+.title {
+  font-size: var(--oph-t-h2);
+  line-height: 1.05;
+  margin: 14px 0 30px;
+  color: var(--oph-blue);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(260px, 360px);
+  gap: clamp(26px, 4vw, 58px);
+  align-items: start;
+}
+
+@media (max-width: 899px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0;
+}
+
+.lines > li + li {
+  border-top: 1px solid var(--oph-divider);
+  padding-top: 24px;
+}
+
+.summary {
+  background: var(--oph-sand);
+  border-radius: var(--oph-r-card);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 96px;
+}
+
+.summaryTitle {
+  font-size: 19px;
+  margin: 0 0 8px;
+  color: var(--oph-blue);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.rowMuted {
+  font-size: 13px;
+  color: var(--oph-ink-60);
+}
+
+.rowTotal {
+  font-size: 17px;
+  color: var(--oph-blue);
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--oph-divider);
+}
+
+.checkout {
+  margin-top: 12px;
+}
+
+.note {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--oph-ink-50);
+}
+
+.empty {
+  text-align: center;
+  padding: clamp(30px, 6vw, 80px) 0;
+}
+
+.emptyIllustration {
+  height: 110px;
+  width: auto;
+  margin: 0 auto 18px;
+  opacity: 0.85;
+}
+
+.emptyCopy {
+  font-size: 15px;
+  color: var(--oph-ink-65);
+  margin: 0 0 22px;
+}
+
+.error {
+  background: #f7e3d8;
+  color: #7d2f11;
+  border-radius: var(--oph-r-sm);
+  padding: 14px 18px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}

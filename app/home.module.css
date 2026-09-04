@@ -1,0 +1,185 @@
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+/*
+ * The handoff specifies `min-height: 74cqw; max-height: 820px`, but in CSS a
+ * min-height always beats a max-height, so the prototype's hero was never
+ * actually capped — at 1440 it stood 1066px tall and pushed everything below
+ * the fold. The written spec's cap is the intent, so it is expressed here in a
+ * form that holds. See docs/DESIGN-NOTES.md.
+ */
+.hero {
+  position: relative;
+  min-height: min(74vw, 820px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: 520px;
+  }
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+}
+
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--oph-hero-scrim);
+  pointer-events: none;
+}
+
+/*
+ * The text block does not intercept pointer events so the image beneath stays
+ * reachable; the buttons switch them back on. Straight from the handoff.
+ */
+.heroContent {
+  position: relative;
+  padding: 0 var(--oph-section-px) var(--oph-section-px);
+  max-width: 900px;
+  animation: ophFade 0.9s ease both;
+  pointer-events: none;
+}
+
+.heroKicker {
+  display: inline-block;
+  font-size: 11.5px;
+  letter-spacing: var(--oph-ls-kicker);
+  text-transform: uppercase;
+  color: var(--oph-cream);
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+
+.heroTitle {
+  color: var(--oph-cream);
+  font-size: var(--oph-t-hero-h1);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+
+.heroLead {
+  color: var(--oph-cream-90);
+  font-size: var(--oph-t-lead);
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 0 0 30px;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+/* ── Cookies band ──────────────────────────────────────────────────────── */
+.bandTitle {
+  font-size: var(--oph-t-h2-lg);
+  line-height: 1.04;
+  margin: 0 0 22px;
+}
+
+.bandLead {
+  font-size: var(--oph-t-lead-blue);
+  line-height: 1.65;
+  opacity: 0.88;
+  max-width: 46ch;
+  margin: 0;
+}
+
+.flavourChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 26px 0 30px;
+}
+
+.flavourChip {
+  border: 1px solid var(--oph-cream-40);
+  border-radius: var(--oph-r-pill);
+  padding: 8px 16px;
+  font-size: 12.5px;
+}
+
+.mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.mosaicTall {
+  position: relative;
+  height: 300px;
+  border-radius: var(--oph-r-md);
+  overflow: hidden;
+  grid-row: span 2;
+}
+
+.mosaicSmall {
+  position: relative;
+  height: 142px;
+  border-radius: var(--oph-r-md);
+  overflow: hidden;
+}
+
+/* ── Gifting teaser ────────────────────────────────────────────────────── */
+.giftMedia {
+  position: relative;
+  min-height: 360px;
+  border-radius: var(--oph-r-xl);
+  overflow: hidden;
+}
+
+.giftMark {
+  height: 72px;
+  width: auto;
+  margin-bottom: 18px;
+}
+
+.giftTitle {
+  font-size: var(--oph-t-h2-sm);
+  line-height: 1.05;
+  margin: 0 0 18px;
+  color: var(--oph-blue);
+}
+
+.giftLead {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--oph-ink-75);
+  max-width: 44ch;
+  margin: 0;
+}
+
+.giftList {
+  margin: 24px 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--oph-ink-75);
+}
+
+/* ── Shipping band ─────────────────────────────────────────────────────── */
+.shipping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+.shippingTitle {
+  font-size: 19px;
+  margin: 0 0 8px;
+}
+
+.shippingCopy {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  opacity: 0.82;
+}

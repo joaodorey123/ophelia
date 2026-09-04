@@ -1,0 +1,23 @@
+.crumbs {
+  padding: 22px var(--oph-section-px) 0;
+}
+
+.layout {
+  padding: clamp(14px, 3vw, 44px) var(--oph-section-px) var(--oph-section-py);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(24px, 4vw, 58px);
+  align-items: start;
+}
+
+.crossSellTitle {
+  font-size: var(--oph-t-h2-xs);
+  margin: 0 0 8px;
+  color: var(--oph-blue);
+}
+
+.crossSellLead {
+  font-size: 14px;
+  color: var(--oph-ink-60);
+  margin: 0 0 30px;
+}
