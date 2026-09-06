@@ -22,16 +22,15 @@ const PAGE_SIZE = 24;
 
 type Params = { params: Promise<{ colecao: string }> };
 
-export async function generateStaticParams() {
-  try {
-    const collections = await catalogue().getCollections();
-    return collections.map((collection) => ({ colecao: collection.handle }));
-  } catch {
-    // Shopify unavailable at build time: the pages render on demand instead of
-    // failing the build.
-    return [];
-  }
-}
+/*
+ * Deliberately no generateStaticParams.
+ *
+ * This page reads a pagination cursor from the query string, so it cannot be
+ * prerendered — asking Next to try produces a DYNAMIC_SERVER_USAGE error and a
+ * 500 where a missing collection should be a clean 404. It renders on demand;
+ * the Shopify reads underneath are still cached for `revalidate` seconds and
+ * purged by webhook, so this costs a cache lookup, not a round trip.
+ */
 
 export async function generateMetadata({ params }: Params) {
   const { colecao } = await params;
