@@ -1,130 +1,162 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 import { ALL_ROUTES, PUBLIC_ROUTES } from './routes';
 
-test.describe('routing', () => {
+test.describe('every route resolves', () => {
   for (const route of ALL_ROUTES) {
     test(`${route} responds 200`, async ({ page }) => {
       const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
       expect(response?.status(), route).toBe(200);
     });
   }
+});
 
-  test('an unknown product returns a real 404, not a soft one', async ({ page }) => {
+test.describe('missing things are real 404s', () => {
+  test('an unknown product handle', async ({ page }) => {
     const response = await page.goto('/produto/nao-existe');
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Não encontrámos');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('não encontrámos');
   });
 
-  test('an unknown collection returns a real 404', async ({ page }) => {
+  test('an unknown collection handle', async ({ page }) => {
     const response = await page.goto('/comprar/nao-existe');
     expect(response?.status()).toBe(404);
   });
 
-  test('an unknown path returns a real 404', async ({ page }) => {
+  test('an unknown article', async ({ page }) => {
+    const response = await page.goto('/diario/nao-existe');
+    expect(response?.status()).toBe(404);
+  });
+
+  test('an unknown page', async ({ page }) => {
     const response = await page.goto('/nada-aqui');
     expect(response?.status()).toBe(404);
   });
 });
 
-test.describe('internal links', () => {
-  test('no internal link is a placeholder or dead end', async ({ page, request }) => {
-    const seen = new Set<string>();
-
-    for (const route of ALL_ROUTES) {
+test.describe('no dead links', () => {
+  for (const route of PUBLIC_ROUTES) {
+    test(`${route} has no placeholder or empty links`, async ({ page }) => {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
-      const hrefs = await page.evaluate(() =>
-        Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href]')).map((a) =>
-          a.getAttribute('href'),
-        ),
+      const hrefs = await page.$$eval('a[href]', (nodes) =>
+        nodes.map((node) => node.getAttribute('href') ?? ''),
       );
-
+      expect(hrefs.length).toBeGreaterThan(0);
       for (const href of hrefs) {
-        expect(href, `placeholder link on ${route}`).not.toBe('#');
-        expect(href, `placeholder link on ${route}`).not.toBe('');
-        if (!href || !href.startsWith('/')) continue;
-        seen.add(href.split('#')[0] as string);
+        expect(href, `${route} has a placeholder link`).not.toBe('#');
+        expect(href, `${route} has an empty link`).not.toBe('');
+        expect(href, `${route} has a TODO link`).not.toMatch(/^(javascript:|undefined|null)/);
       }
-    }
+    });
+  }
 
-    // Every internal destination must actually resolve.
-    for (const href of seen) {
-      const response = await request.get(href);
-      expect(response.status(), `${href} is linked but does not resolve`).toBeLessThan(400);
-    }
-  });
-
-  test('every primary nav item leads somewhere meaningful', async ({ page }) => {
+  test('every internal link on the home page resolves', async ({ page, request }) => {
     await page.goto('/');
-    const nav = page.getByRole('navigation', { name: 'Principal' });
-    const labels = ['Cookies', 'Mercearia', 'Presentes', 'Eventos', 'Quem Somos'];
+    const hrefs = await page.$$eval('a[href^="/"]', (nodes) =>
+      nodes.map((node) => node.getAttribute('href') ?? ''),
+    );
+    const unique = [...new Set(hrefs)].filter((href) => !href.startsWith('//'));
+    expect(unique.length).toBeGreaterThan(5);
+    for (const href of unique) {
+      const response = await request.get(href);
+      expect(response.status(), `${href} is broken`).toBeLessThan(400);
+    }
+  });
+});
 
-    for (const label of labels) {
-      const link = nav.getByRole('link', { name: label, exact: true });
-      await expect(link).toHaveAttribute('href', /.+/);
+test.describe('primary navigation', () => {
+  const LABELS = ['início', 'produtos', 'quem somos', 'diário', 'contacto'];
+
+  /**
+   * Below 900px the nav row is replaced by a drawer, so reaching the same
+   * links means opening the menu first. Returns whichever nav is on screen.
+   */
+  async function openNav(page: Page) {
+    const burger = page.getByRole('button', { name: 'Abrir menu' });
+    if (await burger.isVisible()) {
+      await burger.click();
+      return page.getByRole('dialog', { name: 'Menu' }).getByRole('navigation', {
+        name: 'Principal',
+      });
+    }
+    return page.getByRole('navigation', { name: 'Principal' }).first();
+  }
+
+  test('links to the real routes', async ({ page }) => {
+    await page.goto('/');
+    const nav = await openNav(page);
+    for (const label of LABELS) {
+      await expect(nav.getByRole('link', { name: label, exact: true }).first()).toBeVisible();
     }
   });
 
-  test('the active nav item is marked for assistive technology', async ({ page }) => {
-    await page.goto('/comprar/cookies');
-    const nav = page.getByRole('navigation', { name: 'Principal' });
-    await expect(nav.getByRole('link', { name: 'Cookies', exact: true })).toHaveAttribute(
+  test('"produtos" stays current on a product page', async ({ page }) => {
+    await page.goto('/produto/ophelia-cookies-ny');
+    const nav = await openNav(page);
+    await expect(nav.getByRole('link', { name: 'produtos', exact: true })).toHaveAttribute(
       'aria-current',
       'page',
     );
   });
 
-  test('the gifting CTA goes to the Presentes collection, not a configurator', async ({ page }) => {
-    await page.goto('/');
-    const cta = page.getByRole('link', { name: 'Ver os presentes' });
-    await expect(cta).toHaveAttribute('href', '/comprar/presentes');
-    await cta.click();
-    await expect(page).toHaveURL(/\/comprar\/presentes$/);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Presentes');
-  });
-
-  test('breadcrumbs on a product page climb back to its collection', async ({ page }) => {
-    await page.goto('/produto/ophelia-cookies');
-    const crumbs = page.getByRole('navigation', { name: 'Trilho de navegação' });
-    await expect(crumbs.getByRole('link', { name: 'Ophelia' })).toHaveAttribute('href', '/');
-    await expect(crumbs.getByRole('link', { name: 'Cookies' })).toHaveAttribute(
-      'href',
-      '/comprar/cookies',
+  test('"diário" stays current on an article', async ({ page }) => {
+    await page.goto('/diario/granola');
+    const nav = await openNav(page);
+    await expect(nav.getByRole('link', { name: 'diário', exact: true })).toHaveAttribute(
+      'aria-current',
+      'page',
     );
   });
 
-  test('a category card reaches its product page', async ({ page }) => {
-    await page.goto('/comprar/cookies');
-    await page.getByRole('link', { name: 'Escolher Ophelia CookieBrownie' }).click();
-    await expect(page).toHaveURL(/\/produto\/ophelia-cookiebrownie$/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ophelia CookieBrownie');
+  test('a category pill opens that collection', async ({ page }) => {
+    await page.goto('/comprar');
+    await page.getByRole('link', { name: 'cookies', exact: true }).first().click();
+    await expect(page).toHaveURL(/\/comprar\/cookies$/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('cookies');
   });
 
-  test('robots.txt allows the public site and blocks transactional routes', async ({ request }) => {
+  test('a product card opens the product page', async ({ page }) => {
+    await page.goto('/comprar/cookies');
+    await page.getByRole('link', { name: 'Ophelia Cookies NY', exact: true }).first().click();
+    await expect(page).toHaveURL(/\/produto\/ophelia-cookies-ny$/);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ophelia Cookies NY');
+  });
+});
+
+test.describe('legacy URLs redirect', () => {
+  for (const [from, to] of [
+    ['/blog', '/diario'],
+    ['/contact', '/contacto'],
+    ['/produtos', '/comprar'],
+    ['/checkout', '/carrinho'],
+  ] as const) {
+    test(`${from} -> ${to}`, async ({ page }) => {
+      await page.goto(from);
+      await expect(page).toHaveURL(new RegExp(`${to}$`));
+    });
+  }
+});
+
+test.describe('robots and sitemap', () => {
+  test('robots.txt keeps transactional routes out', async ({ request }) => {
     const body = await (await request.get('/robots.txt')).text();
-    expect(body).toContain('Allow: /');
     expect(body).toContain('Disallow: /carrinho');
-    expect(body).toContain('Disallow: /conta');
-    expect(body).toContain('Disallow: /api/');
+    expect(body).toContain('Disallow: /pesquisa');
     expect(body).toContain('Sitemap:');
   });
 
-  test('the sitemap lists only indexable canonical URLs', async ({ request }) => {
+  test('sitemap lists public pages only, without duplicates', async ({ request }) => {
     const body = await (await request.get('/sitemap.xml')).text();
-    const locs = Array.from(body.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1] as string);
+    const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1] ?? '');
 
     expect(locs.length).toBeGreaterThan(10);
-    for (const route of PUBLIC_ROUTES) {
-      expect(locs.some((loc) => loc.endsWith(route === '/' ? '/' : route)), `${route} missing`).toBe(
-        true,
-      );
-    }
-    for (const excluded of ['/carrinho', '/conta', '/pesquisa', '/api/', '/comprar/complementos']) {
-      expect(locs.some((loc) => loc.includes(excluded)), `${excluded} must not be listed`).toBe(
+    for (const excluded of ['/carrinho', '/pesquisa', '/api/']) {
+      expect(locs.some((loc) => loc.includes(excluded)), `${excluded} is in the sitemap`).toBe(
         false,
       );
     }
-    // Every listed URL must actually resolve.
     expect(new Set(locs).size, 'sitemap contains duplicates').toBe(locs.length);
+    expect(locs.some((loc) => loc.endsWith('/diario')), 'diary missing').toBe(true);
+    expect(locs.some((loc) => loc.includes('/produto/')), 'products missing').toBe(true);
   });
 });

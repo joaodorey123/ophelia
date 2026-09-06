@@ -1,54 +1,36 @@
+/*
+ * Display type is Beth Ellen — handwriting. The handoff is explicit that it
+ * needs a loose line-height (1.24–1.62, never tight) and is only used above
+ * ~24px; anything smaller uses Cormorant Garamond instead.
+ */
+
+.display {
+  font-family: var(--oph-font-display);
+  font-weight: 400;
+  font-size: var(--size);
+  line-height: var(--lh);
+  /*
+   * Inherited, not set: body already carries the ink colour, and a heading on
+   * the navy newsletter band or over a photo scrim needs its container's
+   * colour. Setting it here would silently win over those single-class
+   * overrides depending on stylesheet order.
+   */
+  color: inherit;
+}
+
+.serif {
+  font-family: var(--oph-font-serif);
+  font-weight: 400;
+  line-height: 1.28;
+}
+
+/* Small uppercase eyebrow. Letter-spacing is the whole character of it. */
 .kicker {
   display: block;
-  font-size: var(--oph-t-kicker);
-  letter-spacing: var(--oph-ls-kicker);
+  font-size: var(--size);
+  letter-spacing: var(--track);
   text-transform: uppercase;
-  color: var(--oph-terracotta-ink);
-}
-
-.kickerOnBlue {
-  color: var(--oph-cream);
-  opacity: 0.7;
-}
-
-.kickerMuted {
-  font-size: 10.5px;
-  letter-spacing: var(--oph-ls-meta-wide);
-  color: var(--oph-ink-50);
-}
-
-.label {
-  display: block;
-  font-size: 11.5px;
-  letter-spacing: var(--oph-ls-meta);
-  text-transform: uppercase;
-  color: var(--oph-ink-60);
-}
-
-.sectionHead {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.sectionHeadTitle {
-  font-size: var(--oph-t-h2);
-  line-height: 1.05;
-  color: var(--oph-blue);
-  margin: 12px 0 0;
-}
-
-.sectionHeadTitleOnBlue {
-  color: var(--oph-cream);
-}
-
-.sectionHeadAside {
-  max-width: 38ch;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--oph-ink-72);
-  margin: 0;
+  /* Overridable by setting --tone on a wrapping class. */
+  color: var(--tone);
+  line-height: 1.5;
 }

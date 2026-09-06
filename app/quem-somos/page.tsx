@@ -1,96 +1,147 @@
-import type { Metadata } from 'next';
 import Image from 'next/image';
 
-import { ButtonLink } from '@/components/ui/Button';
-import { ImageSlot } from '@/components/ui/ImageSlot';
-import { JsonLd } from '@/components/seo/JsonLd';
-import { Kicker } from '@/components/ui/Type';
-import { Watercolour } from '@/components/ui/Watercolour';
-import { CHAPTERS, OPENING_LEAD } from '@/lib/content/story';
+import { TapedPhoto, type TapeStrip } from '@/components/ui/TapedPhoto';
+import { Display, Kicker } from '@/components/ui/Type';
+import { about } from '@/lib/content';
 import { pageMetadata } from '@/lib/seo/metadata';
-import { breadcrumbSchema } from '@/lib/seo/structured-data';
 
 import styles from './story.module.css';
 import sections from '@/styles/sections.module.css';
 
-export const metadata: Metadata = pageMetadata({
-  title: 'Quem Somos',
+export const metadata = pageMetadata({
+  title: 'Quem somos',
   description:
-    'A Ophelia começou na Guarda, entre almoços de domingo e bolos acabados de sair do forno. Em 2019 nasceu como empresa de eventos; em 2022 abrimos portas no Estoril.',
+    'A história da Ophelia: da Guarda ao Estoril, de uma empresa de eventos a uma pastelaria de família.',
   path: '/quem-somos',
-  type: 'article',
 });
 
-const crumbs = [
-  { name: 'Ophelia', path: '/' },
-  { name: 'Quem Somos', path: '/quem-somos' },
+/**
+ * The photo grid alternates tape type and deckle filter across the four
+ * prints, and offsets the even columns — the handoff is specific about each,
+ * so the recipe is data rather than four near-identical blocks of markup.
+ */
+const GALLERY: { tape: TapeStrip; deckle: 1 | 2; offset: boolean }[] = [
+  {
+    tape: { type: 'torn', top: '0', left: '24px', width: 78, height: 24, rotate: -6 },
+    deckle: 1,
+    offset: false,
+  },
+  {
+    tape: { type: 'striped', bottom: '2px', right: '22px', width: 76, height: 20, rotate: 5 },
+    deckle: 2,
+    offset: true,
+  },
+  {
+    tape: { type: 'scotch', top: '0', left: '30px', width: 80, height: 22, rotate: -3 },
+    deckle: 1,
+    offset: false,
+  },
+  {
+    tape: { type: 'kraft', bottom: '2px', right: '26px', width: 74, height: 22, rotate: 4 },
+    deckle: 2,
+    offset: true,
+  },
 ];
 
-export default function QuemSomosPage() {
+export default function AboutPage() {
   return (
     <>
-      <JsonLd data={breadcrumbSchema(crumbs)} />
-
-      <section className={styles.opening} aria-labelledby="sobre-title">
-        <Watercolour placement="full" priority />
-        <div className={styles.openingInner}>
-          <Kicker>Quem somos</Kicker>
-          <h1 id="sobre-title" className={styles.openingTitle}>
-            Não somos uma empresa — somos uma família.
-          </h1>
-          <p className={styles.openingLead}>{OPENING_LEAD}</p>
+      <section className={styles.hero}>
+        <Image
+          className={styles.heroImage}
+          src={about.hero.image}
+          alt={about.hero.alt}
+          fill
+          sizes="100vw"
+          priority
+        />
+        <div className={styles.heroScrim}>
+          <div>
+            <Kicker tone="onScrim" className={styles.heroKicker}>{about.hero.kicker}</Kicker>
+            <Display as="h1" size="pageXl" className={styles.heroTitle}>
+              {about.hero.title}
+            </Display>
+          </div>
         </div>
       </section>
 
-      <section className={sections.sectionTight} aria-label="A nossa história">
+      <div className={`${sections.narrow} ${styles.lede}`}>
+        <Display as="p" size="lede" className={styles.ledeText}>
+          {about.lede.lines.map((line) => (
+            <span key={line} className={styles.ledeLine}>
+              {line}
+            </span>
+          ))}
+        </Display>
+
+        <div className={styles.story}>
+          <div>
+            {about.story.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className={sections.prose}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          <TapedPhoto
+            src={about.story.image}
+            alt={about.story.alt}
+            ratio="4 / 5"
+            pad={16}
+            mountPad={9}
+            mountShadow="lg"
+            deckle={2}
+            sizes="(max-width: 900px) 100vw, 520px"
+            tapes={[{ type: 'scotch', top: '0', left: '34%', width: 104, height: 28, rotate: -4 }]}
+          />
+        </div>
+
         <div className={styles.timeline}>
-          {CHAPTERS.map((chapter) => (
-            <article key={chapter.year} className={styles.chapter}>
-              <div>
-                <span className={styles.chapterYear} aria-hidden="true">
-                  {chapter.year}
-                </span>
-                <h2 className={styles.chapterTitle}>
-                  <span className="oph-visually-hidden">{chapter.year} — </span>
-                  {chapter.title}
-                </h2>
-                <p className={styles.chapterBody}>{chapter.body}</p>
-              </div>
-              {/*
-                Story imagery sits back behind product imagery — the design
-                system's `.washed` treatment, per the handoff.
-              */}
-              <div className={`${styles.chapterMedia} oph-washed`}>
-                <ImageSlot brief={chapter.imageBrief} fill sizes="(max-width: 767px) 100vw, 45vw" />
-              </div>
-            </article>
+          {about.timeline.map((entry) => (
+            <div key={entry.year} className={styles.entry}>
+              <span className={styles.year}>{entry.year}</span>
+              <h2 className={styles.entryTitle}>{entry.title}</h2>
+              <p className={styles.entryBody}>{entry.body}</p>
+            </div>
           ))}
         </div>
-      </section>
 
-      <section
-        className={`${sections.section} ${sections.groundBlue} ${sections.centred}`}
-        data-ground="blue"
-        aria-labelledby="sobre-closing"
-      >
+        <div className={styles.gallery}>
+          {about.gallery.map((photo, index) => {
+            const recipe = GALLERY[index % GALLERY.length];
+            if (!recipe) return null;
+            return (
+              <TapedPhoto
+                key={photo.image}
+                src={photo.image}
+                alt={photo.alt}
+                ratio="3 / 4"
+                pad={12}
+                deckle={recipe.deckle}
+                className={recipe.offset ? styles.galleryOffset : undefined}
+                sizes="(max-width: 640px) 50vw, 260px"
+                tapes={[recipe.tape]}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <section className={styles.closing}>
         <Image
-          src="/brand/menu.png"
+          className={styles.frame}
+          src="/brand/frame-flowers.png"
           alt=""
-          aria-hidden="true"
-          width={600}
-          height={800}
-          className={styles.closingProp}
+          width={1854}
+          height={2400}
+          aria-hidden
         />
-        <h2 id="sobre-closing" className={styles.closingTitle}>
-          Porque, para nós, as melhores memórias constroem-se à volta de uma mesa.
-        </h2>
-        <div className={styles.closingActions}>
-          <ButtonLink href="/comprar/cookies" variant="cream" size="lg">
-            Comprar as cookies
-          </ButtonLink>
-          <ButtonLink href="/eventos" variant="outlineCream" size="lg">
-            Falar sobre o meu evento
-          </ButtonLink>
+        <div className={styles.closingInner}>
+          <Display as="h2" size="quote">
+            {about.closing.headingLead}
+            <span>{about.closing.headingEmphasis}</span>
+          </Display>
+          <p className={styles.closingNote}>{about.closing.note}</p>
         </div>
       </section>
     </>

@@ -1,184 +1,269 @@
 /* ── Hero ──────────────────────────────────────────────────────────────── */
-/*
- * The handoff specifies `min-height: 74cqw; max-height: 820px`, but in CSS a
- * min-height always beats a max-height, so the prototype's hero was never
- * actually capped — at 1440 it stood 1066px tall and pushed everything below
- * the fold. The written spec's cap is the intent, so it is expressed here in a
- * form that holds. See docs/DESIGN-NOTES.md.
- */
 .hero {
   position: relative;
-  min-height: min(74vw, 820px);
-  display: flex;
-  align-items: flex-end;
+  height: 74vh;
+  min-height: 520px;
   overflow: hidden;
+  background: var(--oph-photo-fallback);
 }
 
-@media (max-width: 767px) {
-  .hero {
-    min-height: 520px;
-  }
+.heroImage {
+  object-fit: cover;
 }
 
-.heroMedia {
+.heroVeil {
   position: absolute;
   inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 47, 82, 0.1) 0%,
+    rgba(30, 47, 82, 0) 34%,
+    rgba(30, 47, 82, 0.24) 100%
+  );
 }
 
-.heroScrim {
+.heroCard {
   position: absolute;
-  inset: 0;
-  background: var(--oph-hero-scrim);
-  pointer-events: none;
+  left: 50%;
+  bottom: 52px;
+  transform: translateX(-50%);
+  width: min(560px, 86vw);
 }
 
-/*
- * The text block does not intercept pointer events so the image beneath stays
- * reachable; the buttons switch them back on. Straight from the handoff.
- */
-.heroContent {
+.heroTapeTop {
+  position: absolute;
+  top: -15px;
+  left: -26px;
+  width: 112px;
+  height: 30px;
+  background: var(--oph-tape-kraft);
+  transform: rotate(-7deg);
+  box-shadow: var(--oph-shadow-tape);
+  z-index: 3;
+}
+
+.heroTapeBottom {
+  position: absolute;
+  bottom: -15px;
+  right: -26px;
+  width: 118px;
+  height: 30px;
+  background: var(--oph-tape-scotch);
+  clip-path: var(--oph-clip-scotch);
+  transform: rotate(-6deg);
+  box-shadow: var(--oph-shadow-tape-light);
+  z-index: 3;
+}
+
+.heroInner {
   position: relative;
-  padding: 0 var(--oph-section-px) var(--oph-section-px);
-  max-width: 900px;
-  pointer-events: none;
-}
-
-.heroKicker {
-  display: inline-block;
-  font-size: 11.5px;
-  letter-spacing: var(--oph-ls-kicker);
-  text-transform: uppercase;
-  color: var(--oph-cream);
-  opacity: 0.85;
-  margin-bottom: 18px;
+  z-index: 2;
+  background: var(--oph-hero-card);
+  padding: 30px 40px 34px;
+  text-align: center;
+  box-shadow: var(--oph-shadow-hero);
 }
 
 .heroTitle {
-  color: var(--oph-cream);
-  font-size: var(--oph-t-hero-h1);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  margin: 0 0 20px;
+  margin-top: 4px;
 }
 
-.heroLead {
-  color: var(--oph-cream-90);
-  font-size: var(--oph-t-lead);
-  line-height: 1.6;
-  max-width: 52ch;
-  margin: 0 0 30px;
+.heroLink {
+  margin-top: 20px;
 }
 
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  pointer-events: auto;
+/* ── Collections ───────────────────────────────────────────────────────── */
+.collections {
+  padding-block: 96px 30px;
 }
 
-/* ── Cookies band ──────────────────────────────────────────────────────── */
-.bandTitle {
-  font-size: var(--oph-t-h2-lg);
-  line-height: 1.04;
-  margin: 0 0 22px;
-}
-
-.bandLead {
-  font-size: var(--oph-t-lead-blue);
-  line-height: 1.65;
-  opacity: 0.88;
-  max-width: 46ch;
-  margin: 0;
-}
-
-.flavourChips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 26px 0 30px;
-}
-
-.flavourChip {
-  border: 1px solid var(--oph-cream-40);
-  border-radius: var(--oph-r-pill);
-  padding: 8px 16px;
-  font-size: 12.5px;
-}
-
-.mosaic {
+/*
+ * auto-FILL, not auto-fit: how many collections exist is Shopify's to decide,
+ * and auto-fit collapses its empty tracks, so a shop with one or two
+ * collections would stretch a single 4/5 card into a 1700px-tall billboard.
+ * auto-fill keeps the card the size the design draws it at, whatever the count.
+ */
+.collectionGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 44px 34px;
 }
 
-.mosaicTall {
+.collectionCard {
+  display: block;
+}
+
+.collectionName {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  padding-left: 4px;
+  font-family: var(--oph-font-serif);
+  font-size: 23px;
+}
+
+.collectionArrow {
+  font-size: 15px;
+  color: var(--oph-muted-1);
+}
+
+.collectionNote {
+  margin: 4px 0 0 4px;
+  font-size: 12px;
+  color: var(--oph-muted-2);
+  letter-spacing: 0.02em;
+}
+
+/* ── Favourites ────────────────────────────────────────────────────────── */
+.favourites {
+  padding-block: 80px 20px;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+  gap: 52px 30px;
+}
+
+/* ── Story band ────────────────────────────────────────────────────────── */
+.story {
   position: relative;
-  height: 300px;
-  border-radius: var(--oph-r-md);
+  margin-top: 96px;
+  background: var(--oph-beige);
   overflow: hidden;
-  grid-row: span 2;
 }
 
-.mosaicSmall {
+.storyFlowers {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.storyInner {
   position: relative;
-  height: 142px;
-  border-radius: var(--oph-r-md);
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 64px;
+  align-items: center;
+  padding-block: 110px;
 }
 
-/* ── Gifting teaser ────────────────────────────────────────────────────── */
-.giftMedia {
-  position: relative;
-  min-height: 360px;
-  border-radius: var(--oph-r-xl);
-  overflow: hidden;
-}
-
-.giftMark {
-  height: 72px;
-  width: auto;
-  margin-bottom: 18px;
-}
-
-.giftTitle {
-  font-size: var(--oph-t-h2-sm);
-  line-height: 1.05;
-  margin: 0 0 18px;
-  color: var(--oph-blue);
-}
-
-.giftLead {
-  font-size: 16px;
-  line-height: 1.65;
-  color: var(--oph-ink-75);
+.storyBody {
+  margin-top: 22px;
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: var(--oph-ink-body);
   max-width: 44ch;
-  margin: 0;
 }
 
-.giftList {
-  margin: 24px 0 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--oph-ink-75);
+.storyHeading {
+  margin-top: 16px;
 }
 
-/* ── Shipping band ─────────────────────────────────────────────────────── */
-.shipping {
+.storyLine {
+  display: block;
+}
+
+.storyLink {
+  margin-top: 26px;
+}
+
+/* ── Reviews ───────────────────────────────────────────────────────────── */
+.reviews {
+  padding-block: 96px 0;
+}
+
+.reviewsHeading {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.reviewGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 30px;
 }
 
-.shippingTitle {
-  font-size: 19px;
-  margin: 0 0 8px;
+.review {
+  position: relative;
+  background: var(--oph-white);
+  padding: 38px 34px;
+  box-shadow: var(--oph-shadow-card);
 }
 
-.shippingCopy {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.6;
-  opacity: 0.82;
+.reviewTape {
+  position: absolute;
+  top: -13px;
+  left: 34px;
+  width: 84px;
+  height: 22px;
+  background: var(--oph-tape-striped);
+  transform: rotate(-4deg);
+  box-shadow: var(--oph-shadow-tape-sm);
+}
+
+.stars {
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  color: var(--oph-gold);
+}
+
+.quote {
+  margin-top: 16px;
+  font-family: var(--oph-font-serif);
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.who {
+  display: block;
+  margin-top: 20px;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--oph-muted-2);
+}
+
+/* ── Diary ─────────────────────────────────────────────────────────────── */
+.diary {
+  padding-block: 96px 40px;
+}
+
+.diaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 34px;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    height: 62vh;
+    min-height: 420px;
+  }
+
+  .heroCard {
+    bottom: 34px;
+  }
+
+  .heroInner {
+    padding: 24px 24px 28px;
+  }
+
+  .collections,
+  .favourites,
+  .reviews,
+  .diary {
+    padding-block: 64px 20px;
+  }
+
+  .storyInner {
+    padding-block: 72px;
+    gap: 40px;
+  }
 }

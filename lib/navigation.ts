@@ -1,9 +1,13 @@
 /**
  * Site navigation.
  *
- * The prototype's nav links were stubs that all pointed at the nearest built
- * page; here they point at the real routes. Collection routes follow the
- * handoff's own scheme (`/comprar/<colecao>`, `/produto/<handle>`).
+ * Routes are Portuguese throughout, matching the handoff. The English aliases
+ * (/blog, /contact, /produtos, /diario…) are permanent redirects declared in
+ * next.config.ts so older links keep working.
+ *
+ * Collection links are *not* listed here: which collections exist is Shopify's
+ * to say, so the header, footer and home page read them from the catalogue.
+ * A hard-coded list would produce dead links the moment the shop changed.
  */
 
 export type NavItem = {
@@ -14,40 +18,20 @@ export type NavItem = {
 };
 
 export const PRIMARY_NAV: NavItem[] = [
-  { label: 'Cookies', href: '/comprar/cookies' },
-  { label: 'Mercearia', href: '/comprar/mercearia' },
-  { label: 'Presentes', href: '/comprar/presentes' },
-  { label: 'Eventos', href: '/eventos' },
-  { label: 'Quem Somos', href: '/quem-somos' },
+  { label: 'início', href: '/' },
+  { label: 'produtos', href: '/comprar', matchPrefix: '/comprar' },
+  { label: 'quem somos', href: '/quem-somos' },
+  { label: 'diário', href: '/diario' },
+  { label: 'contacto', href: '/contacto' },
 ];
 
-export const SHOP_FOOTER_NAV: NavItem[] = [
-  { label: 'Cookies', href: '/comprar/cookies' },
-  { label: 'Mercearia', href: '/comprar/mercearia' },
-  { label: 'Presentes', href: '/comprar/presentes' },
-  { label: 'Lifestyle', href: '/comprar/lifestyle' },
-];
+/** `produtos` stays active on product pages, `diário` on article pages. */
+const EXTRA_ACTIVE_PREFIXES: Record<string, string[]> = {
+  '/comprar': ['/produto'],
+  '/diario': ['/diario'],
+};
 
-export const BRAND_FOOTER_NAV: NavItem[] = [
-  { label: 'Quem Somos', href: '/quem-somos' },
-  { label: 'Eventos', href: '/eventos' },
-  { label: 'Cookies personalizadas', href: '/personalizadas' },
-  { label: 'Envios e devoluções', href: '/envios-e-devolucoes' },
-  { label: 'Termos e privacidade', href: '/termos-e-privacidade' },
-];
-
-export const UTILITY_NAV: NavItem[] = [
-  { label: 'Procurar', href: '/pesquisa' },
-  { label: 'Conta', href: '/conta' },
-];
-
-/** Collection handles the storefront exposes at /comprar/<handle>. */
-export const COLLECTION_HANDLES = ['cookies', 'mercearia', 'presentes', 'lifestyle'] as const;
-export type CollectionHandle = (typeof COLLECTION_HANDLES)[number];
-
-export function isKnownCollection(handle: string): handle is CollectionHandle {
-  return (COLLECTION_HANDLES as readonly string[]).includes(handle);
-}
+export const SHOP_INDEX = '/comprar';
 
 export function collectionPath(handle: string): string {
   return `/comprar/${handle}`;
@@ -57,8 +41,15 @@ export function productPath(handle: string): string {
   return `/produto/${handle}`;
 }
 
+export function postPath(slug: string): string {
+  return `/diario/${slug}`;
+}
+
 export function isActive(pathname: string, item: NavItem): boolean {
   const target = item.matchPrefix ?? item.href;
   if (target === '/') return pathname === '/';
-  return pathname === target || pathname.startsWith(`${target}/`);
+  if (pathname === target || pathname.startsWith(`${target}/`)) return true;
+  return (EXTRA_ACTIVE_PREFIXES[target] ?? []).some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
 }

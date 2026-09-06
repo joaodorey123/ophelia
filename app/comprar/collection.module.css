@@ -1,0 +1,111 @@
+.page {
+  padding-block: 70px 40px;
+}
+
+.intro {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.title {
+  margin-top: 16px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 11px;
+  margin: 50px 0 14px;
+}
+
+/*
+ * The filter pills are links, not buttons: each one is a real Shopify
+ * collection at its own URL, so they are shareable and indexable. Next's
+ * client-side navigation keeps them feeling as instant as the prototype's
+ * local filter.
+ */
+.pill {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border-radius: var(--oph-radius-chip);
+  border: 1px solid var(--oph-line-24);
+  background: var(--oph-white);
+  color: var(--oph-ink);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  border-color: var(--oph-line-30);
+  color: var(--oph-ink);
+}
+
+.pillActive {
+  background: var(--oph-navy);
+  border-color: var(--oph-navy);
+  color: var(--oph-on-navy);
+}
+
+.pillActive:hover {
+  color: var(--oph-on-navy);
+}
+
+/* Phones need a 44px target; the pill's own padding gives 38px. */
+@media (max-width: 900px) {
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+.count {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--oph-muted-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 58px 30px;
+  padding: 36px 0 40px;
+}
+
+.empty {
+  text-align: center;
+  padding: 80px 0 60px;
+}
+
+.emptyTitle {
+  font-family: var(--oph-font-serif);
+  font-style: italic;
+  font-size: 26px;
+  color: var(--oph-muted-2);
+}
+
+.emptyBody {
+  margin-top: 14px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--oph-muted-3);
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.description {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--oph-ink-soft);
+}

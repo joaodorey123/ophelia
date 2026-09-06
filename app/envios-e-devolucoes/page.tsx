@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { Kicker } from '@/components/ui/Type';
+import { Display, Kicker } from '@/components/ui/Type';
 import { DELIVERY_ESTIMATE, SHIPPING_FULL } from '@/lib/content/shipping';
 import { pageMetadata } from '@/lib/seo/metadata';
 import { breadcrumbSchema } from '@/lib/seo/structured-data';
@@ -34,7 +34,7 @@ export default function ShippingPage() {
       <article className={styles.page}>
         <Breadcrumbs crumbs={crumbs} />
         <Kicker>Informação</Kicker>
-        <h1 className={styles.title}>Envios e devoluções</h1>
+        <Display as="h1" size="article" className={styles.title}>Envios e devoluções</Display>
         <p className={styles.updated}>
           Documento fornecido pela {SITE.legalName} ({SITE.taxId}).
         </p>

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "mbway",
+    "name": "MB WAY",
+    "note": "pagamento imediato"
+  },
+  {
+    "id": "multibanco",
+    "name": "Multibanco",
+    "note": "referência por email"
+  },
+  {
+    "id": "cartao",
+    "name": "Cartão de crédito",
+    "note": "Visa · Mastercard"
+  }
+]

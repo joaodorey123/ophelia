@@ -1,98 +1,155 @@
-.opening {
+.hero {
   position: relative;
-  padding: clamp(36px, 8vw, 116px) var(--oph-section-px) var(--oph-section-py);
-  text-align: center;
+  height: 56vh;
+  min-height: 380px;
   overflow: hidden;
+  background: var(--oph-photo-fallback);
 }
 
-.openingInner {
-  position: relative;
-  max-width: 880px;
-  margin: 0 auto;
+.heroImage {
+  object-fit: cover;
 }
 
-.openingTitle {
-  font-size: var(--oph-t-story-h1);
-  line-height: 1.02;
-  margin: 20px 0 22px;
-  color: var(--oph-blue);
-}
-
-.openingLead {
-  font-size: var(--oph-t-lead-lg);
-  line-height: 1.7;
-  color: var(--oph-ink-75);
-  max-width: 56ch;
-  margin: 0 auto;
-}
-
-.timeline {
+/*
+ * This scrim depth is a contrast requirement, not decoration: the photograph
+ * has pale walls and cream cushions, and a lighter wash drops the title under
+ * 4.5:1. Measured at 4.68:1 for the title and 4.95:1 for the kicker.
+ */
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(24, 38, 66, 0.5) 0%,
+    rgba(24, 38, 66, 0.67) 48%,
+    rgba(24, 38, 66, 0.76) 100%
+  );
   display: flex;
-  flex-direction: column;
-  gap: clamp(8px, 2vw, 28px);
-}
-
-.chapter {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(18px, 3vw, 44px);
   align-items: center;
-  padding: clamp(20px, 3vw, 44px) 0;
-  border-top: 1px solid var(--oph-divider);
+  justify-content: center;
+  text-align: center;
+  padding: 0 var(--oph-gutter);
 }
 
-/* 30–52px, so the brand accent itself is used: large text needs 3:1 and
-   #C67139 on cream measures 3.35:1. */
-.chapterYear {
-  display: block;
-  font-family: var(--oph-font-display);
-  font-size: var(--oph-t-chapter-year);
-  color: var(--oph-terracotta);
-  line-height: 1;
-  margin-bottom: 14px;
+.heroKicker {
+  text-shadow: 0 1px 10px rgba(20, 32, 58, 0.7);
 }
 
-.chapterTitle {
-  font-size: var(--oph-t-chapter-h3);
-  margin: 0 0 12px;
-  color: var(--oph-blue);
+.heroTitle {
+  margin-top: 16px;
+  color: var(--oph-on-photo);
+  text-shadow: 0 2px 18px rgba(20, 32, 58, 0.6);
 }
 
-.chapterBody {
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--oph-ink-72);
-  max-width: 46ch;
-  margin: 0;
+.lede {
+  padding-block: 88px 0;
 }
 
-.chapterMedia {
-  position: relative;
-  height: 300px;
-  border-radius: var(--oph-r-lg);
-  overflow: hidden;
-  background: var(--oph-sand);
-}
-
-.closingProp {
-  height: 180px;
-  width: auto;
-  margin: 0 auto 30px;
-  border-radius: 10px;
-  box-shadow: var(--oph-shadow-prop);
-}
-
-.closingTitle {
-  font-size: var(--oph-t-h2-closing);
-  line-height: 1.08;
-  margin: 0 auto;
+.ledeText {
   max-width: 26ch;
 }
 
-.closingActions {
+.ledeLine {
+  display: block;
+}
+
+.story {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px;
+  margin-top: 50px;
+  align-items: start;
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 38px;
+  padding-block: 70px 0;
+}
+
+.entry {
+  border-top: 1px solid var(--oph-line-20);
+  padding-top: 20px;
+}
+
+.year {
+  font-family: var(--oph-font-serif);
+  font-size: 36px;
+  line-height: 1.1;
+  color: var(--oph-muted-4);
+  display: block;
+}
+
+.entryTitle {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.entryBody {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--oph-ink-body);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+  padding-block: 70px 0;
+}
+
+/* Columns 2 and 4 hang lower, so the row reads as pinned prints, not a grid. */
+.galleryOffset {
   margin-top: 34px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+}
+
+.closing {
+  position: relative;
+  margin-top: 96px;
+  background: var(--oph-beige);
+  overflow: hidden;
+  /* The deep bottom padding is what keeps the type clear of the floral frame. */
+  padding: 96px var(--oph-gutter) 260px;
+  text-align: center;
+}
+
+.frame {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.closingInner {
+  position: relative;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.closingNote {
+  margin-top: 24px;
+  font-size: 13.5px;
+  color: var(--oph-muted-1);
+  line-height: 1.9;
+}
+
+@media (max-width: 640px) {
+  .closing {
+    padding-bottom: 180px;
+  }
+
+  .lede {
+    padding-top: 60px;
+  }
+
+  .galleryOffset {
+    margin-top: 0;
+  }
 }

@@ -1,0 +1,772 @@
+[
+  {
+    "id": "ny",
+    "cat": "cookies",
+    "name": "Ophelia Cookies NY",
+    "tag": "a mais pedida",
+    "img": "photos/g1.jpeg",
+    "gallery": [
+      "photos/g1.jpeg",
+      "photos/c01.jpg",
+      "photos/g2.jpeg"
+    ],
+    "desc": "As famosas cookies da Ophelia — direto da nossa cozinha para a tua casa. Cada caixa de presente é preparada sob encomenda. Vêm embaladas individualmente em saquinhos de celofane com o nosso adesivo e colocadas nas nossas caixas azuis ou brancas. É o presente perfeito!",
+    "sizeLabel": "escolhe as cookies",
+    "sizes": [
+      {
+        "label": "6 unidades",
+        "price": 30
+      },
+      {
+        "label": "8 unidades",
+        "price": 40
+      },
+      {
+        "label": "12 unidades",
+        "price": 60
+      }
+    ],
+    "ing": "Farinha, chocolate 70%, chocolate 36,5%, manteiga, açúcar amarelo, açúcar branco, ovos, gemas, baunilha, bicarbonato, fermento, sal. Cada cookie contém 150 gramas.",
+    "suggest": [
+      "granola",
+      "cafe-grao",
+      "vela"
+    ]
+  },
+  {
+    "id": "classicas",
+    "cat": "cookies",
+    "name": "Ophelia Cookies",
+    "tag": "4 sabores",
+    "img": "photos/g2.jpeg",
+    "gallery": [
+      "photos/g2.jpeg",
+      "photos/g1.jpeg",
+      "photos/c06.jpg"
+    ],
+    "desc": "Sabores disponíveis: tradicional, red velvet, cacau e limão. Preparadas sob encomenda, embaladas uma a uma com o nosso adesivo exclusivo e colocadas nas nossas caixas azuis ou brancas.",
+    "sizeLabel": "escolhe as cookies",
+    "sizes": [
+      {
+        "label": "4 unidades",
+        "price": 17
+      },
+      {
+        "label": "8 unidades",
+        "price": 32
+      },
+      {
+        "label": "12 unidades",
+        "price": 48
+      }
+    ],
+    "ing": "Farinha, chocolate 70%, chocolate 36,5%, chocolate branco, manteiga, açúcar amarelo, açúcar branco, ovos, gemas, baunilha, bicarbonato, fermento, sal, cacau, corante vermelho, leite em pó, amido de milho, limão. Cada cookie contém 100 gramas.",
+    "suggest": [
+      "granola",
+      "mel-rosmaninho",
+      "vela"
+    ]
+  },
+  {
+    "id": "cookiebrownie",
+    "cat": "cookies",
+    "name": "Ophelia CookieBrownie",
+    "tag": "sem farinha",
+    "img": "photos/g2.jpeg",
+    "gallery": [
+      "photos/g2.jpeg",
+      "photos/c01.jpg",
+      "photos/g1.jpeg"
+    ],
+    "desc": "Crocante por fora e muito cremosa por dentro. Não contém farinha. Preparada sob encomenda e embalada individualmente nas nossas caixas azuis ou brancas.",
+    "sizeLabel": "escolhe as cookies",
+    "sizes": [
+      {
+        "label": "4 unidades",
+        "price": 20
+      },
+      {
+        "label": "8 unidades",
+        "price": 40
+      },
+      {
+        "label": "12 unidades",
+        "price": 57
+      }
+    ],
+    "ing": "Chocolate 70%, manteiga, açúcar, ovos, cacau. Cada cookie contém 100 gramas.",
+    "suggest": [
+      "azeite",
+      "cafe-grao",
+      "vela"
+    ]
+  },
+  {
+    "id": "banoffee",
+    "cat": "cookies",
+    "name": "Ophelia Cookie Banoffee",
+    "tag": "novidade",
+    "img": "photos/g1.jpeg",
+    "gallery": [
+      "photos/g1.jpeg",
+      "photos/g2.jpeg",
+      "photos/c11.jpg"
+    ],
+    "desc": "A grande novidade deste mês: banana e doce de leite dentro da nossa massa de cookie. Preparada sob encomenda e embalada uma a uma.",
+    "sizeLabel": "escolhe as cookies",
+    "sizes": [
+      {
+        "label": "4 unidades",
+        "price": 20
+      },
+      {
+        "label": "8 unidades",
+        "price": 40
+      },
+      {
+        "label": "12 unidades",
+        "price": 57
+      }
+    ],
+    "ing": "Chocolate ao leite, açúcar mascavo, açúcar branco, manteiga, farinha, ovos, sal, bicarbonato, amido de milho, leite em pó, banana, doce de leite. Cada cookie contém 100 gramas.",
+    "suggest": [
+      "azeite",
+      "granola",
+      "vela"
+    ]
+  },
+  {
+    "id": "pack",
+    "cat": "cookies",
+    "name": "Pack Especial de Cookies",
+    "tag": "mix de sabores",
+    "img": "photos/g1.jpeg",
+    "gallery": [
+      "photos/g1.jpeg",
+      "photos/g2.jpeg",
+      "photos/c01.jpg"
+    ],
+    "desc": "Um mix das nossas favoritas: cookie banoffee, cookiebrownie e cookie cheesecake. Para quem não consegue escolher — e faz muito bem.",
+    "sizeLabel": "escolhe as cookies",
+    "sizes": [
+      {
+        "label": "3 unidades",
+        "price": 18
+      },
+      {
+        "label": "6 unidades",
+        "price": 30
+      },
+      {
+        "label": "9 unidades",
+        "price": 43
+      }
+    ],
+    "ing": "Ver ingredientes de cada cookie. Cada cookie contém 100 gramas.",
+    "suggest": [
+      "cafe-grao",
+      "granola",
+      "mel-carvalho"
+    ]
+  },
+  {
+    "id": "personalizadas",
+    "cat": "cookies",
+    "name": "Cookies Personalizadas",
+    "tag": "para eventos",
+    "img": "photos/g2.jpeg",
+    "gallery": [
+      "photos/g2.jpeg",
+      "photos/g1.jpeg",
+      "photos/c06.jpg"
+    ],
+    "desc": "As nossas cookies com o teu adesivo — uma imagem ou um desenho teu. Mínimo de 10 unidades, mix de sabores. Perfeito para o teu evento.",
+    "sizeLabel": "escolhe as cookies",
+    "sizes": [
+      {
+        "label": "10 unidades",
+        "price": 35
+      },
+      {
+        "label": "25 unidades",
+        "price": 87
+      },
+      {
+        "label": "35 unidades",
+        "price": 122
+      },
+      {
+        "label": "50 unidades",
+        "price": 175
+      }
+    ],
+    "ing": "Farinha, chocolate 70%, chocolate 36,5%, chocolate branco, manteiga, açúcares, ovos, gemas, baunilha, bicarbonato, fermento, sal, cacau, corante vermelho, leite em pó, amido de milho, limão. Cada cookie contém 60 gramas.",
+    "suggest": [
+      "cartao",
+      "granola",
+      "cafe-grao"
+    ]
+  },
+  {
+    "id": "azeite",
+    "cat": "mercearia",
+    "name": "O Azeite da Ophelia",
+    "tag": "serra da estrela",
+    "img": "photos/g4.jpeg",
+    "gallery": [
+      "photos/g4.jpeg",
+      "photos/g3.jpeg",
+      "photos/k05.jpg"
+    ],
+    "desc": "Azeite extra virgem de oliveiras de um sopé da Serra da Estrela. Trouxemos o que há de melhor na montanha da Guarda, onde a Ophelia nasceu.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "500 ml",
+        "price": 13.9
+      },
+      {
+        "label": "750 ml",
+        "price": 19.9
+      }
+    ],
+    "ing": "Azeite puro extra virgem.",
+    "suggest": [
+      "mel-rosmaninho",
+      "granola",
+      "vela"
+    ]
+  },
+  {
+    "id": "mel-rosmaninho",
+    "cat": "mercearia",
+    "name": "Mel de Rosmaninho",
+    "tag": "colhido em julho",
+    "img": "photos/g3.jpeg",
+    "gallery": [
+      "photos/g3.jpeg",
+      "photos/g4.jpeg",
+      "photos/p28.jpg"
+    ],
+    "desc": "Com predominância polínica de rosmaninho, tom claro-âmbar, suave e de textura fina e leve. Colhido entre julho e agosto.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "300 ml",
+        "price": 7.8
+      }
+    ],
+    "ing": "Mel puro. A cristalização do mel é a garantia de pureza, podendo ser eliminada em banho-maria a 40 graus.",
+    "suggest": [
+      "azeite",
+      "granola",
+      "doce-morango"
+    ]
+  },
+  {
+    "id": "mel-carvalho",
+    "cat": "mercearia",
+    "name": "Mel de Carvalho",
+    "tag": "sabor intenso",
+    "img": "photos/g3.jpeg",
+    "gallery": [
+      "photos/g3.jpeg",
+      "photos/g4.jpeg",
+      "photos/p29.jpg"
+    ],
+    "desc": "Cor escura com notas avermelhadas, sabor intenso e ligeiramente amargo. Para quem gosta de mel a sério.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "300 ml",
+        "price": 7.8
+      }
+    ],
+    "ing": "Mel puro. A cristalização do mel é a garantia de pureza, podendo ser eliminada em banho-maria a 40 graus.",
+    "suggest": [
+      "azeite",
+      "granola",
+      "pack"
+    ]
+  },
+  {
+    "id": "doce-alperce",
+    "cat": "mercearia",
+    "name": "Doce de Alperce e Amêndoa",
+    "tag": "artesanal",
+    "img": "photos/g3.jpeg",
+    "gallery": [
+      "photos/g3.jpeg",
+      "photos/c05.jpg",
+      "photos/g4.jpeg"
+    ],
+    "desc": "Quatro sabores únicos de doces caseiros, feitos apenas com fruta e açúcar, de forma totalmente artesanal.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "225 ml",
+        "price": 4.85
+      }
+    ],
+    "ing": "Alperce, amêndoa, água, açúcar, limão.",
+    "suggest": [
+      "granola",
+      "pack",
+      "mel-rosmaninho"
+    ]
+  },
+  {
+    "id": "doce-maca",
+    "cat": "mercearia",
+    "name": "Doce de Maçã e Vinho do Porto",
+    "tag": "artesanal",
+    "img": "photos/g3.jpeg",
+    "gallery": [
+      "photos/g3.jpeg",
+      "photos/c05.jpg",
+      "photos/g4.jpeg"
+    ],
+    "desc": "Quatro sabores únicos de doces caseiros, feitos apenas com fruta e açúcar, de forma totalmente artesanal.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "225 ml",
+        "price": 4.85
+      }
+    ],
+    "ing": "Maçã, açúcar amarelo, vinho do Porto.",
+    "suggest": [
+      "azeite",
+      "granola",
+      "mel-rosmaninho"
+    ]
+  },
+  {
+    "id": "doce-pera",
+    "cat": "mercearia",
+    "name": "Doce de Pera e Gengibre",
+    "tag": "artesanal",
+    "img": "photos/g3.jpeg",
+    "gallery": [
+      "photos/g3.jpeg",
+      "photos/c05.jpg",
+      "photos/g4.jpeg"
+    ],
+    "desc": "Quatro sabores únicos de doces caseiros, feitos apenas com fruta e açúcar, de forma totalmente artesanal.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "225 ml",
+        "price": 4.85
+      }
+    ],
+    "ing": "Pera rocha, gengibre e açúcar.",
+    "suggest": [
+      "azeite",
+      "granola",
+      "mel-rosmaninho"
+    ]
+  },
+  {
+    "id": "doce-morango",
+    "cat": "mercearia",
+    "name": "Doce de Morango com Baunilha",
+    "tag": "artesanal",
+    "img": "photos/g3.jpeg",
+    "gallery": [
+      "photos/g3.jpeg",
+      "photos/c05.jpg",
+      "photos/g4.jpeg"
+    ],
+    "desc": "Quatro sabores únicos de doces caseiros, feitos apenas com fruta e açúcar, de forma totalmente artesanal.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "225 ml",
+        "price": 4.85
+      }
+    ],
+    "ing": "Morango, açúcar, vagem de baunilha.",
+    "suggest": [
+      "granola",
+      "pack",
+      "mel-carvalho"
+    ]
+  },
+  {
+    "id": "granola",
+    "cat": "mercearia",
+    "name": "A Granola da Ophelia",
+    "tag": "feita todos os dias",
+    "img": "photos/p28.jpg",
+    "gallery": [
+      "photos/p28.jpg",
+      "photos/p29.jpg",
+      "photos/p30.jpg"
+    ],
+    "desc": "Diariamente fazemos granola na loja. O cheirinho de frutos secos caramelizados invade tudo e ninguém lhe resiste. É a melhor do mundo — podemos garantir.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "300 gramas",
+        "price": 8
+      },
+      {
+        "label": "600 gramas",
+        "price": 14
+      }
+    ],
+    "ing": "Aveia, flocos de milho, noz, caju, pistácio, avelã, amêndoa, noz-pecã, coco laminado, mel e canela.",
+    "suggest": [
+      "mel-rosmaninho",
+      "cafe-grao",
+      "azeite"
+    ]
+  },
+  {
+    "id": "cafe-grao",
+    "cat": "cafe",
+    "name": "Café da Ophelia · em grão",
+    "tag": "torrado na loja",
+    "img": "photos/b05.jpg",
+    "gallery": [
+      "photos/b05.jpg",
+      "photos/b10.jpg",
+      "photos/b06.jpg"
+    ],
+    "desc": "O nosso blend exclusivo combina 70% Brasil e 30% Etiópia: notas suaves, achocolatadas e de frutos secos com a elegância floral e os toques cítricos etíopes. Torrado na nossa loja todos os dias, por nós.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "250 gramas",
+        "price": 18
+      }
+    ],
+    "ing": "Grão de café: 70% Brasil, 30% Etiópia.",
+    "suggest": [
+      "granola",
+      "cookiebrownie",
+      "vela"
+    ]
+  },
+  {
+    "id": "cafe-po",
+    "cat": "cafe",
+    "name": "Café da Ophelia · em pó",
+    "tag": "moído por nós",
+    "img": "photos/b06.jpg",
+    "gallery": [
+      "photos/b06.jpg",
+      "photos/b05.jpg",
+      "photos/b12.jpg"
+    ],
+    "desc": "O mesmo blend 70% Brasil e 30% Etiópia, moído na loja para a tua cafeteira. Doçura natural, corpo médio e um aroma vibrante.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "250 gramas",
+        "price": 8
+      }
+    ],
+    "ing": "Grão de café moído: 70% Brasil, 30% Etiópia.",
+    "suggest": [
+      "granola",
+      "azeite",
+      "vela"
+    ]
+  },
+  {
+    "id": "chai",
+    "cat": "cafe",
+    "name": "Chai da Ophelia",
+    "tag": "especiarias",
+    "img": "photos/b03.jpg",
+    "gallery": [
+      "photos/b03.jpg",
+      "photos/b04.jpg",
+      "photos/b12.jpg"
+    ],
+    "desc": "O nosso chai, feito com a mistura de especiarias que usamos na loja. Encorpado, doce e reconfortante — perfeito com leite bem quente.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "250 gramas",
+        "price": 18
+      }
+    ],
+    "ing": "Chá preto, canela, gengibre, cardamomo, cravinho, pimenta.",
+    "suggest": [
+      "granola",
+      "cookiebrownie",
+      "pack"
+    ]
+  },
+  {
+    "id": "matcha",
+    "cat": "cafe",
+    "name": "Matcha da Ophelia",
+    "tag": "grau cerimonial",
+    "img": "photos/b07.jpg",
+    "gallery": [
+      "photos/b07.jpg",
+      "photos/b04.jpg",
+      "photos/b05.jpg"
+    ],
+    "desc": "O matcha que servimos na loja: verde vivo, cremoso e sem amargo. Bate bem com água morna ou direto no leite gelado.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "250 gramas",
+        "price": 18
+      }
+    ],
+    "ing": "Chá verde matcha 100%.",
+    "suggest": [
+      "granola",
+      "classicas",
+      "vela"
+    ]
+  },
+  {
+    "id": "bolo-chocolate",
+    "cat": "bolos",
+    "name": "Bolo de Chocolate e Framboesa",
+    "tag": "por encomenda",
+    "img": "photos/n17.jpg",
+    "gallery": [
+      "photos/n17.jpg",
+      "photos/n05.jpg",
+      "photos/k10.jpg"
+    ],
+    "desc": "Camadas de chocolate 70% com creme de framboesa fresca. Feito sob encomenda com 48 horas de antecedência. Para recolher na loja ou entrega em Lisboa e Estoril.",
+    "sizeLabel": "serve",
+    "sizes": [
+      {
+        "label": "8 a 10 pessoas",
+        "price": 38
+      },
+      {
+        "label": "14 a 16 pessoas",
+        "price": 54
+      }
+    ],
+    "ing": "Chocolate 70%, manteiga, açúcar, ovos, farinha, framboesa, nata.",
+    "suggest": [
+      "cafe-grao",
+      "pack",
+      "cartao"
+    ]
+  },
+  {
+    "id": "pavlova",
+    "cat": "bolos",
+    "name": "Pavlova de Frutos Vermelhos",
+    "tag": "por encomenda",
+    "img": "photos/a01.jpg",
+    "gallery": [
+      "photos/a01.jpg",
+      "photos/a08.jpg",
+      "photos/c02.jpg"
+    ],
+    "desc": "Merengue crocante por fora, macio por dentro, com chantilly e frutos vermelhos da época. Frágil, exagerada e a nossa favorita para festas.",
+    "sizeLabel": "serve",
+    "sizes": [
+      {
+        "label": "8 a 10 pessoas",
+        "price": 34
+      }
+    ],
+    "ing": "Claras, açúcar, vinagre, amido de milho, nata, frutos vermelhos.",
+    "suggest": [
+      "cafe-po",
+      "matcha",
+      "cartao"
+    ]
+  },
+  {
+    "id": "red-velvet",
+    "cat": "bolos",
+    "name": "Bolo Red Velvet",
+    "tag": "por encomenda",
+    "img": "photos/n18.jpg",
+    "gallery": [
+      "photos/n18.jpg",
+      "photos/n17.jpg",
+      "photos/n26.jpg"
+    ],
+    "desc": "O clássico da casa: massa vermelha muito húmida e creme de queijo. Vai coberto de frutos vermelhos frescos.",
+    "sizeLabel": "serve",
+    "sizes": [
+      {
+        "label": "8 a 10 pessoas",
+        "price": 36
+      },
+      {
+        "label": "14 a 16 pessoas",
+        "price": 52
+      }
+    ],
+    "ing": "Farinha, cacau, corante, manteiga, açúcar, ovos, buttermilk, queijo creme.",
+    "suggest": [
+      "chai",
+      "cafe-grao",
+      "cartao"
+    ]
+  },
+  {
+    "id": "caramelo",
+    "cat": "bolos",
+    "name": "Bolo Merengue de Caramelo",
+    "tag": "por encomenda",
+    "img": "photos/n21.jpg",
+    "gallery": [
+      "photos/n21.jpg",
+      "photos/n23.jpg",
+      "photos/n27.jpg"
+    ],
+    "desc": "Bolo de baunilha com merengue queimado e caramelo salgado a escorrer. O que costuma desaparecer primeiro à mesa.",
+    "sizeLabel": "serve",
+    "sizes": [
+      {
+        "label": "8 a 10 pessoas",
+        "price": 36
+      }
+    ],
+    "ing": "Farinha, manteiga, açúcar, ovos, baunilha, nata, caramelo salgado.",
+    "suggest": [
+      "cafe-grao",
+      "granola",
+      "cartao"
+    ]
+  },
+  {
+    "id": "cheesecake",
+    "cat": "bolos",
+    "name": "Cheesecake de Frutos Silvestres",
+    "tag": "por encomenda",
+    "img": "photos/n15.jpg",
+    "gallery": [
+      "photos/n15.jpg",
+      "photos/n16.jpg",
+      "photos/a06.jpg"
+    ],
+    "desc": "Cheesecake cremoso sobre base de bolacha, com compota de frutos silvestres feita por nós.",
+    "sizeLabel": "serve",
+    "sizes": [
+      {
+        "label": "8 a 10 pessoas",
+        "price": 32
+      }
+    ],
+    "ing": "Bolacha, manteiga, queijo creme, nata, açúcar, ovos, frutos silvestres.",
+    "suggest": [
+      "cafe-po",
+      "doce-morango",
+      "cartao"
+    ]
+  },
+  {
+    "id": "panetone",
+    "cat": "bolos",
+    "name": "Panetone de Chocolate",
+    "tag": "época de natal",
+    "img": "photos/n12.jpg",
+    "gallery": [
+      "photos/n12.jpg",
+      "photos/n11.jpg",
+      "photos/n13.jpg"
+    ],
+    "desc": "Massa fofa de fermentação lenta, coberta de chocolate. Fazemos apenas em dezembro, em quantidades pequenas.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "750 gramas",
+        "price": 28
+      }
+    ],
+    "ing": "Farinha, manteiga, ovos, açúcar, fermento natural, chocolate.",
+    "suggest": [
+      "cafe-grao",
+      "chai",
+      "cartao"
+    ]
+  },
+  {
+    "id": "vela",
+    "cat": "casa",
+    "name": "Vela Aromática Croissant",
+    "tag": "cheira a loja",
+    "img": "photos/p01.jpg",
+    "gallery": [
+      "photos/p01.jpg",
+      "photos/e03.jpg",
+      "photos/p26.jpg"
+    ],
+    "desc": "O cheirinho dela é delicioso, dá vontade de comer. É exatamente o aroma da nossa loja às nove da manhã.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "250 gramas",
+        "price": 18
+      }
+    ],
+    "ing": "Cera vegetal, óleos essenciais e fragrância. Pavio de algodão.",
+    "suggest": [
+      "cafe-grao",
+      "granola",
+      "cookiebrownie"
+    ]
+  },
+  {
+    "id": "avental",
+    "cat": "casa",
+    "name": "Avental da Ophelia",
+    "tag": "100% algodão",
+    "img": "photos/a09.jpg",
+    "gallery": [
+      "photos/a09.jpg",
+      "photos/k07.jpg",
+      "photos/k02.jpg"
+    ],
+    "desc": "Criámos um padrão único e muito divertido para que todos possam experimentar as nossas receitas — e, principalmente, partilhá-las com a família.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "tamanho único",
+        "price": 24
+      }
+    ],
+    "ing": "100% algodão. Lavar a 30 graus.",
+    "suggest": [
+      "granola",
+      "cafe-grao",
+      "vela"
+    ]
+  },
+  {
+    "id": "cartao",
+    "cat": "casa",
+    "name": "Cartão Personalizado",
+    "tag": "escrito à mão",
+    "img": "photos/g5.jpeg",
+    "gallery": [
+      "photos/g5.jpeg",
+      "photos/g6.jpeg",
+      "photos/e03.jpg"
+    ],
+    "desc": "Escrevemos à mão o teu recado e juntamos ao pacote. Dizem-nos que é a parte que abrem primeiro.",
+    "sizeLabel": "tamanho",
+    "sizes": [
+      {
+        "label": "um cartão",
+        "price": 4
+      }
+    ],
+    "ing": "Papel de algodão, impresso e escrito por nós.",
+    "suggest": [
+      "ny",
+      "granola",
+      "vela"
+    ]
+  }
+]

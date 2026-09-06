@@ -2,7 +2,7 @@
   "name": "ophelia-storefront",
   "version": "1.0.0",
   "private": true,
-  "description": "Ophelia — headless Shopify storefront built on Next.js from the Claude Design handoff.",
+  "description": "Ophelia \u2014 headless Shopify storefront built on Next.js from the Claude Design handoff.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,7 +12,8 @@
     "check": "npm run typecheck && npm run lint && npm run test",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "shopify:doctor": "node scripts/shopify-doctor.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

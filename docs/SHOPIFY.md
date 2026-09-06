@@ -3,210 +3,220 @@
 Everything the storefront actually needs, and nothing it does not. Where a value is a decision
 rather than a requirement, it says so.
 
+Run `npm run shopify:doctor` after any change here. It checks the whole chain — domain, token,
+API version, collections, publishing, cart — and never prints the token.
+
 ---
 
-## 1. Storefront API credentials
+## 1. The Headless sales channel
 
-Shopify admin → **Settings → Apps and sales channels → Develop apps → Create an app**.
+Install **Headless** from the Shopify App Store (Shopify's own app). It is the right channel for a
+custom Next.js storefront: it issues the Storefront API tokens and it controls which products the
+API can see.
 
-Under **Configuration → Storefront API**, grant:
+The alternatives are worse fits — the **Hydrogen** channel only makes sense if you deploy Hydrogen
+on Oxygen, and a hand-rolled custom app gives the same API with more setup and no publishing UI.
 
-- `unauthenticated_read_product_listings`
-- `unauthenticated_read_product_inventory`
-- `unauthenticated_read_product_tags`
-- `unauthenticated_read_collection_listings`
-- `unauthenticated_write_checkouts` and `unauthenticated_read_checkouts` (the Cart API)
+Once installed: **Settings → Apps and sales channels → Headless → Storefront API**.
 
-Install the app, then copy the **Storefront API access token**.
+Two tokens are issued:
+
+| Token | Header | Use |
+| --- | --- | --- |
+| **Private** | `Shopify-Storefront-Private-Token` | **Preferred.** Higher rate limits, server-only. |
+| Public | `X-Shopify-Storefront-Access-Token` | Fine, but rate-limited per IP. |
+
+Every request this storefront makes is server-side, so use the private token. Set one of:
 
 ```bash
-SHOPIFY_STORE_DOMAIN="your-store.myshopify.com"   # the myshopify domain, not the custom one
-SHOPIFY_STOREFRONT_ACCESS_TOKEN="…"
-SHOPIFY_STOREFRONT_API_VERSION="2025-07"
+SHOPIFY_STOREFRONT_PRIVATE_TOKEN="…"   # preferred
+SHOPIFY_STOREFRONT_ACCESS_TOKEN="…"    # fallback
 ```
 
-The token is read on the server only. It never gains a `NEXT_PUBLIC_` prefix and never reaches the
-browser.
+When both are present the private one wins. Neither ever gains a `NEXT_PUBLIC_` prefix, and neither
+reaches the browser.
+
+### Scopes
+
+The Headless channel's defaults are enough. What the storefront actually reads:
+
+- `unauthenticated_read_product_listings` — products and collections
+- `unauthenticated_read_product_tags` — the tag chip on shop cards
+- `unauthenticated_write_checkouts` / `unauthenticated_read_checkouts` — the Cart API
+
+**Not** `unauthenticated_read_product_inventory`. The storefront never shows a stock count —
+`availableForSale` decides whether a variant can be bought — so `quantityAvailable` is deliberately
+not queried. Asking for a field the token cannot read fails the *entire* request, which is exactly
+how a working integration ends up rendering an error page.
 
 ---
 
-## 2. Product options
+## 2. API version
 
-The product page reads two options by name. Spelling and casing matter.
+```bash
+SHOPIFY_STOREFRONT_API_VERSION="2026-07"
+```
 
-| Option | Products | Values |
-| --- | --- | --- |
-| `Sabor` | Ophelia Cookies only | Tradicional, Red Velvet, Cacau, Limão |
-| `Tamanho` | Every product | The box size or weight, e.g. `4 unidades`, `300 g`, `250 g · em grão` |
+Read this twice, because it is the failure that hides best:
 
-Rules the storefront relies on:
+**Shopify does not reject an unsupported version.** It silently serves an older one and mentions it
+only in the `x-shopify-api-version` response header. A storefront can run for months on year-old
+fields and nobody notices until a field is removed.
 
-- **Every product needs a `Tamanho` option**, even single-size ones. The design keeps the size grid
-  visible for consistency, and a one-card grid is the intended result.
-- **Variant order is the merchant's intent.** The first variant is the default shown on pantry and
-  cross-sell cards. Café da Ophelia must therefore list `250 g · em grão` (€18) **before**
-  `250 g · em pó` (€8) — the design's cross-sell reads "Café €18".
-- Option values are shown verbatim. Write them exactly as they should appear on the page.
+Two guards are in place:
+
+- `lib/shopify/client.ts` compares the served version against the requested one and logs a warning
+  once per process when they differ.
+- `npm run shopify:doctor` fails on a mismatch.
+
+Bump the version deliberately, then run `npm run build` and the doctor.
 
 ---
 
-## 3. Editorial metafields
+## 3. Publishing — the thing that looks like a bug and is not
 
-Namespace `ophelia`, all of type **single line text** except `ingredients`
-(**multi line text**). All are optional — an unset metafield simply omits its block.
+A product can exist in Shopify, be **Active**, and still be invisible to this storefront. The
+Storefront API only returns what is published to the channel the token belongs to.
 
-| Key | Type | Used for |
-| --- | --- | --- |
-| `kicker` | single line text | The uppercase eyebrow above a title, e.g. `Cookies · o clássico` |
-| `badge` | single line text | The pill over a card image, e.g. `Novo`, `Personalizável` |
-| `short_description` | single line text | The one-line description on category cards |
-| `ingredients` | multi line text | The client's ingredient list, verbatim |
+For every product and every collection: open it in admin → **Publishing** → tick **Headless**.
 
-Create them under **Settings → Custom data → Products → Add definition**, and tick
-**Storefronts** under access so the Storefront API can read them.
+When products are missing, work down this list before touching code:
 
-The values for the current catalogue are in `lib/catalogue/data.ts`, taken from the client's
-"Ophelia — PRODUTOS SITE" document.
+1. Does the product exist in Shopify admin?
+2. Is its status **Active** (not Draft or Archived)?
+3. Is it published to the **Headless** channel?
+4. Does the Headless storefront have the Storefront API scopes above?
+5. Does the handle match the URL you are visiting?
+6. Does `npm run shopify:doctor -- <handle>` resolve it?
+
+`npm run shopify:doctor` answers 1–4 and 6 in one run. Never solve a missing product by putting it
+in the front end.
 
 ---
 
 ## 4. Collections
 
-Create these handles. The first four are navigation destinations; the fifth is a merchandising
-device and is deliberately excluded from the sitemap.
+The storefront reads its categories from Shopify. Nothing is hard-coded: the header, the footer's
+"a loja" column, the home page band and the filter pills are all built from
+`catalogue().getCollections()`, so a collection that does not exist can never produce a dead link —
+and a collection you add appears everywhere without a deploy.
 
-| Handle | Title | Contents |
-| --- | --- | --- |
-| `cookies` | As famosas Cookies da Ophelia | The five cookie SKUs |
-| `mercearia` | Mercearia da Ophelia | Azeite, méis, doces, granola, café |
-| `presentes` | Presentes da Ophelia | The gift-appropriate products |
-| `lifestyle` | Lifestyle | Vela aromática, and the avental once priced |
-| `complementos` | Fica ainda melhor com… | Café, Granola, Mel de Rosmaninho, Vela |
+The design draws six cards. Five map to collections; "ver tudo" is the shop index. Create these
+handles to light the band up:
 
-`complementos` powers both "Fica ainda melhor com…" on the product page and "Ainda falta alguma
-coisa?" in the cart drawer. The design fixes this set — *"Escolhido por nós, não por um algoritmo"* —
-so it is a curated collection, **not** Shopify's algorithmic product recommendations. Keep it to
-four products; the drawer shows at most three, excluding whatever is already in the cart.
-
-Collection **description** text is rendered as the page's lead paragraph, so write it for the page.
-
----
-
-## 5. Products
-
-| Handle | Sizes and prices |
+| Handle | Title in the design |
 | --- | --- |
-| `ophelia-cookies` | 4 un €17 · 8 un €32 · 12 un €48, in each of four flavours |
-| `ophelia-cookiebrownie` | 4 un €20 · 8 un €40 · 12 un €57 |
-| `ophelia-cookie-banoffee` | 4 un €20 · 8 un €40 · 12 un €57 — badge `Novo` |
-| `pack-especial-de-cookies` | 3 un €18 · 6 un €30 · 9 un €43 |
-| `cookies-personalizadas` | 10 un €35 · 25 un €87 · 35 un €122 · 50 un €175 — badge `Personalizável` |
-| `granola-da-ophelia` | 300 g €8 · 600 g €14 |
-| `cafe-da-ophelia` | 250 g em grão €18 · 250 g em pó €8 |
-| `mel-de-rosmaninho`, `mel-de-carvalho` | 300 ml €7,80 |
-| `azeite-da-ophelia` | 500 ml €13,90 · 750 ml €19,90 |
-| `doce-de-alperce-e-amendoa`, `doce-de-maca-e-vinho-do-porto`, `doce-de-pera-e-gengibre`, `doce-de-morango-com-baunilha` | 225 ml €4,85 |
-| `vela-aromatica` | €18 |
-| `cartao-personalizado` | €4 |
+| `cookies` | cookies |
+| `mercearia` | mercearia |
+| `cafe` | café, chai & matcha |
+| `bolos` | bolos |
+| `casa` | casa & presentes |
 
-The handles above are what the storefront links to directly:
+Editorial artwork for each card lives in `content/home.json` (`collections.cards`), keyed by handle.
+A card whose collection is not published is not rendered; if none are, the whole band is omitted
+rather than shown with a single stretched card.
 
-- `cartao-personalizado` is required — the product page's "Adicionar cartão personalizado + €4"
-  panel adds it as its own line. If the product is absent the panel is omitted entirely rather
-  than showing a price nothing can fulfil.
-- `cookies-personalizadas` is what `/personalizadas` links to.
-- The homepage features `ophelia-cookies`, `ophelia-cookiebrownie`, `ophelia-cookie-banoffee`,
-  `granola-da-ophelia`, and in the Mercearia band `azeite-da-ophelia`, `mel-de-rosmaninho`,
-  `doce-de-pera-e-gengibre`, `doce-de-maca-e-vinho-do-porto`.
-
-Two catalogue notes to settle with the client:
-
-- **Avental da Ophelia** has no price in either the handoff or the client's document, so it is not
-  in the storefront. Price it and add it to `lifestyle`.
-- The client's document also lists **Cookies NY** (6/8/12 un at €30/€40/€60) and Chai/Matcha
-  entries whose copy and pricing are duplicated from the coffee entry. None of these appear in the
-  approved design, so none are implemented. Confirm before adding.
-
-### Product images
-
-Upload to Shopify and they appear automatically — the storefront renders the featured image on
-cards and the full gallery on the product page. Until then, every slot keeps its designed
-dimensions and shows the intended shot as a caption. Aspect ratios from the handoff: hero ~21:9,
-category and favourite cards 3:4, mercearia 4:5, product main and thumbnails 1:1, story rows 4:3.
-
-Write real `alt` text on each image in Shopify; the storefront uses it verbatim.
+**With no collections published, every `/comprar/<handle>` is a genuine 404 and the home page has no
+categories.** That is the correct behaviour, not a bug — but it is also the most common reason a
+fresh store looks broken.
 
 ---
 
-## 6. Webhooks (cache invalidation)
+## 5. Products, variants and the design
 
-Set a shared secret:
+The design's per-product "size" picker is simply **Shopify variants**. Nothing is special-cased:
+the buy panel renders one selector per Shopify option, labelled with the merchant's own option
+name, and resolves the selection to a real variant.
+
+| The design calls it | In Shopify it is |
+| --- | --- |
+| `escolhe as cookies` / `tamanho` / `serve` | The product's first option (`Quantidade`, `Tamanho`, …) |
+| The tag chip on a shop card | The product's first tag, or the `ophelia.badge` metafield |
+| `ingredientes` accordion | The `ophelia.ingredients` metafield |
+| `desde 7,80 €` | A price range where min ≠ max |
+| Suggested products | `productRecommendations(intent: RELATED)` |
+
+Products with several options work: a combination Shopify does not sell renders inert rather than
+silently falling back to another variant.
+
+### The handwritten-card add-on
+
+The "Juntar um cartão personalizado · 4,00 €" checkbox adds a **real Shopify line**, so Shopify can
+actually charge for it. Create a product with the handle `cartao-personalizado`, one variant, priced
+€4.00, published to Headless. The customer's message is attached to that line as the cart attribute
+`Mensagem do cartão`, so it appears on the order in admin.
+
+If that product is not published, the add-on is hidden. There is deliberately no fallback: a
+checkbox that adds nothing to the order is worse than no checkbox.
+
+The handle is configurable in `content/site.json` (`product.giftCardHandle`).
+
+---
+
+## 6. Checkout
+
+Checkout is Shopify's, always. The storefront creates a cart through the Cart API, stores the cart
+id in an httpOnly cookie, and sends the customer to the `checkoutUrl` Shopify returns. No payment
+detail is ever collected here.
+
+The design includes a bespoke checkout page — delivery vs pickup, a Mon–Thu date picker, MB WAY /
+Multibanco / card, a promo field. **It is not implemented, deliberately.** It is a prototype mock
+with no payment behind it, and reproducing it would mean either collecting card details outside
+Shopify's PCI scope or showing a fake order confirmation. The cart drawer's design is preserved
+exactly; `finalizar encomenda` hands off to Shopify. `/checkout` redirects to `/carrinho`.
+
+What this means for the shop settings, since Shopify now owns these:
+
+- **Free shipping over €60** is displayed by the cart drawer from `content/site.json`
+  (`shipping.freeShippingFrom`). It is a *promise*: configure the matching shipping rate in
+  Shopify → Settings → Shipping and delivery, or the customer will be charged at checkout for
+  something the cart said was free.
+- Mon–Thu dispatch, gift messages and delivery dates belong in Shopify's checkout settings or an
+  order-notes app.
+
+### Before launch
+
+Remove the store password (**Settings → Preferences → Password protection**). While it is on,
+`checkoutUrl` lands the customer on Shopify's password page instead of checkout. The doctor warns
+about this.
+
+---
+
+## 7. Keeping the cache fresh
+
+Catalogue reads are cached for 15 minutes and tagged, so a webhook can invalidate precisely.
 
 ```bash
-OPHELIA_REVALIDATION_SECRET="a-long-random-string"
+OPHELIA_REVALIDATION_SECRET="…"   # Shopify's webhook signing secret
 ```
 
-Then in **Settings → Notifications → Webhooks**, add JSON webhooks pointing at
-`https://<your-domain>/api/revalidate` for:
+In Shopify admin → **Settings → Notifications → Webhooks**, add these pointing at
+`https://<your-domain>/api/revalidate`:
 
 - `products/create`, `products/update`, `products/delete`
 - `collections/create`, `collections/update`, `collections/delete`
 
-Send the secret in an `X-Ophelia-Revalidate-Secret` header, or append `?secret=…` to the URL. The
-handler compares it in constant time and purges the product and collection cache tags. Without
-this, changes appear within the 15-minute revalidation window instead of immediately.
-
----
-
-## 7. Customer accounts (optional)
-
-The `/conta` area is inert until these are set; it renders a documented "not configured" state
-rather than a fake sign-in.
-
-Shopify admin → **Settings → Customer accounts**. Choose **new customer accounts**, then open
-**Customer Account API** and:
-
-1. Copy the **Customer Account API endpoint** and the **Client ID**.
-2. Add `https://<your-domain>/conta/callback` as a **callback URI** — it must match
-   `SHOPIFY_CUSTOMER_ACCOUNT_REDIRECT_URI` exactly, including scheme and trailing path.
-3. Add `https://<your-domain>` as a **logout URI**.
+The route verifies Shopify's `X-Shopify-Hmac-Sha256` signature before purging anything. The same
+secret also authorises a manual purge:
 
 ```bash
-SHOPIFY_CUSTOMER_ACCOUNT_API_URL="https://shopify.com/<shop-id>/account"
-SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID="…"
-SHOPIFY_CUSTOMER_ACCOUNT_REDIRECT_URI="https://<your-domain>/conta/callback"
+curl -X POST https://<your-domain>/api/revalidate \
+  -H "X-Ophelia-Revalidate-Secret: $OPHELIA_REVALIDATION_SECRET"
 ```
 
-The flow is OAuth 2.0 with PKCE, as a public client: there is no client secret, the code verifier
-never leaves the server, and tokens are held in httpOnly cookies. No password is ever handled by
-this application.
-
 ---
 
-## 8. Checkout, shipping and payments
-
-Checkout is Shopify's. The cart's `checkoutUrl` is where "Continuar para pagamento" sends the
-visitor, and this application collects no payment details.
-
-Configure in Shopify itself:
-
-- **Shipping rates.** The design shows "Envio — Calculado no pagamento" and renders Total equal to
-  Subtotal. That is intentional and matches reality until rates exist; once they do, Shopify's
-  checkout applies them.
-- **Payment methods.** The client's terms name MasterCard, Visa, American Express, Multibanco and
-  PayPal.
-- **Dispatch rules.** Monday–Thursday, with orders after 12:00 Thursday shipping the following
-  Monday. This is copy in the storefront, not logic — if it should gate ordering, that is a Shopify
-  configuration or app decision.
-
----
-
-## 9. Verifying the connection
+## 8. When something is wrong
 
 ```bash
-npm run build && npm start
+npm run shopify:doctor              # the whole chain
+npm run shopify:doctor -- <handle>  # …plus one product
 ```
 
-The terracotta "Pré-visualização" banner disappears once Shopify is connected. If it does not,
-either `SHOPIFY_STORE_DOMAIN` / `SHOPIFY_STOREFRONT_ACCESS_TOKEN` is missing, or
-`OPHELIA_FORCE_LOCAL_CATALOGUE` is still `true`.
+It reports, in order: domain, token (kind and length only — never the value), reachability,
+currency, the API version actually served, collections, products published to Headless, the handle
+you asked about, and whether the Cart API issues a checkout URL.
+
+There is no fallback catalogue in production. If Shopify is misconfigured the pages fail with a
+configuration error rather than quietly serving fixture data that looks like a working shop — which
+is the failure mode that hides a broken integration until launch day.

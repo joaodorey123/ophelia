@@ -1,0 +1,52 @@
+.page {
+  padding-block: 70px 40px;
+}
+
+.intro {
+  max-width: 620px;
+}
+
+.title {
+  margin-top: 16px;
+}
+
+.lede {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--oph-ink-soft);
+  max-width: 52ch;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 56px;
+  margin-top: 50px;
+  align-items: start;
+}
+
+.info {
+  margin-top: 30px;
+}
+
+.row {
+  border-top: 1px solid var(--oph-line-14);
+  padding: 18px 0;
+}
+
+.rowLabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--oph-muted-4);
+  margin-bottom: 8px;
+}
+
+.rowValue {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--oph-ink-dark);
+  white-space: pre-line;
+}

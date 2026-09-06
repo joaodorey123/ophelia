@@ -1,130 +1,73 @@
 /*
- * Shared section scaffolding. Grounds, padding and grids come from the
- * handoff's spacing contract; only two grounds are used per page and blue is
- * always punctuation, never the whole page.
+ * Section shells. The handoff uses four content widths and one gutter; these
+ * classes are the only place those numbers appear, so a page composes with
+ * `wide`/`mid`/`narrow`/`article` rather than restating a max-width.
  */
 
-/*
- * Sections clip their own overflow.
- *
- * The watercolour washes are designed to bleed past the section edge (the
- * top-right wash sits at `right: -6%`). The prototype got away with it because
- * everything lived inside one `overflow: hidden` shell; here, without clipping,
- * the bleed dragged the whole document sideways — 86px of real horizontal
- * scroll at 1440. Nothing sticky lives inside these wrappers, so clipping here
- * is safe.
- */
-.section {
-  padding: var(--oph-section-py) var(--oph-section-px);
-  position: relative;
-  overflow: hidden;
+.wide,
+.mid,
+.narrow,
+.article {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--oph-gutter);
 }
 
-.sectionTight {
-  padding: 0 var(--oph-section-px) var(--oph-section-py);
-  position: relative;
-  overflow: hidden;
+.wide {
+  max-width: var(--oph-max-wide);
+}
+.mid {
+  max-width: var(--oph-max-mid);
+}
+.narrow {
+  max-width: var(--oph-max-narrow);
+}
+.article {
+  max-width: var(--oph-max-article);
 }
 
-.band {
-  padding: var(--oph-band-py) var(--oph-section-px);
-  position: relative;
-  overflow: hidden;
-}
-
-.groundSand {
-  background: var(--oph-sand);
-}
-
-.groundBlue {
-  background: var(--oph-blue);
-  color: var(--oph-cream);
-  overflow: hidden;
-}
-
-.groundBlue h1,
-.groundBlue h2,
-.groundBlue h3,
-.groundBlue h4 {
-  color: var(--oph-cream);
-}
-
-/* ── Grids ─────────────────────────────────────────────────────────────── */
-.gridFavourites {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--oph-grid-favourites), 1fr));
-  gap: 26px;
-}
-
-.gridCategory {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--oph-grid-category), 1fr));
-  gap: 30px;
-}
-
-.gridPantry {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--oph-grid-pantry), 1fr));
-  gap: 20px;
-}
-
-/*
- * Undesigned collection pages (Mercearia, Presentes, Lifestyle) and search
- * results. The handoff's 190px minimum was specified for the homepage band of
- * four; at nine products it packs six to a row and the cards lose their
- * proportions. 240px is the favourites minimum from the same contract, so the
- * cards keep the designed scale. See docs/DESIGN-NOTES.md.
- */
-.gridCollection {
-  display: grid;
-  /*
-   * auto-FILL, not auto-fit: a collection holds a variable number of products,
-   * and auto-fit would stretch a lone card across the whole row. The designed
-   * homepage bands keep auto-fit, where the item count is fixed.
-   */
-  grid-template-columns: repeat(auto-fill, minmax(var(--oph-grid-favourites), 1fr));
-  gap: 20px;
-}
-
-.gridCrossSell {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--oph-grid-crosssell), 1fr));
-  gap: 20px;
-}
-
-/* Editorial two-column rows. They collapse to one column below ~600px. */
-.twoColumn {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--oph-col-gap);
-  align-items: center;
-}
-
-.twoColumnWide {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-.headerBlock {
-  position: relative;
-  max-width: 840px;
-}
-
-.headerBlockLead {
-  font-size: var(--oph-t-lead);
-  line-height: 1.65;
-  color: var(--oph-ink-72);
-  max-width: 56ch;
-  margin: 0;
-}
-
-.centred {
-  text-align: center;
-}
-
-.sectionGap {
+/* ── Section header: heading left, note or link right ──────────────────── */
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
   margin-bottom: 44px;
 }
 
-.sectionGapTight {
-  margin-bottom: 40px;
+.headerNote {
+  font-size: 12.5px;
+  color: var(--oph-muted-1);
+  max-width: 400px;
+  line-height: 1.7;
+}
+
+/* ── Centred intro block ───────────────────────────────────────────────── */
+.intro {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.introLede {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--oph-ink-soft);
+}
+
+/* ── Body copy ─────────────────────────────────────────────────────────── */
+.prose {
+  font-size: 15px;
+  line-height: 2.05;
+  color: var(--oph-ink-body);
+}
+
+.prose + .prose {
+  margin-top: 24px;
+}
+
+/* Cards enter with the handoff's one entrance animation. */
+.fadeIn {
+  animation: ophFade 0.5s ease both;
 }

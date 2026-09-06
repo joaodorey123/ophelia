@@ -21,7 +21,7 @@ import {
 import type { Cart, CartLineInput } from '@/lib/commerce/types';
 
 type AddOptions = {
-  /** PDP adds open the drawer; card adds do not (handoff, Cart drawer → Toast). */
+  /** Card and detail adds both open the drawer, per the handoff. */
   openDrawer?: boolean;
   /** Toast copy is "<product> no cesto". */
   toastLabel?: string;
@@ -47,7 +47,8 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-const TOAST_MS = 2400;
+/** The handoff clears the toast after 2200ms. */
+const TOAST_MS = 2200;
 
 export function CartProvider({
   children,

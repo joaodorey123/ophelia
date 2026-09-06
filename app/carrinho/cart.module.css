@@ -1,116 +1,98 @@
-/*
- * The full cart page was not designed in the handoff (it lists /carrinho under
- * "Known gaps"). It is built here in the drawer's own visual language —
- * same line-item anatomy, same summary, same money formatting — so it reads as
- * part of the approved design rather than a new one.
- */
-
 .page {
-  padding: clamp(26px, 5vw, 72px) var(--oph-section-px) var(--oph-section-py);
+  padding-block: 60px 40px;
 }
 
 .title {
-  font-size: var(--oph-t-h2);
-  line-height: 1.05;
-  margin: 14px 0 30px;
-  color: var(--oph-blue);
+  margin-bottom: 8px;
+}
+
+.note {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--oph-muted-3);
+  max-width: 54ch;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(260px, 360px);
-  gap: clamp(26px, 4vw, 58px);
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  gap: 56px;
+  margin-top: 44px;
   align-items: start;
 }
 
-@media (max-width: 899px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-}
-
 .lines {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 0;
-}
-
-.lines > li + li {
-  border-top: 1px solid var(--oph-divider);
-  padding-top: 24px;
+  border-top: 1px solid var(--oph-line-10);
 }
 
 .summary {
-  background: var(--oph-sand);
-  border-radius: var(--oph-r-card);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  background: var(--oph-white);
+  padding: 32px 30px;
+  box-shadow: var(--oph-shadow-panel);
   position: sticky;
-  top: 96px;
-}
-
-.summaryTitle {
-  font-size: 19px;
-  margin: 0 0 8px;
-  color: var(--oph-blue);
+  top: 170px;
 }
 
 .row {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  font-size: 14px;
+  gap: 16px;
+  padding: 10px 0;
+  font-size: 13px;
 }
 
 .rowMuted {
-  font-size: 13px;
-  color: var(--oph-ink-60);
+  color: var(--oph-muted-2);
+  font-size: 12px;
 }
 
-.rowTotal {
-  font-size: 17px;
-  color: var(--oph-blue);
-  margin-top: 4px;
-  padding-top: 12px;
-  border-top: 1px solid var(--oph-divider);
+.total {
+  border-top: 1px solid var(--oph-line-16);
+  margin-top: 12px;
+  padding-top: 18px;
+}
+
+.totalValue {
+  font-family: var(--oph-font-serif);
+  font-size: 30px;
+  line-height: 1.1;
 }
 
 .checkout {
-  margin-top: 12px;
+  margin-top: 20px;
 }
 
-.note {
-  text-align: center;
-  font-size: 11.5px;
-  color: var(--oph-ink-50);
+.checkoutError {
+  margin-top: 12px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--oph-ink-dark);
 }
 
 .empty {
   text-align: center;
-  padding: clamp(30px, 6vw, 80px) 0;
+  padding: 90px 0 70px;
 }
 
-.emptyIllustration {
-  height: 110px;
-  width: auto;
-  margin: 0 auto 18px;
-  opacity: 0.85;
+.emptyTitle {
+  font-family: var(--oph-font-serif);
+  font-style: italic;
+  font-size: 30px;
+  color: var(--oph-muted-2);
 }
 
-.emptyCopy {
-  font-size: 15px;
-  color: var(--oph-ink-65);
-  margin: 0 0 22px;
+.emptyLink {
+  margin-top: 24px;
 }
 
-.error {
-  background: #f7e3d8;
-  color: #7d2f11;
-  border-radius: var(--oph-r-sm);
-  padding: 14px 18px;
-  font-size: 13.5px;
-  line-height: 1.6;
-  margin: 0 0 20px;
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .summary {
+    position: static;
+  }
 }

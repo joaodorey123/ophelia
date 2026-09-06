@@ -1,0 +1,61 @@
+.bar {
+  background: var(--oph-navy);
+  color: var(--oph-on-navy);
+  height: 38px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/*
+ * The strip is duplicated once inside a content-sized track and translated by
+ * exactly -50%. Both halves must be identical and content-sized or the loop
+ * visibly jumps at the seam.
+ */
+.track {
+  display: flex;
+  width: max-content;
+  animation: ophMarquee 38s linear infinite;
+}
+
+.half {
+  display: flex;
+  gap: 80px;
+  padding-right: 80px;
+}
+
+.message {
+  font-size: 11.5px;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/*
+ * With reduced motion the marquee would otherwise freeze mid-scroll and clip
+ * a message. Stop scrolling and centre a single, complete strip instead.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .half:last-child {
+    display: none;
+  }
+
+  .half {
+    padding-right: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 40px;
+  }
+
+  .bar {
+    height: auto;
+    padding: 10px var(--oph-gutter);
+  }
+}

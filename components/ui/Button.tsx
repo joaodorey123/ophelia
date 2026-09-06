@@ -1,87 +1,80 @@
 import Link from 'next/link';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import styles from './Button.module.css';
 
-export type ButtonVariant = 'primary' | 'cream' | 'outlineBlue' | 'outlineCream' | 'link';
-export type ButtonSize = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+type Variant = 'outline' | 'primary';
 
-const SIZE_CLASS: Record<ButtonSize, string> = {
-  xl: styles.sizeXl as string,
-  lg: styles.sizeLg as string,
-  md: styles.sizeMd as string,
-  sm: styles.sizeSm as string,
-  xs: styles.sizeXs as string,
-};
-
-const VARIANT_CLASS: Record<ButtonVariant, string> = {
-  primary: styles.primary as string,
-  cream: styles.cream as string,
-  outlineBlue: styles.outlineBlue as string,
-  outlineCream: styles.outlineCream as string,
-  link: styles.link as string,
-};
-
-type StyleProps = {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  block?: boolean;
-  grow?: boolean;
-  className?: string;
-};
-
-export function buttonClassName({
-  variant = 'primary',
-  size = 'lg',
-  block,
-  grow,
-  className,
-}: StyleProps): string {
-  return [
-    variant === 'link' ? undefined : styles.base,
-    variant === 'link' ? undefined : SIZE_CLASS[size],
-    VARIANT_CLASS[variant],
-    block ? styles.block : undefined,
-    grow ? styles.grow : undefined,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-}
+/**
+ * `TextLink` is the handoff's underlined navigation link ("ver tudo",
+ * "a nossa história"); `Button` covers the outline and solid navy shapes.
+ * Anything that navigates is a Link, anything that acts is a button — the
+ * handoff draws that line and so does this.
+ */
 
 export function Button({
-  variant,
-  size,
-  block,
-  grow,
+  variant = 'outline',
+  block = false,
   className,
   children,
   ...props
-}: StyleProps & ComponentProps<'button'> & { children: ReactNode }) {
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: Variant;
+  block?: boolean;
+  children: ReactNode;
+}) {
+  const classes = [styles.base, styles[variant], block ? styles.block : '', className ?? '']
+    .filter(Boolean)
+    .join(' ');
   return (
-    <button
-      type="button"
-      {...props}
-      className={buttonClassName({ variant, size, block, grow, className })}
-    >
+    <button className={classes} {...props}>
       {children}
     </button>
   );
 }
 
 export function ButtonLink({
-  variant,
-  size,
-  block,
-  grow,
+  href,
+  variant = 'outline',
+  block = false,
   className,
   children,
-  ...props
-}: StyleProps & ComponentProps<typeof Link> & { children: ReactNode }) {
+}: {
+  href: string;
+  variant?: Variant;
+  block?: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  const classes = [styles.base, styles[variant], block ? styles.block : '', className ?? '']
+    .filter(Boolean)
+    .join(' ');
   return (
-    <Link {...props} className={buttonClassName({ variant, size, block, grow, className })}>
-      {/* The underlined "Ver tudo" rule belongs to the text, not the tap area. */}
-      {variant === 'link' ? <span className={styles.linkText}>{children}</span> : children}
+    <Link href={href} className={classes}>
+      {children}
+    </Link>
+  );
+}
+
+export function TextLink({
+  href,
+  small = false,
+  className,
+  children,
+}: {
+  href: string;
+  small?: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  const classes = [styles.link, small ? styles.linkSm : '', className ?? '']
+    .filter(Boolean)
+    .join(' ');
+  return (
+    <Link href={href} className={classes}>
+      {/* The rule belongs to the text, so the link box can grow for touch
+          without the underline drifting away from the words. */}
+      <span className={styles.linkRule}>{children}</span>
     </Link>
   );
 }

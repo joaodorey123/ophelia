@@ -26,7 +26,6 @@ type RawVariant = {
   id: string;
   title: string;
   availableForSale: boolean;
-  quantityAvailable: Nullable<number>;
   sku: Nullable<string>;
   selectedOptions: { name: string; value: string }[];
   price: RawMoney;
@@ -114,7 +113,15 @@ function toVariant(raw: RawVariant): ProductVariant {
     id: raw.id,
     title: raw.title,
     availableForSale: raw.availableForSale,
-    quantityAvailable: raw.quantityAvailable ?? null,
+    /*
+     * Not queried: `quantityAvailable` needs the
+     * `unauthenticated_read_product_inventory` scope, which the Headless
+     * channel does not grant by default, and asking for it fails the whole
+     * request. Nothing in the UI shows a stock count — `availableForSale` is
+     * what decides whether a variant can be bought — so the field stays null
+     * rather than making every product read depend on an optional scope.
+     */
+    quantityAvailable: null,
     sku: raw.sku ?? null,
     selectedOptions: raw.selectedOptions,
     price: toMoney(raw.price),

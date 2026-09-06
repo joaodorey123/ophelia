@@ -6,7 +6,7 @@
  * Pure and dependency-free, so it is directly testable.
  */
 
-export const ENQUIRY_TYPES = ['evento', 'personalizadas', 'newsletter'] as const;
+export const ENQUIRY_TYPES = ['contacto', 'newsletter'] as const;
 export type EnquiryType = (typeof ENQUIRY_TYPES)[number];
 
 export type EnquiryFieldSpec = {
@@ -20,25 +20,11 @@ export type EnquiryFieldSpec = {
 export const MAX_FIELD_LENGTH = 2000;
 
 export const ENQUIRY_FIELDS: Record<EnquiryType, EnquiryFieldSpec[]> = {
-  evento: [
+  contacto: [
     { key: 'nome', label: 'Nome', required: true },
     { key: 'email', label: 'Email', required: true },
-    { key: 'telefone', label: 'Telefone', required: false },
-    { key: 'tipoEvento', label: 'Tipo de evento', required: true },
-    { key: 'data', label: 'Data', required: false },
-    { key: 'pessoas', label: 'Número de pessoas', required: false, min: 1 },
-    { key: 'localizacao', label: 'Localização', required: false },
+    { key: 'assunto', label: 'Assunto', required: true },
     { key: 'mensagem', label: 'Mensagem', required: true },
-  ],
-  personalizadas: [
-    { key: 'nome', label: 'Nome', required: true },
-    { key: 'email', label: 'Email', required: true },
-    { key: 'telefone', label: 'Telefone', required: false },
-    { key: 'ocasiao', label: 'Ocasião', required: true },
-    // The handoff: "Any production quantity field must enforce ≥10."
-    { key: 'quantidade', label: 'Quantidade', required: true, min: 10 },
-    { key: 'data', label: 'Data', required: false },
-    { key: 'mensagem', label: 'Mensagem', required: false },
   ],
   newsletter: [{ key: 'email', label: 'Email', required: true }],
 };

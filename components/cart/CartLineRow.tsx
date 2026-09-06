@@ -11,12 +11,6 @@ import { variantLabel } from '@/lib/product';
 
 import styles from './CartLine.module.css';
 
-/** Until product photography exists, the thumbnail shows the Caprasimo
- *  monogram the prototype used — never a broken image. */
-function monogram(title: string): string {
-  return title.replace(/^Ophelia\s+/i, '').charAt(0).toUpperCase() || 'O';
-}
-
 export function CartLineRow({ line }: { line: CartLine }) {
   const { stepLine, removeLine } = useCart();
 
@@ -41,13 +35,11 @@ export function CartLineRow({ line }: { line: CartLine }) {
             src={line.merchandise.image.url}
             alt=""
             fill
-            sizes="74px"
+            sizes="76px"
             className={styles.thumbImage}
           />
         ) : (
-          <span className={styles.monogram} aria-hidden="true">
-            {monogram(line.merchandise.product.title)}
-          </span>
+          <span aria-hidden />
         )}
       </div>
 
@@ -89,10 +81,10 @@ export function CartLineRow({ line }: { line: CartLine }) {
             onClick={() => removeLine(line.id)}
             aria-label={`Remover ${line.merchandise.product.title} do cesto`}
           >
-            Remover
+            remover
           </button>
         </div>
-        <span className="oph-visually-hidden">
+        <span className="oph-sr-only">
           {line.quantity} × {line.merchandise.product.title}
         </span>
       </div>

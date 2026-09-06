@@ -11,8 +11,7 @@ Powers three forms:
 
 | Form | Type | Fields |
 | --- | --- | --- |
-| `/eventos` | `evento` | nome, email, telefone, tipoEvento, data, pessoas, localizacao, mensagem |
-| `/personalizadas` | `personalizadas` | nome, email, telefone, ocasiao, quantidade (min 10), data, mensagem |
+| `/contacto` | `contacto` | nome, email, assunto, mensagem |
 | Footer | `newsletter` | email |
 
 ### Configure
@@ -79,8 +78,8 @@ To build it:
    hold a long-lived credential — issue a short-lived, single-use upload URL from a route handler.
 2. Restrict by MIME type and size server-side (`image/png`, `image/jpeg`, `image/svg+xml`, `application/pdf`;
    10 MB is a sensible ceiling). Treat SVG as untrusted — sanitise or rasterise it before display.
-3. Add the resulting URL to the enquiry payload, and add the field to `FIELDS.personalizadas` in
-   `app/api/enquiry/route.ts` and to the form's field list in `app/personalizadas/page.tsx`.
+3. Add the resulting URL to the enquiry payload, add the field to `ENQUIRY_FIELDS.contacto` in
+   `lib/forms/enquiry.ts`, and render it in `components/forms/EnquiryForm.tsx`.
 4. The approval step ("Aprovas a prova final") is a human loop today. If it should become a screen,
    it needs a design pass first.
 

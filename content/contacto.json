@@ -1,0 +1,42 @@
+{
+  "kicker": "fala com a gente",
+  "title": "contacto",
+  "lede": "Encomendas especiais, bolos, eventos ou presentes corporativos — escreve-nos e respondemos no mesmo dia.",
+  "subjects": [
+    "Encomenda de bolos",
+    "Cookies personalizadas",
+    "Eventos e catering",
+    "Presentes corporativos",
+    "Estado de uma encomenda",
+    "Outro assunto"
+  ],
+  "success": {
+    "title": "obrigada!",
+    "body": "Recebemos a tua mensagem. Respondemos por email dentro de poucas horas.",
+    "reset": "enviar outra"
+  },
+  "image": "/photos/e05.jpg",
+  "alt": "A nossa loja no Estoril",
+  "info": [
+    {
+      "label": "a loja",
+      "value": "Estoril, Cascais\n(morada completa a confirmar)"
+    },
+    {
+      "label": "horário",
+      "value": "Terça a domingo · 9h00 – 18h00\nSegunda: fechado"
+    },
+    {
+      "label": "email",
+      "value": "info@callmeophelia.com"
+    },
+    {
+      "label": "instagram",
+      "value": "@callmeophelia"
+    },
+    {
+      "label": "encomendas & envios",
+      "value": "Preparamos e enviamos de segunda a quinta-feira.\nPedidos após as 12h00 de quinta seguem na segunda seguinte.\nEntrega até 2 dias úteis em Portugal continental."
+    }
+  ]
+}

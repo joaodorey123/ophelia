@@ -1,23 +1,59 @@
-.crumbs {
-  padding: 22px var(--oph-section-px) 0;
+.page {
+  padding-block: 40px 0;
+}
+
+.breadcrumb {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--oph-muted-4);
+  margin-bottom: 30px;
+}
+
+.breadcrumb a:hover {
+  color: var(--oph-ink);
+}
+
+/* The breadcrumb is the way back on a phone, so it gets a real target. */
+@media (max-width: 900px) {
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 16px;
+  }
 }
 
 .layout {
-  padding: clamp(14px, 3vw, 44px) var(--oph-section-px) var(--oph-section-py);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: clamp(24px, 4vw, 58px);
+  gap: 64px;
   align-items: start;
 }
 
-.crossSellTitle {
-  font-size: var(--oph-t-h2-xs);
-  margin: 0 0 8px;
-  color: var(--oph-blue);
+.buyTitle {
+  margin-top: 14px;
 }
 
-.crossSellLead {
-  font-size: 14px;
-  color: var(--oph-ink-60);
-  margin: 0 0 30px;
+.suggest {
+  padding: 90px 0 30px;
+}
+
+.suggestGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 30px;
+  margin-top: 34px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    gap: 40px;
+  }
+
+  .suggest {
+    padding-top: 64px;
+  }
 }

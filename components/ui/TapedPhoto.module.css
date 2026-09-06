@@ -1,0 +1,80 @@
+/*
+ * The taped photograph: outer wrapper → white paper mount → photo, with tape
+ * strips laid over the mount's corners. The wrapper's padding is what gives
+ * the tape room to hang off the mount, so it is never zero.
+ */
+
+.wrap {
+  position: relative;
+  padding: var(--pad, 14px);
+}
+
+.mount {
+  position: relative;
+  z-index: 2;
+  background: var(--oph-white);
+  padding: var(--mount-pad, 7px);
+  box-shadow: var(--mount-shadow, var(--oph-shadow-mount-sm));
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: var(--ratio, 4 / 5);
+  background: var(--oph-photo-well);
+  overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /*
+   * The deckle filter roughens the photo's edges. It is applied to the image
+   * only, never the mount, so the white paper keeps a clean printed edge.
+   */
+  filter: var(--deckle);
+}
+
+/* ── Tape ──────────────────────────────────────────────────────────────── */
+
+.tape {
+  position: absolute;
+  z-index: 3;
+  width: var(--w);
+  height: var(--h);
+  transform: rotate(var(--rot));
+}
+
+.kraft {
+  background: var(--oph-tape-kraft);
+  box-shadow: var(--oph-shadow-tape);
+}
+
+.torn {
+  background: var(--oph-tape-torn);
+  clip-path: var(--oph-clip-torn);
+  /* No shadow: the ragged silhouette carries the depth on its own. */
+}
+
+.striped {
+  background: var(--oph-tape-striped);
+  box-shadow: var(--oph-shadow-tape-sm);
+}
+
+.scotch {
+  background: var(--oph-tape-scotch);
+  clip-path: var(--oph-clip-scotch);
+  box-shadow: var(--oph-shadow-tape-light);
+}
+
+/*
+ * The filter is a decorative flourish, and Safari's displacement map is the
+ * single most expensive thing on the page. Drop it when motion is reduced or
+ * the viewport is small enough that the 6–7px displacement is invisible.
+ */
+@media (max-width: 520px), (prefers-reduced-motion: reduce) {
+  .photo {
+    filter: none;
+  }
+}

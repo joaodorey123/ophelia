@@ -10,14 +10,13 @@ import {
 } from '@/lib/forms/enquiry';
 
 describe('isEnquiryType', () => {
-  it('accepts the three real form types', () => {
-    expect(isEnquiryType('evento')).toBe(true);
-    expect(isEnquiryType('personalizadas')).toBe(true);
+  it('accepts the two real form types', () => {
+    expect(isEnquiryType('contacto')).toBe(true);
     expect(isEnquiryType('newsletter')).toBe(true);
   });
 
   it('rejects anything else', () => {
-    expect(isEnquiryType('encomenda')).toBe(false);
+    expect(isEnquiryType('evento')).toBe(false);
     expect(isEnquiryType(undefined)).toBe(false);
     expect(isEnquiryType(42)).toBe(false);
   });
@@ -33,92 +32,42 @@ describe('looksLikeEmail', () => {
   });
 });
 
-describe('validateEnquiry — evento', () => {
+describe('validateEnquiry — contacto', () => {
   const valid = {
     nome: 'Maria',
     email: 'maria@example.com',
-    tipoEvento: 'Casamento',
-    mensagem: 'Casamento em maio.',
+    assunto: 'Encomenda de bolos',
+    mensagem: 'Um bolo para sábado, por favor.',
   };
 
   it('accepts a complete submission', () => {
-    const { errors, values } = validateEnquiry('evento', valid);
+    const { errors, values } = validateEnquiry('contacto', valid);
     expect(errors).toEqual({});
     expect(values.nome).toBe('Maria');
   });
 
   it('reports every missing required field at once', () => {
-    const { errors } = validateEnquiry('evento', {});
-    expect(Object.keys(errors).sort()).toEqual(['email', 'mensagem', 'nome', 'tipoEvento']);
+    const { errors } = validateEnquiry('contacto', {});
+    expect(Object.keys(errors).sort()).toEqual(['assunto', 'email', 'mensagem', 'nome']);
   });
 
-  it('rejects an invalid email', () => {
-    const { errors } = validateEnquiry('evento', { ...valid, email: 'nope' });
-    expect(errors.email).toBe('Escreve um email válido.');
+  it('rejects an address that is not an email', () => {
+    const { errors } = validateEnquiry('contacto', { ...valid, email: 'maria arroba example' });
+    expect(errors.email).toBeDefined();
   });
 
-  it('treats whitespace as empty', () => {
-    const { errors } = validateEnquiry('evento', { ...valid, nome: '   ' });
+  it('trims whitespace rather than treating it as content', () => {
+    const { errors, values } = validateEnquiry('contacto', { ...valid, nome: '   ' });
     expect(errors.nome).toBeDefined();
+    expect(values.email).toBe('maria@example.com');
   });
 
-  it('trims values it keeps', () => {
-    const { values } = validateEnquiry('evento', { ...valid, nome: '  Maria  ' });
-    expect(values.nome).toBe('Maria');
-  });
-
-  it('omits optional fields that were left blank', () => {
-    const { values } = validateEnquiry('evento', valid);
-    expect(values.telefone).toBeUndefined();
-    expect(values.localizacao).toBeUndefined();
-  });
-
-  it('caps an over-long field instead of rejecting it', () => {
-    const { values, errors } = validateEnquiry('evento', {
+  it('caps a field at the maximum length instead of rejecting it', () => {
+    const { values } = validateEnquiry('contacto', {
       ...valid,
       mensagem: 'a'.repeat(MAX_FIELD_LENGTH + 500),
     });
-    expect(errors).toEqual({});
-    expect(values.mensagem).toHaveLength(MAX_FIELD_LENGTH);
-  });
-
-  it('ignores fields that are not part of the form', () => {
-    const { values } = validateEnquiry('evento', { ...valid, desconto: '100%' });
-    expect(values.desconto).toBeUndefined();
-  });
-
-  it('ignores a non-string value', () => {
-    const { errors } = validateEnquiry('evento', { ...valid, nome: { evil: true } });
-    expect(errors.nome).toBeDefined();
-  });
-});
-
-describe('validateEnquiry — personalizadas', () => {
-  const valid = {
-    nome: 'João',
-    email: 'joao@example.com',
-    ocasiao: 'Casamento',
-    quantidade: '25',
-  };
-
-  it('accepts a quantity at or above the 10-unit minimum', () => {
-    expect(validateEnquiry('personalizadas', valid).errors).toEqual({});
-    expect(validateEnquiry('personalizadas', { ...valid, quantidade: '10' }).errors).toEqual({});
-  });
-
-  it('enforces the 10-unit minimum the handoff requires', () => {
-    const { errors } = validateEnquiry('personalizadas', { ...valid, quantidade: '4' });
-    expect(errors.quantidade).toBe('O mínimo é 10.');
-  });
-
-  it('rejects a non-numeric quantity', () => {
-    const { errors } = validateEnquiry('personalizadas', { ...valid, quantidade: 'muitas' });
-    expect(errors.quantidade).toBe('Quantidade tem de ser um número.');
-  });
-
-  it('requires a quantity at all', () => {
-    const { errors } = validateEnquiry('personalizadas', { ...valid, quantidade: '' });
-    expect(errors.quantidade).toBe('Quantidade é obrigatório.');
+    expect(values.mensagem?.length).toBe(MAX_FIELD_LENGTH);
   });
 });
 

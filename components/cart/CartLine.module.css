@@ -1,25 +1,17 @@
 .line {
   display: grid;
-  grid-template-columns: 74px 1fr auto;
-  gap: 14px;
-  align-items: start;
+  grid-template-columns: 76px 1fr auto;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--oph-line-10);
 }
 
 .thumb {
-  height: 88px;
-  border-radius: var(--oph-r-xs);
-  background: var(--oph-sand);
-  overflow: hidden;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.monogram {
-  font-family: var(--oph-font-display);
-  font-size: 24px;
-  color: rgba(27, 49, 96, 0.35);
+  width: 76px;
+  height: 96px;
+  background: var(--oph-photo-well);
+  overflow: hidden;
 }
 
 .thumbImage {
@@ -27,70 +19,95 @@
 }
 
 .title {
-  font-size: 15px;
-  margin: 0 0 3px;
-}
-
-.title a {
-  color: inherit;
+  font-family: var(--oph-font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0;
 }
 
 .variant {
   display: block;
-  font-size: 12px;
-  color: var(--oph-ink-55);
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--oph-muted-4);
 }
 
 .note {
   display: block;
-  font-size: 12px;
-  color: var(--oph-terracotta-ink);
-  margin-top: 4px;
+  margin-top: 6px;
+  font-family: var(--oph-font-serif);
   font-style: italic;
-  overflow-wrap: anywhere;
+  font-size: 13px;
+  color: var(--oph-muted-2);
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }
 
 .stepper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(27, 49, 96, 0.22);
-  border-radius: var(--oph-r-pill);
+  border: 1px solid var(--oph-line-24);
 }
 
 .stepperButton {
   width: 30px;
   height: 30px;
-  border: 0;
-  background: transparent;
-  color: var(--oph-blue);
-  cursor: pointer;
-  border-radius: var(--oph-r-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--oph-ink);
+}
+
+.stepperButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .stepperValue {
-  min-width: 20px;
+  min-width: 28px;
   text-align: center;
-  font-size: 13px;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
 }
 
 .remove {
-  border: 0;
-  background: none;
-  font-size: 12px;
-  color: var(--oph-ink-50);
-  text-decoration: underline;
-  padding: 0;
-  cursor: pointer;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--oph-muted-4);
+}
+
+.remove:hover {
+  color: var(--oph-ink);
 }
 
 .total {
-  font-size: 14px;
-  color: var(--oph-blue);
+  font-size: 13.5px;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/*
+ * The 30px steppers meet the handoff's drawer spec but not the 44px touch
+ * minimum, so on a phone the whole control grows.
+ */
+@media (max-width: 900px), (pointer: coarse) {
+  .stepperButton {
+    width: 44px;
+    height: 44px;
+  }
+
+  .remove {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

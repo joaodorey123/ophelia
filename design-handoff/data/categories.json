@@ -1,0 +1,26 @@
+[
+  {
+    "id": "todos",
+    "name": "tudo"
+  },
+  {
+    "id": "cookies",
+    "name": "cookies"
+  },
+  {
+    "id": "mercearia",
+    "name": "mercearia"
+  },
+  {
+    "id": "cafe",
+    "name": "café, chai & matcha"
+  },
+  {
+    "id": "bolos",
+    "name": "bolos"
+  },
+  {
+    "id": "casa",
+    "name": "casa & presentes"
+  }
+]

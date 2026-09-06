@@ -1,146 +1,164 @@
-.footer {
-  background: var(--oph-blue-deep);
-  color: var(--oph-cream-85);
-  padding: var(--oph-band-py) var(--oph-section-px) clamp(18px, 3vw, 44px);
-  position: relative;
-  overflow: hidden;
+/* ── Newsletter band ───────────────────────────────────────────────────── */
+.newsletter {
+  background: var(--oph-navy);
+  color: var(--oph-on-navy);
+  margin-top: 96px;
 }
 
-.grid {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 34px;
+.newsletterInner {
+  max-width: 660px;
+  margin-inline: auto;
+  padding: 88px var(--oph-gutter);
+  text-align: center;
 }
 
-.wordmark {
-  height: 86px;
-  width: auto;
-  margin-bottom: 14px;
-}
-
-.blurb {
-  font-size: 13.5px;
-  line-height: 1.65;
-  max-width: 30ch;
-  margin: 0;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  font-size: 13.5px;
-}
-
-.columnTitle {
-  font-size: 11px;
-  letter-spacing: var(--oph-ls-meta-wide);
+.newsletterKicker {
+  font-size: 9.5px;
+  letter-spacing: 0.42em;
   text-transform: uppercase;
-  opacity: 0.6;
-  margin-bottom: 4px;
+  opacity: 0.85;
+  display: block;
 }
 
-.column a {
-  color: var(--oph-cream-85);
-}
-
-/*
- * The handoff requires a 44px minimum hit target on phone. The footer's
- * stacked link lists are 21px tall at the designed 9px rhythm, so on phones the
- * padding grows and the gap shrinks to keep the visual spacing similar.
- */
-@media (max-width: 767px) {
-  .column {
-    gap: 0;
-  }
-
-  .column a {
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-  }
-}
-
-.column a:hover {
-  color: var(--oph-terracotta-light);
-}
-
-.newsletterCopy {
-  font-size: 13.5px;
-  line-height: 1.6;
-  margin: 0 0 14px;
+.newsletterHeading {
+  margin-top: 16px;
 }
 
 .form {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 34px;
+  border-bottom: 1px solid rgba(246, 241, 231, 0.4);
 }
 
 .input {
-  flex: 1 1 150px;
-  min-height: 44px;
-  border-radius: var(--oph-r-pill);
-  border: 1px solid var(--oph-cream-30);
-  background: transparent;
-  padding: 0 16px;
-  color: var(--oph-cream);
-  font-family: var(--oph-font-body);
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  color: var(--oph-on-navy);
   font-size: 13.5px;
+  padding: 12px 2px;
+  outline-offset: 4px;
 }
 
 .input::placeholder {
-  color: var(--oph-cream-60);
-}
-
-.input:focus {
-  border-color: var(--oph-cream);
+  color: rgba(246, 241, 231, 0.6);
 }
 
 .submit {
-  min-height: 44px;
-  padding: 0 22px;
-  border-radius: var(--oph-r-pill);
-  border: 0;
-  background: var(--oph-cream);
-  color: var(--oph-blue);
-  font-size: 13.5px;
-  cursor: pointer;
+  flex: none;
+  color: var(--oph-on-navy);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 6px;
+}
+
+.submit:disabled {
+  opacity: 0.5;
 }
 
 .status {
-  margin-top: 10px;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--oph-cream-82);
+  margin-top: 14px;
+  font-size: 12px;
+  min-height: 1.4em;
+  color: rgba(246, 241, 231, 0.85);
 }
 
 .statusError {
-  color: #f3c7a8;
+  color: #f2d3c6;
 }
 
-.contact {
-  margin-top: 14px;
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.footer {
+  background: var(--oph-beige);
+  border-top: 1px solid var(--oph-line-10);
+  padding: 76px var(--oph-gutter) 30px;
+}
+
+.columns {
+  max-width: var(--oph-max-wide);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 48px;
+}
+
+.logo {
+  height: 46px;
+  width: auto;
+}
+
+.tagline {
+  margin-top: 18px;
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: var(--oph-muted-3);
+  max-width: 26ch;
+}
+
+.heading {
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--oph-muted-4);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   font-size: 13px;
-  line-height: 1.7;
-  /* <address> italicises by default; the design does not. */
-  font-style: normal;
 }
 
-.contact a {
-  color: var(--oph-cream-85);
+/*
+ * The handoff does not specify a phone footer — the desktop columns simply
+ * wrap. On a phone the 13px links need a real 44px target, so the row grows
+ * and the gap collapses into it rather than adding to it.
+ */
+@media (max-width: 900px) {
+  .list {
+    gap: 0;
+  }
+
+  .list a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .submit {
+    min-height: 44px;
+  }
+}
+
+.help {
+  color: var(--oph-muted-3);
 }
 
 .bottom {
-  position: relative;
-  margin-top: 44px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(251, 246, 238, 0.18);
+  max-width: var(--oph-max-wide);
+  margin: 56px auto 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--oph-line-10);
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
   justify-content: space-between;
-  font-size: 11.5px;
-  opacity: 0.7;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--oph-muted-4);
+}
+
+.bottom a:hover {
+  color: var(--oph-link-hover);
+}
+
+/* Each heading line is its own block — the handoff breaks them explicitly. */
+.newsletterLine {
+  display: block;
 }

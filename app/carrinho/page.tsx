@@ -1,32 +1,28 @@
-import type { Metadata } from 'next';
-
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { CartPageContent } from '@/app/carrinho/CartPageContent';
+import { Display } from '@/components/ui/Type';
+import { site } from '@/lib/content';
 import { pageMetadata } from '@/lib/seo/metadata';
 
-import { CartPageContent } from './CartPageContent';
 import styles from './cart.module.css';
+import sections from '@/styles/sections.module.css';
 
-/** Transactional and personal — kept out of the index. */
-export const metadata: Metadata = pageMetadata({
+export const metadata = pageMetadata({
   title: 'O teu cesto',
-  description: 'Os produtos que escolheste na Ophelia.',
+  description: 'O que já escolheste na loja da Ophelia.',
   path: '/carrinho',
+  // A personal, transactional page: useful to the visitor, not to a crawler.
   noIndex: true,
 });
 
 export default function CartPage() {
   return (
-    <section className={styles.page} aria-labelledby="cart-title">
-      <Breadcrumbs
-        crumbs={[
-          { name: 'Ophelia', path: '/' },
-          { name: 'O teu cesto', path: '/carrinho' },
-        ]}
-      />
-      <h1 id="cart-title" className={styles.title}>
-        O teu cesto
-      </h1>
-      <CartPageContent />
-    </section>
+    <div className={`${sections.mid} ${styles.page}`}>
+      <Display as="h1" size="product" className={styles.title}>
+        o teu cesto
+      </Display>
+      <p className={styles.note}>{site.shipping.note}</p>
+
+      <CartPageContent freeShippingFrom={site.shipping.freeShippingFrom} />
+    </div>
   );
 }

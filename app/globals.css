@@ -16,14 +16,14 @@ body {
   background: var(--oph-cream);
   color: var(--oph-ink);
   font-family: var(--oph-font-body);
-  font-size: var(--oph-t-body);
-  line-height: 1.55;
-  font-weight: 400;
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Locked while the cart drawer or mobile menu owns the screen. */
+/* Locked while the cart drawer, search sheet or mobile menu owns the screen. */
 body[data-scroll-locked='true'] {
   overflow: hidden;
 }
@@ -34,16 +34,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--oph-font-display);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -0.015em;
   margin: 0;
+  font-weight: 400;
   text-wrap: pretty;
 }
 
 p {
   margin: 0;
+  text-wrap: pretty;
 }
 
 ul,
@@ -60,141 +58,81 @@ svg {
 }
 
 a {
-  color: var(--oph-blue);
+  color: inherit;
   text-decoration: none;
-  transition: color var(--oph-t-fast) ease;
+  transition: color 0.25s ease, opacity 0.25s ease;
 }
 
 a:hover {
-  color: var(--oph-terracotta-ink);
-}
-
-/*
- * Links inside running text carry an underline: colour alone does not meet
- * WCAG 1.4.1, and the blue does not reach 3:1 against the muted body ink.
- * The handoff's "no underline" rule is scoped to the footer and nav, which are
- * link lists rather than prose, so they are untouched.
- */
-p a,
-address a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
+  color: var(--oph-link-hover);
 }
 
 button {
   font: inherit;
   color: inherit;
-  transition:
-    filter var(--oph-t-fast) ease,
-    opacity var(--oph-t-fast) ease,
-    background-color var(--oph-t-fast) ease,
-    border-color var(--oph-t-fast) ease,
-    color var(--oph-t-fast) ease;
-}
-
-button:not(:disabled):hover {
-  filter: brightness(0.93);
-}
-
-button:not(:disabled):active {
-  filter: brightness(0.86);
-}
-
-button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  filter: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
 input,
-textarea,
-select {
+select,
+textarea {
   font: inherit;
   color: inherit;
-  transition: border-color var(--oph-t-fast) ease;
 }
 
 /* ── Focus ─────────────────────────────────────────────────────────────── */
-:focus {
-  outline: none;
-}
-
 :focus-visible {
-  outline: 2px solid var(--oph-blue);
+  outline: 2px solid var(--oph-navy);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
-/* On blue grounds the blue ring would vanish. */
-[data-ground='blue'] :focus-visible {
-  outline-color: var(--oph-cream);
-}
-
-::selection {
-  background: rgba(27, 49, 96, 0.22);
-}
-
-/* ── Skip link ─────────────────────────────────────────────────────────── */
+/*
+ * Clipped rather than parked off-canvas: an element at left:-9999px is still
+ * laid out there, which widens the scrollable area on some engines and shows
+ * up in any honest out-of-bounds audit.
+ */
 .oph-skip-link {
   position: absolute;
-  left: 12px;
-  top: -100px;
+  top: 8px;
+  left: 8px;
   z-index: 100;
-  background: var(--oph-blue);
-  color: var(--oph-cream);
+  background: var(--oph-navy);
+  color: var(--oph-on-navy);
   padding: 12px 20px;
-  border-radius: var(--oph-r-pill);
-  font-size: 13px;
-  letter-spacing: var(--oph-ls-nav);
-  transition: top var(--oph-t-fast) ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  clip-path: inset(50%);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.oph-skip-link:focus-visible {
-  top: 12px;
-  color: var(--oph-cream);
+.oph-skip-link:focus {
+  clip-path: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* ── Screen-reader-only ────────────────────────────────────────────────── */
-.oph-visually-hidden {
+/* Visually hidden, still announced. */
+.oph-sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
 
-/* Story imagery sits back; product imagery does not. From the design system. */
-.oph-washed {
-  filter: saturate(0.6) contrast(0.85) brightness(1.1) opacity(0.94);
-}
-
-/* ── Motion ────────────────────────────────────────────────────────────── */
-/*
- * Motion utilities.
- *
- * These are global classes rather than keyframe names referenced from a CSS
- * Module: CSS Modules scope `animation-name`, so `animation: ophFade …` inside
- * a module resolves to a scoped name with no matching @keyframes and silently
- * does nothing. Applying the class keeps one definition and one behaviour.
- */
-.oph-animate-fade {
-  animation: ophFade 0.9s ease both;
-}
-
-.oph-animate-drawer {
-  animation: ophDrawer 0.32s var(--oph-ease-drawer) both;
-}
-
-.oph-animate-toast {
-  animation: ophToast 2.4s ease both;
-}
-
+/* ── Animation ─────────────────────────────────────────────────────────── */
 @keyframes ophFade {
   from {
     opacity: 0;
@@ -206,7 +144,7 @@ select {
   }
 }
 
-@keyframes ophDrawer {
+@keyframes ophSlide {
   from {
     transform: translateX(100%);
   }
@@ -215,36 +153,45 @@ select {
   }
 }
 
-@keyframes ophToast {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
+@keyframes ophDrop {
+  from {
+    transform: translateY(-100%);
   }
-  12% {
-    opacity: 1;
+  to {
     transform: none;
   }
-  88% {
-    opacity: 1;
-    transform: none;
-  }
-  100% {
+}
+
+@keyframes ophVeil {
+  from {
     opacity: 0;
-    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ophMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
 /*
- * The handoff calls for `prefers-reduced-motion` support explicitly (Edge
- * cases → Reduced motion); the prototype did not implement it.
+ * Reduced motion removes travel, not visibility: every animation here starts
+ * from opacity 0 or an offset, so disabling them outright would leave content
+ * hidden. Durations collapse instead.
  */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }

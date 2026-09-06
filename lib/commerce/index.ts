@@ -3,7 +3,7 @@ import 'server-only';
 import { localCart, localCatalogue } from '@/lib/catalogue/adapter';
 import { shopifyCart, shopifyCatalogue } from '@/lib/shopify/adapter';
 
-import { isUsingLocalCatalogue } from './config';
+import { assertCommerceConfigured, isUsingLocalCatalogue } from './config';
 import type { CartSource, CatalogueSource } from './types';
 
 /**
@@ -15,10 +15,12 @@ import type { CartSource, CatalogueSource } from './types';
  */
 
 export function catalogue(): CatalogueSource {
+  assertCommerceConfigured();
   return isUsingLocalCatalogue() ? localCatalogue : shopifyCatalogue;
 }
 
 export function cartSource(): CartSource {
+  assertCommerceConfigured();
   return isUsingLocalCatalogue() ? localCart : shopifyCart;
 }
 

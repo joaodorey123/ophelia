@@ -47,6 +47,20 @@ export const GET_PRODUCT_HANDLES = /* GraphQL */ `
   }
 `;
 
+/**
+ * Shopify's own related-products engine. `intent: RELATED` is the merchandising
+ * recommendation; it returns an empty list on a small or new catalogue, which
+ * the adapter treats as "no recommendation", not as an error.
+ */
+export const GET_PRODUCT_RECOMMENDATIONS = /* GraphQL */ `
+  query GetProductRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId, intent: RELATED) {
+      ...ProductFields
+    }
+  }
+  ${PRODUCT_FRAGMENTS}
+`;
+
 export const GET_COLLECTION = /* GraphQL */ `
   query GetCollection($handle: String!) {
     collection(handle: $handle) {

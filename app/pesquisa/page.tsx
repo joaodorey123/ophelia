@@ -1,115 +1,29 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Suspense } from 'react';
-
-import { PantryCard } from '@/components/product/ProductCard';
+import { ProductCard } from '@/components/product/ProductCard';
+import { TextLink } from '@/components/ui/Button';
+import { Display, Kicker } from '@/components/ui/Type';
 import { catalogue } from '@/lib/commerce';
+import type { Product } from '@/lib/commerce/types';
+import { SHOP_INDEX } from '@/lib/navigation';
 import { pageMetadata } from '@/lib/seo/metadata';
 
-import { SearchField } from './SearchField';
 import styles from './search.module.css';
 import sections from '@/styles/sections.module.css';
 
-/**
- * Search results are a view of the catalogue, not indexable content of their
- * own: every query would otherwise become a thin duplicate page.
- */
-export const metadata: Metadata = pageMetadata({
-  title: 'Procurar',
-  description: 'Procura cookies, mercearia e presentes da Ophelia.',
+export const metadata = pageMetadata({
+  title: 'Pesquisar',
+  description: 'Procura cookies, mercearia, café e presentes na loja da Ophelia.',
   path: '/pesquisa',
+  // Query pages are not content: keep them out of the index.
   noIndex: true,
 });
 
-const SUGGESTIONS = [
-  { label: 'Cookies', href: '/comprar/cookies' },
-  { label: 'Mercearia', href: '/comprar/mercearia' },
-  { label: 'Presentes', href: '/comprar/presentes' },
-  { label: 'Granola', href: '/produto/granola-da-ophelia' },
-  { label: 'Café', href: '/produto/cafe-da-ophelia' },
-];
-
-async function Results({ term }: { term: string }) {
-  if (!term) {
-    return (
-      <div className={styles.empty}>
-        <h2 className={styles.emptyTitle}>O que procuras?</h2>
-        <p className={styles.emptyCopy}>
-          Escreve o nome de um produto, ou começa por aqui.
-        </p>
-        <ul className={styles.suggestions}>
-          {SUGGESTIONS.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className={styles.suggestion}>
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  let products;
-  try {
-    products = await catalogue().searchProducts(term, { first: 24 });
-  } catch {
-    return (
-      <div className={styles.empty}>
-        <h2 className={styles.emptyTitle}>A pesquisa está indisponível.</h2>
-        <p className={styles.emptyCopy}>
-          Não conseguimos falar com a loja neste momento. Tenta outra vez daqui a pouco, ou navega
-          pelas <Link href="/comprar/cookies">cookies</Link> e pela{' '}
-          <Link href="/comprar/mercearia">mercearia</Link>.
-        </p>
-      </div>
-    );
-  }
-
-  if (products.length === 0) {
-    return (
-      <div className={styles.empty}>
-        <h2 className={styles.emptyTitle}>Não encontrámos nada para “{term}”.</h2>
-        <p className={styles.emptyCopy}>
-          Experimenta outra palavra, ou vê o que temos nestas secções.
-        </p>
-        <ul className={styles.suggestions}>
-          {SUGGESTIONS.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className={styles.suggestion}>
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <p className={styles.count} role="status">
-        {products.length} {products.length === 1 ? 'resultado' : 'resultados'} para “{term}”
-      </p>
-      <div className={sections.gridCollection}>
-        {products.map((product) => (
-          <PantryCard key={product.id} product={product} headingLevel={2} />
-        ))}
-      </div>
-    </>
-  );
-}
-
-function ResultsSkeleton() {
-  return (
-    <div className={styles.skeletonGrid} aria-hidden="true">
-      {[0, 1, 2, 3].map((index) => (
-        <div key={index} className={styles.skeleton} />
-      ))}
-    </div>
-  );
-}
-
+/**
+ * Server-rendered search.
+ *
+ * The header sheet is the fast path; this is the same Shopify search rendered
+ * on the server, so results are shareable, work without JavaScript, and give
+ * the sheet somewhere real to submit to.
+ */
 export default async function SearchPage({
   searchParams,
 }: {
@@ -118,19 +32,78 @@ export default async function SearchPage({
   const { q } = await searchParams;
   const term = (q ?? '').trim();
 
+  let products: Product[] = [];
+  let failed = false;
+
+  if (term) {
+    try {
+      products = await catalogue().searchProducts(term, { first: 48 });
+    } catch (error) {
+      console.error('[search] Shopify search failed:', error);
+      failed = true;
+    }
+  }
+
   return (
-    <section className={styles.page} aria-labelledby="search-title">
-      <h1 id="search-title" className={styles.title}>
-        Procurar
-      </h1>
+    <div className={`${sections.wide} ${styles.page}`}>
+      <div className={styles.intro}>
+        <Kicker>a loja</Kicker>
+        <Display as="h1" size="pageSm" className={styles.title}>
+          pesquisar
+        </Display>
+      </div>
 
-      <Suspense fallback={null}>
-        <SearchField />
-      </Suspense>
+      <form className={styles.form} role="search" action="/pesquisa">
+        <label className="oph-sr-only" htmlFor="oph-search-page">
+          Procurar produtos
+        </label>
+        <input
+          id="oph-search-page"
+          className={styles.input}
+          type="search"
+          name="q"
+          defaultValue={term}
+          placeholder="procurar cookies, mel, café…"
+          autoComplete="off"
+        />
+        <button type="submit" className={styles.submit}>
+          procurar
+        </button>
+      </form>
 
-      <Suspense key={term} fallback={<ResultsSkeleton />}>
-        <Results term={term} />
-      </Suspense>
-    </section>
+      {failed ? (
+        <div className={styles.error}>
+          <p className={styles.emptyTitle}>a pesquisa não está disponível</p>
+          <p className={styles.emptyBody}>
+            Não conseguimos falar com a loja neste momento. Tenta outra vez dentro de instantes.
+          </p>
+        </div>
+      ) : !term ? (
+        <p className={styles.count}>Escreve o que procuras.</p>
+      ) : products.length === 0 ? (
+        <div className={styles.empty}>
+          <p className={styles.emptyTitle}>sem resultados para “{term}”</p>
+          <p className={styles.emptyBody}>
+            Experimenta outra palavra — ou vê a loja completa, é pequena e vale a pena.
+          </p>
+          <p style={{ marginTop: 22 }}>
+            <TextLink href={SHOP_INDEX} small>
+              ver todos os produtos
+            </TextLink>
+          </p>
+        </div>
+      ) : (
+        <>
+          <p className={styles.count}>
+            {products.length === 1 ? '1 resultado' : `${products.length} resultados`} para “{term}”
+          </p>
+          <div className={styles.grid}>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} showTag />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   );
 }

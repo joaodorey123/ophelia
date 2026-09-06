@@ -8,6 +8,7 @@ import type {
   Collection,
   CollectionWithProducts,
   Product,
+  ProductPage,
   ProductQueryOptions,
 } from '@/lib/commerce/types';
 import { CommerceError } from '@/lib/commerce/types';
@@ -26,6 +27,7 @@ import {
   GET_COLLECTIONS,
   GET_PRODUCT,
   GET_PRODUCTS,
+  GET_PRODUCT_RECOMMENDATIONS,
   SEARCH_PRODUCTS,
 } from './queries';
 import type { RawCart, RawCollection, RawProduct } from './transform';
@@ -62,7 +64,16 @@ export const shopifyCatalogue: CatalogueSource = {
   },
 
   async getProducts(options = {}) {
-    const data = await storefront<{ products: { nodes: RawProduct[] } }>({
+    return (await this.getProductPage(options)).products;
+  },
+
+  async getProductPage(options = {}) {
+    const data = await storefront<{
+      products: {
+        nodes: RawProduct[];
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+      };
+    }>({
       query: GET_PRODUCTS,
       variables: {
         first: options.first ?? DEFAULT_PAGE_SIZE,
@@ -73,7 +84,10 @@ export const shopifyCatalogue: CatalogueSource = {
       },
       tags: [TAGS.products],
     });
-    return data.products.nodes.map(toProduct);
+    return {
+      products: data.products.nodes.map(toProduct),
+      pageInfo: data.products.pageInfo,
+    } satisfies ProductPage;
   },
 
   async getCollection(handle) {
@@ -120,6 +134,15 @@ export const shopifyCatalogue: CatalogueSource = {
       tags: [TAGS.collections],
     });
     return data.collections.nodes.map(toCollection) satisfies Collection[];
+  },
+
+  async getProductRecommendations(product, limit = 3) {
+    const data = await storefront<{ productRecommendations: RawProduct[] | null }>({
+      query: GET_PRODUCT_RECOMMENDATIONS,
+      variables: { productId: product.id },
+      tags: [TAGS.products, TAGS.product(product.handle)],
+    });
+    return (data.productRecommendations ?? []).map(toProduct).slice(0, limit);
   },
 
   async searchProducts(term, options = {}) {

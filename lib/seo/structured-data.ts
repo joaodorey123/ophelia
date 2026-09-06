@@ -128,3 +128,28 @@ export function collectionSchema(collection: Collection, products: Product[]): J
     })),
   };
 }
+
+/**
+ * Diary articles.
+ *
+ * `date` is the client's own human string ("28 agosto"), not a machine date,
+ * so `datePublished` is omitted rather than guessed — a wrong date in
+ * structured data is worse than no date.
+ */
+export function articleSchema(post: {
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+}): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    image: absoluteUrl(post.image),
+    mainEntityOfPage: absoluteUrl(`/diario/${post.slug}`),
+    author: { '@type': 'Organization', name: SITE.name },
+    publisher: { '@type': 'Organization', name: SITE.name },
+  };
+}

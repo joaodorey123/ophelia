@@ -9,9 +9,9 @@ export const SITE = {
   name: 'Ophelia',
   legalName: 'Receita Consistente, Lda.',
   taxId: 'NIPC 517225085',
-  tagline: 'As melhores memórias constroem-se à volta de uma mesa.',
+  tagline: 'pastelaria · brunch · mercearia',
   description:
-    'Cookies, mercearia e presentes feitos por uma família da Guarda. Loja no Estoril.',
+    'Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, no Estoril.',
   locale: 'pt-PT',
   language: 'pt',
   currency: 'EUR',

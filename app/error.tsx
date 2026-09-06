@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { Button, ButtonLink } from '@/components/ui/Button';
-import { Kicker } from '@/components/ui/Type';
+import { Display, Kicker } from '@/components/ui/Type';
 import { SITE } from '@/lib/site';
 
 import styles from './status.module.css';
@@ -27,19 +27,19 @@ export default function ErrorBoundary({
   return (
     <section className={styles.page}>
       <div className={styles.inner}>
-        <Kicker>Alguma coisa correu mal</Kicker>
-        <h1 className={styles.title}>Não conseguimos carregar esta página.</h1>
+        <Kicker>alguma coisa correu mal</Kicker>
+        <Display as="h1" size="product" className={styles.title}>
+          não conseguimos carregar esta página
+        </Display>
         <p className={styles.copy}>
           O problema é nosso, não teu. Tenta outra vez — e se continuar, escreve-nos para{' '}
           <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
         </p>
         <div className={styles.actions}>
-          <Button variant="primary" size="lg" onClick={reset}>
-            Tentar outra vez
+          <Button variant="primary" onClick={reset}>
+            tentar outra vez
           </Button>
-          <ButtonLink href="/" variant="outlineBlue" size="lg">
-            Voltar ao início
-          </ButtonLink>
+          <ButtonLink href="/">voltar ao início</ButtonLink>
         </div>
         {error.digest ? <p className={styles.detail}>Referência: {error.digest}</p> : null}
       </div>

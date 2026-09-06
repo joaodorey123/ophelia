@@ -1,249 +1,154 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { ButtonLink } from '@/components/ui/Button';
-import { ImageSlot } from '@/components/ui/ImageSlot';
-import { CategoryCard, PantryCard } from '@/components/product/ProductCard';
+import { CollectionFilters } from '@/components/product/CollectionFilters';
+import { ProductCard } from '@/components/product/ProductCard';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { Kicker } from '@/components/ui/Type';
-import { Watercolour } from '@/components/ui/Watercolour';
+import { ButtonLink, TextLink } from '@/components/ui/Button';
+import { Display, Kicker } from '@/components/ui/Type';
 import { catalogue } from '@/lib/commerce';
-import type { ProductSortKey } from '@/lib/commerce/types';
-import { COLLECTION_HANDLES, collectionPath, PRIMARY_NAV, SHOP_FOOTER_NAV } from '@/lib/navigation';
+import { getCollectionsSafe } from '@/lib/commerce/safe';
+import { CommerceError } from '@/lib/commerce/types';
+import { shop } from '@/lib/content';
+import { SHOP_INDEX, collectionPath } from '@/lib/navigation';
 import { clampDescription, pageMetadata } from '@/lib/seo/metadata';
 import { breadcrumbSchema, collectionSchema } from '@/lib/seo/structured-data';
 
-import styles from './collection.module.css';
+import styles from '../collection.module.css';
 import sections from '@/styles/sections.module.css';
 
 export const revalidate = 900;
 
-/** Pre-render the known collections; anything else 404s. */
-export function generateStaticParams() {
-  return COLLECTION_HANDLES.map((colecao) => ({ colecao }));
+const PAGE_SIZE = 24;
+
+type Params = { params: Promise<{ colecao: string }> };
+
+export async function generateStaticParams() {
+  try {
+    const collections = await catalogue().getCollections();
+    return collections.map((collection) => ({ colecao: collection.handle }));
+  } catch {
+    // Shopify unavailable at build time: the pages render on demand instead of
+    // failing the build.
+    return [];
+  }
 }
 
-type PageProps = {
-  params: Promise<{ colecao: string }>;
-  searchParams: Promise<{ ordenar?: string }>;
-};
-
-/**
- * Sorting is a view of the same set, so every sorted view canonicalises back
- * to the unsorted collection URL. That keeps one indexable URL per collection.
- */
-const SORTS: { key: string; label: string; sortKey: ProductSortKey; reverse: boolean }[] = [
-  { key: 'destaque', label: 'Em destaque', sortKey: 'BEST_SELLING', reverse: false },
-  { key: 'preco-asc', label: 'Preço: mais baixo', sortKey: 'PRICE', reverse: false },
-  { key: 'preco-desc', label: 'Preço: mais alto', sortKey: 'PRICE', reverse: true },
-  { key: 'nome', label: 'Nome', sortKey: 'TITLE', reverse: false },
-];
-
-function resolveSort(value: string | undefined) {
-  return SORTS.find((sort) => sort.key === value) ?? SORTS[0]!;
-}
-
-/**
- * The kicker reads "Comprar · Cookies" — the section's short nav label, not the
- * collection's full editorial title.
- */
-function shortName(handle: string, fallback: string): string {
-  const target = collectionPath(handle);
-  const match =
-    PRIMARY_NAV.find((item) => item.href === target) ??
-    SHOP_FOOTER_NAV.find((item) => item.href === target);
-  return match?.label ?? fallback;
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Params) {
   const { colecao } = await params;
-  const collection = await catalogue().getCollection(colecao);
-  if (!collection) return pageMetadata({ title: 'Coleção não encontrada', description: '', path: collectionPath(colecao), noIndex: true });
+  const collection = await catalogue()
+    .getCollection(colecao)
+    .catch(() => null);
+
+  if (!collection) {
+    return pageMetadata({
+      title: 'Coleção não encontrada',
+      description: shop.lede,
+      path: collectionPath(colecao),
+      noIndex: true,
+    });
+  }
+
+  /*
+   * The merchant's own description when there is one. Otherwise the collection
+   * name leads the shop's standing line, so every collection has a description
+   * of its own rather than N pages sharing one string.
+   */
+  const description =
+    collection.seo.description ||
+    collection.description ||
+    `${collection.title} da Ophelia. ${shop.lede}`;
 
   return pageMetadata({
     title: collection.seo.title ?? collection.title,
-    description: clampDescription(collection.seo.description ?? collection.description),
+    description: clampDescription(description),
     path: collectionPath(collection.handle),
     image: collection.image?.url ?? null,
   });
 }
 
-export default async function CollectionPage({ params, searchParams }: PageProps) {
-  const { colecao } = await params;
-  const { ordenar } = await searchParams;
-  const sort = resolveSort(ordenar);
+export default async function CollectionPage({
+  params,
+  searchParams,
+}: Params & { searchParams: Promise<{ cursor?: string }> }) {
+  const [{ colecao }, { cursor }] = await Promise.all([params, searchParams]);
 
-  const result = await catalogue().getCollectionProducts(colecao, {
-    sortKey: sort.sortKey,
-    reverse: sort.reverse,
-    first: 48,
-  });
+  let result;
+  try {
+    result = await catalogue().getCollectionProducts(colecao, {
+      first: PAGE_SIZE,
+      ...(cursor ? { cursor } : {}),
+    });
+  } catch (error) {
+    /*
+     * A Shopify outage is not a missing page. Re-throwing sends this to the
+     * route's error boundary with a real message, rather than rendering a 404
+     * that would tell the client their collection had been deleted.
+     */
+    if (error instanceof CommerceError && error.code === 'not_found') notFound();
+    throw error;
+  }
 
   if (!result) notFound();
 
-  const { collection, products } = result;
-  const isCookies = collection.handle === 'cookies';
-  const label = shortName(collection.handle, collection.title);
-
-  const crumbs = [
-    { name: 'Ophelia', path: '/' },
-    { name: label, path: collectionPath(collection.handle) },
-  ];
+  const { collection, products, pageInfo } = result;
+  const collections = await getCollectionsSafe();
 
   return (
-    <>
-      <JsonLd data={[breadcrumbSchema(crumbs), collectionSchema(collection, products)]} />
+    <div className={`${sections.wide} ${styles.page}`}>
+      <JsonLd
+        data={[
+          collectionSchema(collection, products),
+          breadcrumbSchema([
+            { name: 'Produtos', path: SHOP_INDEX },
+            { name: collection.title, path: collectionPath(collection.handle) },
+          ]),
+        ]}
+      />
 
-      <div className={styles.crumbs}>
-        <Breadcrumbs crumbs={crumbs} />
+      <div className={styles.intro}>
+        <Kicker>{shop.kicker}</Kicker>
+        <Display as="h1" size="page" className={styles.title}>
+          {collection.title.toLowerCase()}
+        </Display>
+        <p className={sections.introLede}>{collection.description || shop.lede}</p>
       </div>
 
-      <section className={styles.header} aria-labelledby="collection-title">
-        <Watercolour placement="topLeft" priority />
-        <div className={sections.headerBlock}>
-          <Kicker>Comprar · {label}</Kicker>
-          <h1 id="collection-title" className={styles.title}>
-            {collection.title}
-          </h1>
-          {collection.description ? <p className={styles.lead}>{collection.description}</p> : null}
-        </div>
-      </section>
+      <CollectionFilters collections={collections} active={collection.handle} />
 
-      {products.length > 0 ? (
-        <>
-          <div className={styles.toolbar}>
-            <span className={styles.count}>
-              {products.length} {products.length === 1 ? 'produto' : 'produtos'}
-            </span>
-            {/* Sorting a single product is noise. */}
-            {products.length > 1 ? (
-            <nav className={styles.sort} aria-label="Ordenar produtos">
-              {SORTS.map((option) => {
-                const isActive = option.key === sort.key;
-                return (
-                  <Link
-                    key={option.key}
-                    href={
-                      option.key === 'destaque'
-                        ? collectionPath(collection.handle)
-                        : `${collectionPath(collection.handle)}?ordenar=${option.key}`
-                    }
-                    scroll={false}
-                    rel="nofollow"
-                    className={[styles.sortLink, isActive ? styles.sortLinkActive : undefined]
-                      .filter(Boolean)
-                      .join(' ')}
-                    aria-current={isActive ? 'true' : undefined}
-                  >
-                    {option.label}
-                  </Link>
-                );
-              })}
-            </nav>
-            ) : null}
-          </div>
+      <p className={styles.count}>
+        {products.length === 1 ? '1 produto' : `${products.length} produtos`}
+      </p>
 
-          <section className={sections.sectionTight} aria-label={`Produtos em ${collection.title}`}>
-            <div className={isCookies ? sections.gridCategory : sections.gridCollection}>
-              {products.map((product, index) =>
-                isCookies ? (
-                  <CategoryCard
-                    key={product.id}
-                    product={product}
-                    priority={index < 2}
-                    headingLevel={2}
-                  />
-                ) : (
-                  <PantryCard key={product.id} product={product} headingLevel={2} />
-                ),
-              )}
-            </div>
-          </section>
-        </>
-      ) : (
-        <section className={styles.empty}>
-          <h2 className={styles.emptyTitle}>Ainda não há nada por aqui.</h2>
-          <p className={styles.emptyCopy}>
-            Esta secção está a ser preparada. Enquanto isso, começa pelas cookies — é sempre por aí
-            que começamos.
+      {products.length === 0 ? (
+        <div className={styles.empty}>
+          <p className={styles.emptyTitle}>ainda não há nada nesta categoria</p>
+          <p className={styles.emptyBody}>
+            Esta coleção está publicada mas ainda sem produtos. Vê o resto da loja enquanto a
+            preparamos.
           </p>
-          <ButtonLink href="/comprar/cookies" variant="primary" size="lg">
-            Ver as cookies
-          </ButtonLink>
-        </section>
+          <p style={{ marginTop: 22 }}>
+            <TextLink href={SHOP_INDEX} small>
+              ver todos os produtos
+            </TextLink>
+          </p>
+        </div>
+      ) : (
+        <div className={styles.grid}>
+          {products.map((product, index) => (
+            <ProductCard key={product.id} product={product} showTag priority={index < 4} />
+          ))}
+        </div>
       )}
 
-      {isCookies ? (
-        <>
-          {/* "É o presente perfeito." — copy from the client's product document. */}
-          <section
-            className={`${sections.section} ${sections.groundSand} ${sections.twoColumn}`}
-            aria-labelledby="presente-perfeito-title"
+      {pageInfo.hasNextPage && pageInfo.endCursor ? (
+        <div className={styles.more}>
+          <ButtonLink
+            href={`${collectionPath(collection.handle)}?cursor=${encodeURIComponent(pageInfo.endCursor)}`}
           >
-            <div>
-              <h2 id="presente-perfeito-title" className={styles.giftTitle}>
-                É o presente perfeito.
-              </h2>
-              <p className={styles.giftLead}>
-                Cada caixa é preparada por encomenda. As cookies vão embaladas individualmente em
-                saquinhos de celofane, seladas com o autocolante da Ophelia e arrumadas nas nossas
-                caixas azuis ou brancas.
-              </p>
-              <ol className={styles.steps}>
-                <li className={styles.step}>
-                  <span className={styles.stepNumber} aria-hidden="true">
-                    01
-                  </span>
-                  <span className={styles.stepCopy}>
-                    Embaladas uma a uma, ainda no dia em que são feitas
-                  </span>
-                </li>
-                <li className={styles.step}>
-                  <span className={styles.stepNumber} aria-hidden="true">
-                    02
-                  </span>
-                  <span className={styles.stepCopy}>Seladas com o autocolante da Ophelia</span>
-                </li>
-                <li className={styles.step}>
-                  <span className={styles.stepNumber} aria-hidden="true">
-                    03
-                  </span>
-                  <span className={styles.stepCopy}>
-                    Arrumadas na caixa azul, com cartão escrito à mão se quiseres
-                  </span>
-                </li>
-              </ol>
-            </div>
-            <div className={styles.giftMedia}>
-              <ImageSlot
-                brief="Caixa azul Ophelia aberta, cookies embaladas e cartão"
-                fill
-                sizes="(max-width: 767px) 100vw, 50vw"
-              />
-            </div>
-          </section>
-
-          <section
-            className={`${sections.section} ${sections.groundBlue} ${sections.centred}`}
-            data-ground="blue"
-            aria-labelledby="personalizadas-title"
-          >
-            <Kicker ground="blue">Casamentos · Aniversários · Empresas · Batizados</Kicker>
-            <h2 id="personalizadas-title" className={styles.personalizadasTitle}>
-              Cookies personalizadas para o teu dia
-            </h2>
-            <p className={styles.personalizadasLead}>
-              Personalizamos o autocolante com a tua imagem, desenho ou logótipo. Encomenda mínima de
-              10 unidades — 10 · €35, 25 · €87, 35 · €122, 50 · €175.
-            </p>
-            <ButtonLink href="/personalizadas" variant="cream" size="xl">
-              Personalizar as minhas cookies
-            </ButtonLink>
-          </section>
-        </>
+            ver mais
+          </ButtonLink>
+        </div>
       ) : null}
-    </>
+    </div>
   );
 }

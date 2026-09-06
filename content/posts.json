@@ -1,0 +1,84 @@
+[
+  {
+    "kicker": "receitas",
+    "date": "28 agosto",
+    "title": "A granola que fazemos todas as manhãs",
+    "excerpt": "Não tem segredo nenhum: aveia grossa, muitos frutos secos, mel e paciência. Deixamos aqui a nossa receita, tal como a fazemos na loja.",
+    "body": [
+      "Começamos sempre com aveia grossa — a fina desfaz-se e perde o estaladiço. Juntamos noz, caju, pistácio, avelã, amêndoa e noz-pecã, tudo partido grosseiramente para haver pedaços de tamanhos diferentes.",
+      "O mel entra morno, misturado com um fio de azeite e canela, para envolver tudo sem empapar. Espalhamos numa camada fina e vamos ao forno a 150 graus, mexendo a cada dez minutos.",
+      "O truque está no fim: tira-se do forno quando ainda parece macia e deixa-se arrefecer sem tocar. É ao arrefecer que caramelia e ganha aqueles blocos que todos procuram no frasco.",
+      "Guarda-se num frasco bem fechado até três semanas — se durar tanto tempo."
+    ],
+    "image": "/photos/p29.jpg",
+    "slug": "granola"
+  },
+  {
+    "kicker": "épocas",
+    "date": "12 dezembro",
+    "title": "O nosso Natal, do panetone à mesa posta",
+    "excerpt": "Dezembro é o mês em que a cozinha não para. Contamos o que fazemos, quando encomendar e como montar uma mesa que dá vontade de ficar.",
+    "body": [
+      "A fermentação do panetone começa dois dias antes de sair da loja. É por isso que fazemos poucos e por encomenda — não há forma de apressar uma massa que precisa de tempo.",
+      "As encomendas de Natal abrem no início de dezembro e fecham quando a cozinha enche. Aconselhamos sempre pedir com uma semana de antecedência, sobretudo se for para levar para fora de Lisboa.",
+      "Para a mesa, gostamos de misturar: um bolo alto ao centro, os nossos doces em frascos pequenos com colheres ao lado, e cookies espalhadas em pratos diferentes. Nada combinado a rigor — combinado o suficiente.",
+      "E deixa sempre um lugar a mais. É a regra da nossa mãe."
+    ],
+    "image": "/photos/n24.jpg",
+    "slug": "natal"
+  },
+  {
+    "kicker": "presentes",
+    "date": "4 novembro",
+    "title": "Como montamos um presente que ninguém esquece",
+    "excerpt": "Três combinações que fazemos há anos e que nunca falham — mais o que escrever no cartão quando não sabes o que escrever.",
+    "body": [
+      "A combinação clássica: uma caixa de cookies NY, o nosso café em grão e o cartão escrito à mão. Funciona para chefes, sogras e amigos novos.",
+      "A combinação da montanha: azeite da Serra da Estrela, mel de rosmaninho e um doce de pera e gengibre. É o presente que enviamos para quem vive longe de casa.",
+      "A combinação de fim de tarde: granola, doce de morango com baunilha e a vela que cheira aos nossos croissants. Para quem precisa de um domingo lento.",
+      "Sobre o cartão: escreve pouco. Uma frase honesta vale mais do que um parágrafo bonito."
+    ],
+    "image": "/photos/n25.jpg",
+    "slug": "presentes"
+  },
+  {
+    "kicker": "épocas",
+    "date": "22 março",
+    "title": "Páscoa na Ophelia: amêndoas, pavlovas e mesas cheias",
+    "excerpt": "O que preparamos para a Páscoa e por que razão as nossas amêndoas cobertas desaparecem sempre antes do almoço.",
+    "body": [
+      "A Páscoa cá em casa começa com as amêndoas. Cobrimo-las em camadas — chocolate, deixar secar, repetir — durante dois dias, até ficarem com aquela casca fina que estala.",
+      "As pavlovas são o centro da mesa. Fazemos merengues grandes, com chantilly e os frutos vermelhos que estiverem melhores no mercado nessa semana.",
+      "Se receberes muita gente, faz o merengue na véspera e monta só à hora. É a única forma de garantir que continua crocante quando chega à mesa."
+    ],
+    "image": "/photos/a05.jpg",
+    "slug": "pascoa"
+  },
+  {
+    "kicker": "receitas",
+    "date": "9 fevereiro",
+    "title": "Porque torramos o nosso café todos os dias",
+    "excerpt": "70% Brasil, 30% Etiópia e um torrador que trabalha antes de a loja abrir. A história do blend que serve as nossas manhãs.",
+    "body": [
+      "Do Brasil vêm as notas suaves, achocolatadas e de frutos secos — a base que aguenta o leite. Da Etiópia vem a elegância floral e os toques cítricos que levantam a chávena.",
+      "Torramos em lotes pequenos, na loja, todas as manhãs. Café torrado há três dias e café torrado há três semanas não são o mesmo produto, por mais bonito que seja o saco.",
+      "Em casa, moe na hora e usa 18 gramas para 36 de café extraído em cerca de 28 segundos. Se souber azedo, moe mais fino. Se souber amargo, mais grosso. É quase tudo."
+    ],
+    "image": "/photos/b10.jpg",
+    "slug": "cafe"
+  },
+  {
+    "kicker": "presentes",
+    "date": "17 janeiro",
+    "title": "Encomendar um bolo: tudo o que precisas de saber",
+    "excerpt": "Quanto tempo antes, quantas pessoas serve, o que aguenta viagem e o que tem de ser comido no mesmo dia.",
+    "body": [
+      "Pedimos 48 horas de antecedência para qualquer bolo. Para datas com muita procura — Natal, Páscoa, Dia da Mãe — uma semana é mais seguro.",
+      "Um bolo de 8 a 10 pessoas dá fatias generosas para dez pessoas ou fatias educadas para catorze. Na dúvida, escolhe o maior: bolo que sobra é pequeno-almoço.",
+      "Os bolos de chocolate e o red velvet viajam bem. As pavlovas não viajam — montamos à hora e devem ser comidas no mesmo dia.",
+      "Levantamento na loja ou entrega em Lisboa e Estoril. Escreve-nos e combinamos tudo por email."
+    ],
+    "image": "/photos/n07.jpg",
+    "slug": "bolos"
+  }
+]

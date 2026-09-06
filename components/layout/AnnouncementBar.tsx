@@ -1,13 +1,35 @@
-import styles from './Header.module.css';
+import { site } from '@/lib/content';
+
+import styles from './AnnouncementBar.module.css';
 
 /**
- * "Enviamos de segunda a quinta-feira · Receba a sua encomenda até 2 dias"
- * Copy is the client's own shipping rule, from the Termos e Condições document.
+ * The infinite announcement marquee.
+ *
+ * Duplicating the strip is what makes the -50% translate seamless, so the
+ * second copy is aria-hidden: a screen reader reads the three messages once.
  */
 export function AnnouncementBar() {
+  const { enabled, messages } = site.announcement;
+  if (!enabled || messages.length === 0) return null;
+
   return (
-    <div className={styles.announcement}>
-      Enviamos de segunda a quinta-feira · Receba a sua encomenda até 2 dias
+    <div className={styles.bar}>
+      <div className={styles.track}>
+        <div className={styles.half}>
+          {messages.map((message) => (
+            <span key={message} className={styles.message}>
+              {message}
+            </span>
+          ))}
+        </div>
+        <div className={styles.half} aria-hidden>
+          {messages.map((message) => (
+            <span key={message} className={styles.message}>
+              {message}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

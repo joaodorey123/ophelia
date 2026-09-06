@@ -1,79 +1,76 @@
 'use client';
 
-import Image from 'next/image';
-
-import { useCart } from '@/components/cart/CartProvider';
 import { CartLineRow } from '@/components/cart/CartLineRow';
 import { CheckoutButton } from '@/components/cart/CheckoutButton';
-import { ButtonLink } from '@/components/ui/Button';
-import { formatMoney } from '@/lib/format';
+import { useCart } from '@/components/cart/CartProvider';
+import { TextLink } from '@/components/ui/Button';
+import { formatMoney, moneyValue, subtractMoney } from '@/lib/format';
+import { SHOP_INDEX } from '@/lib/navigation';
 
 import styles from './cart.module.css';
 
 /**
- * The cart page reuses the drawer's line component, so quantity stepping,
- * removal and the gift-message display behave identically in both places.
+ * The full cart page. Shares the provider with the drawer, so the two are
+ * always the same cart, and hands off to Shopify checkout exactly as the
+ * drawer does.
  */
-export function CartPageContent() {
-  const { cart, error } = useCart();
+export function CartPageContent({ freeShippingFrom }: { freeShippingFrom: number }) {
+  const { cart } = useCart();
   const lines = cart?.lines ?? [];
 
   if (lines.length === 0) {
     return (
       <div className={styles.empty}>
-        <Image
-          src="/brand/cesto.png"
-          alt=""
-          aria-hidden="true"
-          width={220}
-          height={220}
-          className={styles.emptyIllustration}
-        />
-        <p className={styles.emptyCopy}>O cesto ainda está vazio.</p>
-        <ButtonLink href="/comprar/cookies" variant="primary" size="lg">
-          Começar pelas cookies
-        </ButtonLink>
+        <p className={styles.emptyTitle}>o cesto está vazio</p>
+        <div className={styles.emptyLink}>
+          <TextLink href={SHOP_INDEX}>ver os produtos</TextLink>
+        </div>
       </div>
     );
   }
 
+  const subtotal = cart?.cost.subtotalAmount ?? { amount: '0.00', currencyCode: 'EUR' };
+  const remaining = subtractMoney(
+    { amount: freeShippingFrom.toFixed(2), currencyCode: subtotal.currencyCode },
+    subtotal,
+  );
+  const qualifies = moneyValue(remaining) <= 0;
+
   return (
-    <>
-      {error ? (
-        <p className={styles.error} role="alert">
-          {error}
-        </p>
-      ) : null}
-
-      <div className={styles.layout}>
-        <ul className={styles.lines}>
-          {lines.map((line) => (
-            <li key={line.id}>
-              <CartLineRow line={line} />
-            </li>
-          ))}
-        </ul>
-
-        <aside className={styles.summary} aria-labelledby="cart-summary-title">
-          <h2 id="cart-summary-title" className={styles.summaryTitle}>
-            Resumo
-          </h2>
-          <div className={styles.row}>
-            <span style={{ color: 'var(--oph-ink-65)' }}>Subtotal</span>
-            <span>{cart ? formatMoney(cart.cost.subtotalAmount) : '€0'}</span>
-          </div>
-          <div className={`${styles.row} ${styles.rowMuted}`}>
-            <span>Envio</span>
-            <span>Calculado no pagamento</span>
-          </div>
-          <div className={`${styles.row} ${styles.rowTotal}`}>
-            <span>Total</span>
-            <span>{cart ? formatMoney(cart.cost.totalAmount) : '€0'}</span>
-          </div>
-          <CheckoutButton className={styles.checkout} />
-          <span className={styles.note}>Expedimos de segunda a quinta · entrega até 2 dias</span>
-        </aside>
+    <div className={styles.layout}>
+      <div className={styles.lines}>
+        {lines.map((line) => (
+          <CartLineRow key={line.id} line={line} />
+        ))}
       </div>
-    </>
+
+      <aside className={styles.summary} aria-label="Resumo da encomenda">
+        <div className={styles.row}>
+          <span>subtotal</span>
+          <span>{formatMoney(subtotal)}</span>
+        </div>
+        <div className={`${styles.row} ${styles.rowMuted}`}>
+          <span>envio</span>
+          <span>calculado no pagamento</span>
+        </div>
+
+        <div className={`${styles.row} ${styles.total}`}>
+          <span>total</span>
+          <span className={styles.totalValue}>
+            {formatMoney(cart?.cost.totalAmount ?? subtotal)}
+          </span>
+        </div>
+
+        <p className={styles.rowMuted}>
+          {qualifies
+            ? 'Envio grátis — é por nossa conta.'
+            : `Faltam ${formatMoney(remaining)} para envio grátis.`}
+        </p>
+
+        <CheckoutButton className={styles.checkout} errorClassName={styles.checkoutError}>
+          finalizar encomenda
+        </CheckoutButton>
+      </aside>
+    </div>
   );
 }

@@ -1,56 +1,38 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useId, useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
-import { validateEnquiry, type EnquiryType } from '@/lib/forms/enquiry';
+import { ENQUIRY_FIELDS, validateEnquiry } from '@/lib/forms/enquiry';
 import { SITE } from '@/lib/site';
 
 import styles from './EnquiryForm.module.css';
 
-export type EnquiryField = {
-  name: string;
-  label: string;
-  type: 'text' | 'email' | 'tel' | 'date' | 'number' | 'textarea' | 'select';
-  required?: boolean;
-  placeholder?: string;
-  options?: string[];
-  full?: boolean;
-  autoComplete?: string;
-  min?: number;
-  help?: string;
-};
-
 type Status =
   | { kind: 'idle' }
   | { kind: 'sending' }
-  | { kind: 'sent'; message: string }
+  | { kind: 'sent' }
   | { kind: 'error'; message: string };
 
 /**
- * A real, accessible enquiry form.
+ * The contact form.
  *
- * Validation runs client-side for immediate feedback and again on the server,
- * which is the authority. Errors are announced, tied to their input with
- * `aria-describedby`, and focus moves to the first invalid field. On failure it
- * says what went wrong and gives the visitor a working alternative — it never
- * shows a success message for a submission that did not land.
+ * Validation is the same module the API route runs, so the browser can never
+ * accept something the server rejects. On success the panel replaces the form
+ * in place; on failure it says what went wrong. It never shows "obrigada!" for
+ * a message that was not delivered — when no endpoint is configured the API
+ * answers 503 and this says so.
  */
 export function EnquiryForm({
-  type,
-  fields,
-  submitLabel,
-  successMessage,
+  subjects,
+  success,
+  defaultSubject,
 }: {
-  type: Extract<EnquiryType, 'evento' | 'personalizadas'>;
-  fields: EnquiryField[];
-  submitLabel: string;
-  successMessage: string;
+  subjects: string[];
+  success: { title: string; body: string; reset: string };
+  defaultSubject?: string;
 }) {
-  const formId = useId();
-  const statusId = useId();
-  const formRef = useRef<HTMLFormElement>(null);
-
+  const ids = useId();
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -58,154 +40,165 @@ export function EnquiryForm({
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const values = Object.fromEntries(
-      [...data.entries()].map(([key, value]) => [key, typeof value === 'string' ? value : '']),
-    ) as Record<string, string>;
 
-    // The same rules the API applies, so the browser can never disagree with
-    // the server about what is required.
-    const { errors: found } = validateEnquiry(type, values);
-    setErrors(found);
+    const payload = Object.fromEntries(
+      ENQUIRY_FIELDS.contacto.map((field) => [field.key, String(data.get(field.key) ?? '')]),
+    );
 
-    if (Object.keys(found).length > 0) {
-      setStatus({ kind: 'error', message: 'Verifica os campos assinalados.' });
-      const firstInvalid = Object.keys(found)[0];
-      if (firstInvalid) {
-        form.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
-      }
+    const result = validateEnquiry('contacto', payload);
+    if (Object.keys(result.errors).length > 0) {
+      setErrors(result.errors);
+      setStatus({ kind: 'idle' });
+      const firstKey = Object.keys(result.errors)[0];
+      if (firstKey) form.querySelector<HTMLElement>(`[name="${firstKey}"]`)?.focus();
       return;
     }
 
+    setErrors({});
     setStatus({ kind: 'sending' });
 
     try {
       const response = await fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, ...values }),
+        body: JSON.stringify({
+          type: 'contacto',
+          ...result.values,
+          // Honeypot: a real person never fills this in.
+          website: String(data.get('website') ?? ''),
+        }),
       });
-      const body = (await response.json()) as { message?: string; errors?: Record<string, string> };
 
       if (response.ok) {
-        setStatus({ kind: 'sent', message: successMessage });
-        setErrors({});
+        setStatus({ kind: 'sent' });
         form.reset();
-      } else {
-        if (body.errors) setErrors(body.errors);
-        setStatus({
-          kind: 'error',
-          message: body.message ?? `Não conseguimos enviar. Escreve-nos para ${SITE.email}.`,
-        });
+        return;
       }
+
+      const body = (await response.json().catch(() => ({}))) as { message?: string };
+      setStatus({
+        kind: 'error',
+        message:
+          body.message ?? `Não foi possível enviar. Escreve-nos para ${SITE.email}.`,
+      });
     } catch {
       setStatus({
         kind: 'error',
-        message: `Não conseguimos enviar o teu pedido. Escreve-nos para ${SITE.email} ou liga ${SITE.phoneDisplay}.`,
+        message: `Não foi possível enviar. Verifica a ligação ou escreve-nos para ${SITE.email}.`,
       });
     }
   }
 
+  if (status.kind === 'sent') {
+    return (
+      <div className={styles.success} role="status">
+        <p className={styles.successTitle}>{success.title}</p>
+        <p className={styles.successBody}>{success.body}</p>
+        <button type="button" className={styles.reset} onClick={() => setStatus({ kind: 'idle' })}>
+          {success.reset}
+        </button>
+      </div>
+    );
+  }
+
+  const sending = status.kind === 'sending';
+
   return (
-    <form ref={formRef} className={styles.form} onSubmit={onSubmit} noValidate>
-      {/* Honeypot — hidden from people, irresistible to bots. */}
-      <div className={styles.honeypot} aria-hidden="true">
-        <label htmlFor={`${formId}-website`}>Não preencher</label>
-        <input id={`${formId}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
+    <form className={styles.form} onSubmit={onSubmit} noValidate>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor={`${ids}-nome`}>
+          nome
+        </label>
+        <input
+          id={`${ids}-nome`}
+          name="nome"
+          className={`${styles.input} ${errors.nome ? styles.invalid : ''}`}
+          autoComplete="name"
+          aria-invalid={Boolean(errors.nome)}
+          aria-describedby={errors.nome ? `${ids}-nome-error` : undefined}
+          disabled={sending}
+        />
+        {errors.nome ? (
+          <span id={`${ids}-nome-error`} className={styles.fieldError}>
+            {errors.nome}
+          </span>
+        ) : null}
       </div>
 
-      {fields.map((field) => {
-        const inputId = `${formId}-${field.name}`;
-        const errorId = `${inputId}-error`;
-        const helpId = `${inputId}-help`;
-        const error = errors[field.name];
-        const describedBy = [error ? errorId : null, field.help ? helpId : null]
-          .filter(Boolean)
-          .join(' ');
-
-        const shared = {
-          id: inputId,
-          name: field.name,
-          required: field.required,
-          'aria-invalid': error ? (true as const) : undefined,
-          'aria-describedby': describedBy || undefined,
-          className: [
-            field.type === 'textarea' ? styles.textarea : field.type === 'select' ? styles.select : styles.input,
-            error ? styles.inputError : undefined,
-          ]
-            .filter(Boolean)
-            .join(' '),
-          disabled: status.kind === 'sending',
-        };
-
-        return (
-          <div
-            key={field.name}
-            className={[styles.field, field.full ? styles.fieldFull : undefined]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            <label htmlFor={inputId} className={styles.label}>
-              {field.label}
-              {field.required ? null : <span className={styles.optional}> (opcional)</span>}
-            </label>
-
-            {field.type === 'textarea' ? (
-              <textarea {...shared} rows={5} placeholder={field.placeholder} />
-            ) : field.type === 'select' ? (
-              <select {...shared} defaultValue="">
-                <option value="" disabled>
-                  Escolhe uma opção
-                </option>
-                {field.options?.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <input
-                {...shared}
-                type={field.type}
-                placeholder={field.placeholder}
-                autoComplete={field.autoComplete}
-                min={field.min}
-              />
-            )}
-
-            {field.help ? (
-              <span id={helpId} className={styles.help}>
-                {field.help}
-              </span>
-            ) : null}
-            {error ? (
-              <span id={errorId} className={styles.error}>
-                {error}
-              </span>
-            ) : null}
-          </div>
-        );
-      })}
-
-      <div className={styles.actions}>
-        <Button type="submit" variant="primary" size="lg" disabled={status.kind === 'sending'}>
-          {status.kind === 'sending' ? 'A enviar…' : submitLabel}
-        </Button>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor={`${ids}-email`}>
+          email
+        </label>
+        <input
+          id={`${ids}-email`}
+          name="email"
+          type="email"
+          className={`${styles.input} ${errors.email ? styles.invalid : ''}`}
+          autoComplete="email"
+          aria-invalid={Boolean(errors.email)}
+          aria-describedby={errors.email ? `${ids}-email-error` : undefined}
+          disabled={sending}
+        />
+        {errors.email ? (
+          <span id={`${ids}-email-error`} className={styles.fieldError}>
+            {errors.email}
+          </span>
+        ) : null}
       </div>
 
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor={`${ids}-assunto`}>
+          assunto
+        </label>
+        <select
+          id={`${ids}-assunto`}
+          name="assunto"
+          className={styles.select}
+          defaultValue={defaultSubject ?? subjects[0]}
+          disabled={sending}
+        >
+          {subjects.map((subject) => (
+            <option key={subject}>{subject}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor={`${ids}-mensagem`}>
+          mensagem
+        </label>
+        <textarea
+          id={`${ids}-mensagem`}
+          name="mensagem"
+          rows={5}
+          className={`${styles.textarea} ${errors.mensagem ? styles.invalid : ''}`}
+          aria-invalid={Boolean(errors.mensagem)}
+          aria-describedby={errors.mensagem ? `${ids}-mensagem-error` : undefined}
+          disabled={sending}
+        />
+        {errors.mensagem ? (
+          <span id={`${ids}-mensagem-error`} className={styles.fieldError}>
+            {errors.mensagem}
+          </span>
+        ) : null}
+      </div>
+
+      <div className={styles.honeypot} aria-hidden>
+        <label htmlFor={`${ids}-website`}>Não preencher</label>
+        <input id={`${ids}-website`} name="website" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      <Button type="submit" variant="primary" className={styles.submit} disabled={sending}>
+        {sending ? 'a enviar…' : 'enviar mensagem'}
+      </Button>
+
+      {/* A failure interrupts: it is an alert, not a polite status update. */}
       <p
-        id={statusId}
-        role="status"
-        aria-live="polite"
-        className={[
-          styles.status,
-          status.kind === 'sent' ? styles.statusSuccess : undefined,
-          status.kind === 'error' ? styles.statusError : undefined,
-        ]
-          .filter(Boolean)
-          .join(' ')}
-        hidden={status.kind === 'idle' || status.kind === 'sending'}
+        role={status.kind === 'error' ? 'alert' : 'status'}
+        aria-live={status.kind === 'error' ? 'assertive' : 'polite'}
+        className={`${styles.status} ${status.kind === 'error' ? styles.statusError : ''}`}
       >
-        {status.kind === 'sent' || status.kind === 'error' ? status.message : ''}
+        {status.kind === 'error' ? status.message : ''}
       </p>
     </form>
   );

@@ -2,8 +2,8 @@
 
 import { useState, useTransition } from 'react';
 
-import { getCheckoutUrl } from '@/lib/cart/actions';
 import { Button } from '@/components/ui/Button';
+import { getCheckoutUrl } from '@/lib/cart/actions';
 
 /**
  * Hands off to Shopify's hosted checkout. Payment is never collected here.
@@ -13,10 +13,12 @@ import { Button } from '@/components/ui/Button';
  */
 export function CheckoutButton({
   className,
+  errorClassName,
   disabled,
-  children = 'Continuar para pagamento',
+  children = 'finalizar encomenda',
 }: {
   className?: string;
+  errorClassName?: string;
   disabled?: boolean;
   children?: React.ReactNode;
 }) {
@@ -39,16 +41,15 @@ export function CheckoutButton({
     <>
       <Button
         variant="primary"
-        size="lg"
         block
         className={className}
         onClick={onClick}
         disabled={disabled || isPending}
       >
-        {isPending ? 'A abrir o pagamento…' : children}
+        {isPending ? 'a abrir o pagamento…' : children}
       </Button>
       {message ? (
-        <p role="alert" style={{ fontSize: '12.5px', lineHeight: 1.5, color: 'var(--oph-ink-75)' }}>
+        <p role="alert" className={errorClassName}>
           {message}
         </p>
       ) : null}

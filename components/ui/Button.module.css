@@ -1,134 +1,94 @@
-/* Button geometry and colour come straight from the prototype's inline styles. */
+/*
+ * Three button shapes exist in the handoff and no more: an outline that fills
+ * navy on hover, a solid navy primary, and a text link with a 1px rule under
+ * it. Radius is 0 everywhere — the flat paper edge is the point.
+ */
 
 .base {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  cursor: pointer;
-  border-radius: var(--oph-r-pill);
-  border: 1px solid transparent;
-  background: transparent;
-  font-family: var(--oph-font-body);
-  font-weight: 400;
-  letter-spacing: var(--oph-ls-nav);
+  text-transform: uppercase;
   text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-/* ── Sizes ─────────────────────────────────────────────────────────────── */
-.sizeXl {
-  padding: 16px 32px;
-  font-size: 14px;
-}
-
-.sizeLg {
-  padding: 15px 30px;
-  font-size: 14px;
-}
-
-.sizeMd {
-  padding: 13px 24px;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-}
-
-.sizeSm {
-  padding: 11px 20px;
-  font-size: 12.5px;
-  letter-spacing: 0.06em;
-}
-
-.sizeXs {
-  padding: 9px 16px;
-  font-size: 12px;
-  letter-spacing: 0;
-}
-
-/* ── Variants ──────────────────────────────────────────────────────────── */
-.primary {
-  background: var(--oph-blue);
-  color: var(--oph-cream);
-}
-
-.cream {
-  background: var(--oph-cream);
-  color: var(--oph-blue);
-}
-
-.outlineBlue {
-  border-color: var(--oph-border-pill);
-  color: var(--oph-blue);
-}
-
-.outlineCream {
-  border-color: var(--oph-cream-60);
-  color: var(--oph-cream);
-}
-
-.link:hover,
-.primary:hover,
-.cream:hover,
-.outlineBlue:hover,
-.outlineCream:hover {
-  color: inherit;
-}
-
-.outlineCream:hover,
-.outlineBlue:hover {
-  filter: none;
-  background: rgba(27, 49, 96, 0.06);
-}
-
-.outlineCream:hover {
-  background: rgba(251, 246, 238, 0.12);
-}
-
-/*
- * "Ver tudo" — keeps a 1px bottom rule tight to the text, per the handoff.
- * The rule lives on an inner span so the link itself can grow to a 44px tap
- * target on phones without dragging the rule away from the words.
- */
-.link {
-  display: inline-flex;
-  align-items: center;
-  color: var(--oph-blue);
   border-radius: 0;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.linkText {
-  display: inline-block;
-  padding-bottom: 3px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  border-bottom: 1px solid rgba(27, 49, 96, 0.35);
+.base:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-.link:hover .linkText {
-  color: var(--oph-terracotta-ink);
-  border-bottom-color: var(--oph-terracotta-ink);
+/* ── Outline ───────────────────────────────────────────────────────────── */
+.outline {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  border: 1px solid var(--oph-line-30);
+  padding: 9px 16px;
+  color: var(--oph-ink);
+  background: transparent;
 }
 
-@media (max-width: 767px) {
-  .link {
-    min-height: 44px;
-  }
+.outline:hover:not(:disabled) {
+  background: var(--oph-navy);
+  color: var(--oph-on-navy);
+  border-color: var(--oph-navy);
+}
+
+/* ── Primary ───────────────────────────────────────────────────────────── */
+.primary {
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  background: var(--oph-navy);
+  color: var(--oph-on-navy);
+  border: 1px solid var(--oph-navy);
+  padding: 17px 26px;
+  min-height: 52px;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--oph-navy-hover);
+  border-color: var(--oph-navy-hover);
+  color: var(--oph-on-navy);
 }
 
 .block {
+  display: flex;
   width: 100%;
 }
 
-.grow {
-  flex: 1 1 220px;
-  min-height: 52px;
-  font-size: 14.5px;
+/* ── Text link with a rule ─────────────────────────────────────────────── */
+.link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--oph-ink);
 }
 
-/* Buttons are hit targets first on phones. */
-@media (max-width: 767px) {
-  .base {
+.linkRule {
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+
+.linkSm .linkRule {
+  font-size: 10.5px;
+  padding-bottom: 2px;
+}
+
+.link:hover {
+  color: var(--oph-link-hover);
+}
+
+/* Phones get a 44px target; the rule stays where the design draws it. */
+@media (max-width: 900px) {
+  .link {
+    min-height: 44px;
+  }
+
+  .outline {
     min-height: 44px;
   }
 }

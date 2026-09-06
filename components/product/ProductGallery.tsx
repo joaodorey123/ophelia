@@ -3,101 +3,66 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { ImageSlot } from '@/components/ui/ImageSlot';
+import { TapedPhoto } from '@/components/ui/TapedPhoto';
 import type { ProductImage } from '@/lib/commerce/types';
 
 import styles from './ProductGallery.module.css';
 
 /**
- * Product gallery. Clicking a thumbnail cross-fades the main image, which the
- * handoff asked production to add (the prototype's thumbs were presentational).
+ * The product gallery: one taped hero print with up to three square
+ * thumbnails beneath it.
  *
- * With no photography yet, the designed slots render with their intended shots
- * as captions and the thumb strip is omitted rather than faked.
+ * The thumbnails are buttons, not links — they change what the hero shows
+ * rather than navigating — and the hero carries the alt text so a screen
+ * reader is not read the same photograph four times.
  */
-export function ProductGallery({
-  images,
-  productTitle,
-  briefs,
-}: {
-  images: ProductImage[];
-  productTitle: string;
-  /** Intended shots for the four designed slots, used until photography lands. */
-  briefs: string[];
-}) {
-  const [activeIndex, setActiveIndex] = useState(0);
+export function ProductGallery({ images, title }: { images: ProductImage[]; title: string }) {
+  const [active, setActive] = useState(0);
+  const hero = images[active] ?? images[0] ?? null;
 
-  if (images.length === 0) {
-    return (
-      <div className={styles.gallery}>
-        <div className={styles.main}>
-          <ImageSlot brief={briefs[0] ?? productTitle} fill priority sizes="(max-width: 767px) 100vw, 45vw" />
-        </div>
-        <div className={styles.thumbs}>
-          {briefs.slice(1, 4).map((brief) => (
-            <ImageSlot
-              key={brief}
-              brief={brief}
-              height={120}
-              radius="var(--oph-r-sm)"
-              sizes="(max-width: 767px) 30vw, 15vw"
-            />
-          ))}
-        </div>
-      </div>
-    );
+  if (!hero) {
+    return <div className={styles.gallery} />;
   }
 
   return (
     <div className={styles.gallery}>
-      <div className={styles.main}>
-        {images.map((image, index) => (
-          <div
-            key={image.url}
-            className={[styles.frame, index === activeIndex ? styles.frameActive : undefined]
-              .filter(Boolean)
-              .join(' ')}
-            aria-hidden={index !== activeIndex}
-          >
-            <Image
-              src={image.url}
-              alt={image.altText ?? `${productTitle} — imagem ${index + 1}`}
-              fill
-              sizes="(max-width: 767px) 100vw, 45vw"
-              priority={index === 0}
-              className={styles.thumbImage}
-            />
-          </div>
-        ))}
-      </div>
+      <TapedPhoto
+        src={hero.url}
+        alt={hero.altText ?? title}
+        ratio="4 / 5"
+        pad={18}
+        mountPad={10}
+        mountShadow="lg"
+        deckle={1}
+        priority
+        sizes="(max-width: 900px) 100vw, 560px"
+        tapes={[
+          { type: 'torn', top: '2px', left: '10%', width: 118, height: 30, rotate: -5 },
+          { type: 'scotch', bottom: '2px', right: '12%', width: 112, height: 28, rotate: 4 },
+        ]}
+      />
 
       {images.length > 1 ? (
-        <ul className={styles.thumbs}>
-          {images.slice(0, 6).map((image, index) => (
-            <li key={image.url}>
-              <button
-                type="button"
-                className={[
-                  styles.thumbButton,
-                  index === activeIndex ? styles.thumbButtonActive : undefined,
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                onClick={() => setActiveIndex(index)}
-                aria-label={`Ver imagem ${index + 1} de ${productTitle}`}
-                aria-pressed={index === activeIndex}
-              >
-                <Image
-                  src={image.url}
-                  alt=""
-                  fill
-                  sizes="(max-width: 767px) 30vw, 15vw"
-                  className={styles.thumbImage}
-                />
-              </button>
-            </li>
+        <div className={styles.thumbs}>
+          {images.slice(0, 3).map((image, index) => (
+            <button
+              key={image.url}
+              type="button"
+              className={`${styles.thumb} ${index === active ? styles.thumbActive : ''}`}
+              aria-label={`Ver imagem ${index + 1} de ${title}`}
+              aria-pressed={index === active}
+              onClick={() => setActive(index)}
+            >
+              <Image
+                className={styles.thumbImage}
+                src={image.url}
+                alt=""
+                fill
+                sizes="120px"
+              />
+            </button>
           ))}
-        </ul>
+        </div>
       ) : null}
     </div>
   );

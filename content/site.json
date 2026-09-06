@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Ophelia",
+    "wordmark": "pastelaria · brunch · mercearia",
+    "tagline": "Pastelaria, brunch e mercearia. Feito por nós, todos os dias, no Estoril.",
+    "description": "Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, no Estoril.",
+    "since": "estoril · desde 2019"
+  },
+  "announcement": {
+    "enabled": true,
+    "messages": [
+      "envios para todo o portugal · segunda a quinta",
+      "torramos o nosso café todos os dias na loja",
+      "encomendas de bolos com 48h de antecedência"
+    ]
+  },
+  "newsletter": {
+    "kicker": "a carta da ophelia",
+    "headingLines": [
+      "receitas e novidades,",
+      "uma vez por mês."
+    ],
+    "placeholder": "o teu email",
+    "cta": "subscrever →"
+  },
+  "shipping": {
+    "freeShippingFrom": 60,
+    "shippingRate": 4.9,
+    "note": "Enviamos de segunda a quinta. Pedidos após as 12h00 de quinta seguem na segunda seguinte."
+  },
+  "footer": {
+    "helpHeading": "envios & ajuda",
+    "help": [
+      "Envios de segunda a quinta",
+      "Entrega até 2 dias úteis",
+      "Portugal continental",
+      "info@callmeophelia.com"
+    ],
+    "legalLeft": "© 2026 Ophelia · Termos e condições · Política de privacidade",
+    "legalRight": "Estoril, Portugal · @callmeophelia"
+  },
+  "product": {
+    "sizeLabelFallback": "escolhe",
+    "giftCardHandle": "cartao-personalizado",
+    "giftCardTitle": "Juntar um cartão personalizado",
+    "giftCardNote": "escrito à mão por nós",
+    "panels": [
+      {
+        "id": "envio",
+        "title": "envio",
+        "body": "Preparamos e enviamos de segunda a quinta-feira. Pedidos feitos após as 12h00 de quinta seguem na segunda-feira seguinte. Não enviamos aos fins de semana. A tua encomenda chega até 2 dias úteis em Portugal continental. Encomendas grandes e presentes corporativos podem levar mais tempo a preparar."
+      },
+      {
+        "id": "embalagem",
+        "title": "como vai embalado",
+        "body": "Tudo embalado uma peça a uma, com o nosso adesivo exclusivo, e colocado nas nossas caixas azuis ou brancas. Se for presente, junta um cartão personalizado e escrevemos o recado à mão."
+      }
+    ],
+    "suggestHeading": "fica ainda melhor com"
+  }
+}

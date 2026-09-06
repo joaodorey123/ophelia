@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 
 import { catalogue } from '@/lib/commerce';
-import { collectionPath, productPath } from '@/lib/navigation';
+import { posts } from '@/lib/content';
+import { collectionPath, postPath, productPath } from '@/lib/navigation';
 import { absoluteUrl } from '@/lib/site';
 
 /**
@@ -18,8 +19,9 @@ type Entry = MetadataRoute.Sitemap[number];
 const STATIC_PAGES: { path: string; priority: number; changeFrequency: Entry['changeFrequency'] }[] = [
   { path: '/', priority: 1, changeFrequency: 'weekly' },
   { path: '/quem-somos', priority: 0.7, changeFrequency: 'yearly' },
-  { path: '/eventos', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/personalizadas', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/comprar', priority: 0.9, changeFrequency: 'weekly' },
+  { path: '/diario', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/contacto', priority: 0.6, changeFrequency: 'yearly' },
   { path: '/envios-e-devolucoes', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/termos-e-privacidade', priority: 0.3, changeFrequency: 'yearly' },
 ];
@@ -34,6 +36,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: page.priority,
   }));
 
+  for (const post of posts) {
+    entries.push({
+      url: absoluteUrl(postPath(post.slug)),
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.6,
+    });
+  }
+
   try {
     const source = catalogue();
     const [collections, products] = await Promise.all([
@@ -42,8 +53,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]);
 
     for (const collection of collections) {
-      // The cross-sell collection is a merchandising device, not a landing page.
-      if (collection.handle === 'complementos') continue;
       entries.push({
         url: absoluteUrl(collectionPath(collection.handle)),
         lastModified: new Date(collection.updatedAt),

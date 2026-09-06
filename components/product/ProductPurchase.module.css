@@ -1,300 +1,230 @@
-.detail {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  max-width: var(--oph-max-detail);
-}
-
-.title {
-  font-size: var(--oph-t-pdp-h1);
-  line-height: 1.04;
-  margin: 0 0 12px;
-  color: var(--oph-ink);
-}
-
-.price {
-  font-size: var(--oph-t-price-pdp);
-  color: var(--oph-blue);
-}
-
-.compareAt {
-  margin-left: 10px;
-  font-size: 16px;
-  color: var(--oph-ink-50);
-  text-decoration: line-through;
+.panel {
+  min-width: 0;
 }
 
 .description {
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--oph-ink-72);
-  margin: 16px 0 0;
+  margin-top: 20px;
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: var(--oph-ink-body);
 }
 
-/* ── Option pills (Sabor) ──────────────────────────────────────────────── */
-.optionGroup {
-  border: 0;
-  padding: 0;
-  margin: 0;
+/* Shopify's descriptionHtml: keep paragraph rhythm, drop nothing. */
+.description p + p {
+  margin-top: 16px;
 }
 
-.pills {
-  display: flex;
-  flex-wrap: wrap;
+.description a {
+  border-bottom: 1px solid var(--oph-line-30);
+}
+
+/* ── Options ───────────────────────────────────────────────────────────── */
+.option {
+  margin-top: 32px;
+}
+
+.optionLabel {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--oph-muted-1);
+  margin-bottom: 12px;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
   gap: 10px;
-  margin-top: 10px;
 }
 
-.pill {
-  font-size: 13px;
-  padding: 12px 20px;
-  border-radius: var(--oph-r-pill);
-  border: 1px solid var(--oph-border-option);
-  background: transparent;
+.value {
+  padding: 15px 10px;
+  text-align: center;
+  border: 1px solid var(--oph-line-24);
+  border-radius: var(--oph-radius-chip);
+  background: var(--oph-white);
   color: var(--oph-ink);
-  cursor: pointer;
-  transition: all var(--oph-t-fast) ease;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 44px;
 }
 
-.pillSelected {
-  background: var(--oph-blue);
-  border-color: var(--oph-blue);
-  color: var(--oph-cream);
+.valueSelected {
+  background: var(--oph-navy);
+  border-color: var(--oph-navy);
+  color: var(--oph-on-navy);
 }
 
-.pillUnavailable {
+/* Unavailable combinations stay visible but are struck through and inert. */
+.valueUnavailable {
   opacity: 0.4;
   text-decoration: line-through;
   cursor: not-allowed;
 }
 
-/* ── Size cards (Tamanho da caixa) ─────────────────────────────────────── */
-.sizeGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
+.valueName {
+  font-size: 13px;
 }
 
-.sizeCard {
-  text-align: left;
-  padding: 14px 16px;
-  border-radius: var(--oph-r-option);
-  border: 1px solid var(--oph-border-option);
-  background: transparent;
-  color: var(--oph-ink);
+.valuePrice {
+  font-family: var(--oph-font-serif);
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+/* ── Gift card add-on ──────────────────────────────────────────────────── */
+.addon {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
-  cursor: pointer;
-  transition: all var(--oph-t-fast) ease;
-}
-
-.sizeCardSelected {
-  background: var(--oph-blue);
-  border-color: var(--oph-blue);
-  color: var(--oph-cream);
-}
-
-.sizeCardUnavailable {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.sizeLabel {
-  font-size: 14px;
-}
-
-.sizePrice {
-  font-size: 12.5px;
-  opacity: 0.7;
-}
-
-/* ── Quantity + add ────────────────────────────────────────────────────── */
-.buyRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-
-.stepper {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  border: 1px solid var(--oph-border-soft);
-  border-radius: var(--oph-r-pill);
-  padding: 4px;
-}
-
-.stepperButton {
-  width: 40px;
-  height: 40px;
-  border: 0;
-  background: transparent;
-  color: var(--oph-blue);
-  font-size: 18px;
-  border-radius: var(--oph-r-pill);
-  cursor: pointer;
-}
-
-/* The designed 40x40 meets the handoff's 44px phone minimum here. */
-@media (max-width: 767px) {
-  .stepperButton {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-.stepperValue {
-  min-width: 32px;
-  text-align: center;
-  font-size: 15px;
-}
-
-/* ── Personalised card panel ───────────────────────────────────────────── */
-.cardPanel {
-  background: var(--oph-sand);
-  border-radius: var(--oph-r-card);
-  padding: 20px 22px;
-}
-
-.cardLabel {
-  display: flex;
-  gap: 12px;
+  gap: 13px;
   align-items: flex-start;
+  background: var(--oph-beige);
+  padding: 17px 19px;
+  margin-top: 26px;
   cursor: pointer;
 }
 
-.cardCheckbox {
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
-  accent-color: var(--oph-blue);
+.checkbox {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--oph-navy);
+  margin-top: 3px;
   flex: none;
 }
 
-.cardTitle {
+.addonTitle {
   display: block;
-  font-size: 14.5px;
-  color: var(--oph-ink);
+  font-size: 13.5px;
 }
 
-.cardPrice {
-  color: var(--oph-terracotta-ink);
-}
-
-.cardHelp {
+.addonNote {
   display: block;
-  font-size: 12.5px;
-  color: var(--oph-ink-60);
   margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--oph-muted-2);
 }
 
-.cardTextarea {
+.message {
+  margin-top: 12px;
   width: 100%;
-  margin-top: 14px;
-  border-radius: var(--oph-r-sm);
-  border: 1px solid var(--oph-border-soft);
-  background: var(--oph-cream);
+  background: var(--oph-white);
+  border: 1px solid var(--oph-line-20);
   padding: 12px 14px;
-  font-family: var(--oph-font-body);
   font-size: 14px;
-  color: var(--oph-ink);
+  line-height: 1.6;
   resize: vertical;
 }
 
-.cardCounter {
-  display: block;
-  margin-top: 6px;
-  font-size: 11.5px;
-  color: var(--oph-ink-55);
-  text-align: right;
-}
-
-/* ── Notes ─────────────────────────────────────────────────────────────── */
-.shippingNote {
-  border-top: 1px solid var(--oph-divider);
-  padding-top: 18px;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--oph-ink-65);
-  margin: 0;
-}
-
-.ingredients {
-  border-top: 1px solid var(--oph-divider);
-  padding-top: 18px;
-}
-
-.ingredientsTitle {
-  font-size: 11.5px;
-  letter-spacing: var(--oph-ls-meta);
-  text-transform: uppercase;
-  color: var(--oph-ink-60);
-  margin: 0 0 8px;
-  font-family: var(--oph-font-body);
-}
-
-.ingredientsBody {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--oph-ink-72);
-  margin: 0;
-}
-
-.soldOut {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: var(--oph-ink-72);
-  background: var(--oph-sand);
-  border-radius: var(--oph-r-sm);
-  padding: 12px 16px;
-  margin: 0;
-}
-
-.error {
-  font-size: 13px;
-  color: #8c2f0d;
-  margin: 0;
-}
-
-/* ── Mobile sticky buy bar ─────────────────────────────────────────────── */
-.buyBar {
-  position: sticky;
-  bottom: 0;
-  z-index: var(--oph-z-buybar);
-  background: var(--oph-buybar-bg);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--oph-divider);
-  padding: 12px 16px;
+/* ── Quantity + add ────────────────────────────────────────────────────── */
+.buy {
   display: flex;
   gap: 12px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--oph-line-24);
+  flex: none;
+}
+
+.stepperButton {
+  width: 44px;
+  height: 52px;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  font-size: 16px;
 }
 
-.buyBarMeta {
-  display: flex;
-  flex-direction: column;
+.stepperButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
-.buyBarName {
-  font-size: 11px;
-  color: var(--oph-ink-55);
+.stepperValue {
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
 }
 
-.buyBarTotal {
-  font-size: 15px;
-  color: var(--oph-blue);
-}
-
-.buyBarAction {
+.add {
   flex: 1;
-  min-height: 48px;
+  min-width: 210px;
 }
 
-@media (min-width: 900px) {
-  .buyBar {
-    display: none;
+.stock {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--oph-muted-2);
+}
+
+/* ── Accordions ────────────────────────────────────────────────────────── */
+.panels {
+  margin-top: 38px;
+  border-top: 1px solid var(--oph-line-12);
+}
+
+.panelRow {
+  border-bottom: 1px solid var(--oph-line-12);
+}
+
+.panelButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 19px 2px;
+  text-align: left;
+}
+
+.panelTitle {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.panelSign {
+  font-size: 16px;
+  color: var(--oph-muted-2);
+  line-height: 1;
+}
+
+/*
+ * max-height rather than height so the row can animate; 240px is the handoff's
+ * value and comfortably clears the longest ingredient list.
+ */
+.panelBody {
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: max-height 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.panelBodyOpen {
+  max-height: 240px;
+  overflow-y: auto;
+  visibility: visible;
+  transition: max-height 0.35s ease, visibility 0s;
+}
+
+.panelText {
+  padding: 0 2px 20px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--oph-ink-body);
+}
+
+@media (max-width: 480px) {
+  .add {
+    min-width: 100%;
   }
 }

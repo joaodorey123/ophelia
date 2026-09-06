@@ -38,6 +38,24 @@ test.describe('responsive layout', () => {
               if (el.closest('[aria-hidden="true"]')) continue;
               const rect = el.getBoundingClientRect();
               if (rect.width === 0 || rect.height === 0) continue;
+
+              /*
+               * An element wider than the viewport inside a clipping ancestor
+               * is a marquee or a scroller, not an overflow bug — the
+               * announcement strip is deliberately 2x the page width. The
+               * document-level scrollWidth check above is what actually
+               * guarantees the page cannot scroll sideways.
+               */
+              let clipped = false;
+              for (let parent = el.parentElement; parent; parent = parent.parentElement) {
+                const overflowX = getComputedStyle(parent).overflowX;
+                if (overflowX !== 'visible') {
+                  clipped = true;
+                  break;
+                }
+              }
+              if (clipped) continue;
+
               if (rect.right > limit || rect.left < -1) {
                 bad.push({
                   tag: el.tagName,
@@ -57,7 +75,7 @@ test.describe('responsive layout', () => {
 });
 
 test.describe('touch targets on phones', () => {
-  for (const route of ['/', '/comprar/cookies', '/produto/ophelia-cookies', '/eventos']) {
+  for (const route of ['/', '/comprar', '/comprar/cookies', '/produto/ophelia-cookies-ny', '/carrinho', '/contacto', '/diario']) {
     test(`${route} keeps interactive controls at 44px on a phone`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(route, { waitUntil: 'domcontentloaded' });

@@ -5,40 +5,44 @@ import {
   cheapestVariant,
   defaultSelection,
   defaultVariant,
+  hasChoices,
   isDefaultOption,
   isOptionValueAvailable,
   matchVariant,
-  resolveOptions,
-  sizeLabel,
-  sizeSteps,
+  optionValuePrice,
+  realOptions,
   variantLabel,
 } from '@/lib/product';
+
+function money(amount: string) {
+  return { amount, currencyCode: 'EUR' };
+}
 
 function variant(
   id: string,
   options: [string, string][],
   price: string,
-  available = true,
+  availableForSale = true,
 ): ProductVariant {
   return {
     id,
     title: options.map(([, value]) => value).join(' / '),
-    availableForSale: available,
+    availableForSale,
     quantityAvailable: null,
-    sku: id,
-    price: { amount: price, currencyCode: 'EUR' },
+    price: money(price),
     compareAtPrice: null,
     selectedOptions: options.map(([name, value]) => ({ name, value })),
+    sku: null,
     image: null,
   };
 }
 
-function product(partial: Partial<Product> & Pick<Product, 'variants' | 'options'>): Product {
-  const prices = partial.variants.map((v) => Number(v.price.amount));
+function product(partial: Partial<Product> & Pick<Product, 'options' | 'variants'>): Product {
+  const amounts = partial.variants.map((entry) => Number(entry.price.amount));
   return {
-    id: 'p',
-    handle: 'p',
-    title: 'P',
+    id: 'gid://test/Product/1',
+    handle: 'teste',
+    title: 'Teste',
     description: '',
     descriptionHtml: '',
     productType: '',
@@ -48,8 +52,8 @@ function product(partial: Partial<Product> & Pick<Product, 'variants' | 'options
     featuredImage: null,
     images: [],
     priceRange: {
-      minVariantPrice: { amount: String(Math.min(...prices)), currencyCode: 'EUR' },
-      maxVariantPrice: { amount: String(Math.max(...prices)), currencyCode: 'EUR' },
+      minVariantPrice: money(Math.min(...amounts).toFixed(2)),
+      maxVariantPrice: money(Math.max(...amounts).toFixed(2)),
     },
     seo: { title: null, description: null },
     editorial: { kicker: null, badge: null, shortDescription: null, ingredients: null },
@@ -58,126 +62,140 @@ function product(partial: Partial<Product> & Pick<Product, 'variants' | 'options
   };
 }
 
-/** Ophelia Cookies: the only SKU with flavours — 4 flavours x 3 sizes. */
+/**
+ * The real shop uses option names the code cannot predict — "Quantidade",
+ * "Cookie variety", "Tamanho" — so these tests use names nothing in the source
+ * looks for. A helper that only works on "Tamanho" would pass a test written
+ * with "Tamanho" and fail in production.
+ */
 const cookies = product({
   options: [
-    { id: 'o1', name: 'Sabor', values: ['Tradicional', 'Red Velvet', 'Cacau', 'Limão'] },
-    { id: 'o2', name: 'Tamanho', values: ['4 unidades', '8 unidades', '12 unidades'] },
+    { id: 'o1', name: 'Quantidade', values: ['2', '4', '6'] },
+    { id: 'o2', name: 'Cookie variety', values: ['Chocolate chip', 'Linzer'] },
   ],
   variants: [
-    variant('v1', [['Sabor', 'Tradicional'], ['Tamanho', '4 unidades']], '17.00'),
-    variant('v2', [['Sabor', 'Tradicional'], ['Tamanho', '8 unidades']], '32.00'),
-    variant('v3', [['Sabor', 'Tradicional'], ['Tamanho', '12 unidades']], '48.00'),
-    variant('v4', [['Sabor', 'Red Velvet'], ['Tamanho', '4 unidades']], '17.00'),
-    // Red Velvet 8-unit is sold out; 12-unit does not exist at all.
-    variant('v5', [['Sabor', 'Red Velvet'], ['Tamanho', '8 unidades']], '32.00', false),
+    variant('v1', [['Quantidade', '2'], ['Cookie variety', 'Chocolate chip']], '40.00'),
+    variant('v2', [['Quantidade', '2'], ['Cookie variety', 'Linzer']], '40.00', false),
+    variant('v3', [['Quantidade', '4'], ['Cookie variety', 'Chocolate chip']], '50.00'),
+    variant('v4', [['Quantidade', '4'], ['Cookie variety', 'Linzer']], '50.00'),
   ],
 });
 
-/** Café: the first variant is the dearer whole-bean one, by merchant order. */
-const cafe = product({
-  options: [{ id: 'o1', name: 'Tamanho', values: ['250 g · em grão', '250 g · em pó'] }],
-  variants: [
-    variant('c1', [['Tamanho', '250 g · em grão']], '18.00'),
-    variant('c2', [['Tamanho', '250 g · em pó']], '8.00'),
-  ],
+const single = product({
+  options: [{ id: 'o1', name: 'Title', values: ['Default Title'] }],
+  variants: [variant('v1', [['Title', 'Default Title']], '7.00')],
 });
 
-describe('options', () => {
-  it('resolves Sabor only when it offers a real choice', () => {
-    expect(resolveOptions(cookies).flavour?.name).toBe('Sabor');
-    expect(resolveOptions(cafe).flavour).toBeNull();
-  });
-
-  it('always resolves a size option', () => {
-    expect(resolveOptions(cookies).size?.name).toBe('Tamanho');
-    expect(resolveOptions(cafe).size?.name).toBe('Tamanho');
-  });
-
-  it('falls back to the other option when the shop named the size differently', () => {
-    const odd = product({
-      options: [{ id: 'o', name: 'Formato', values: ['Pequeno', 'Grande'] }],
-      variants: [
-        variant('x1', [['Formato', 'Pequeno']], '5.00'),
-        variant('x2', [['Formato', 'Grande']], '9.00'),
-      ],
-    });
-    expect(resolveOptions(odd).size?.name).toBe('Formato');
-  });
-
-  it('treats Shopify\'s synthetic option values as absent', () => {
+describe('isDefaultOption', () => {
+  it('recognises Shopify placeholders', () => {
     expect(isDefaultOption('Default Title')).toBe(true);
     expect(isDefaultOption('Único')).toBe(true);
     expect(isDefaultOption('4 unidades')).toBe(false);
   });
-
-  it('defaults to the first purchasable variant\'s options', () => {
-    expect(defaultSelection(cookies)).toEqual({ Sabor: 'Tradicional', Tamanho: '4 unidades' });
-  });
 });
 
-describe('variant matching', () => {
-  it('finds the variant for a full selection', () => {
-    expect(matchVariant(cookies, { Sabor: 'Tradicional', Tamanho: '12 unidades' })?.id).toBe('v3');
+describe('realOptions', () => {
+  it('drops the synthetic Title option', () => {
+    expect(realOptions(single)).toHaveLength(0);
   });
 
-  it('returns null for a combination that does not exist', () => {
-    expect(matchVariant(cookies, { Sabor: 'Red Velvet', Tamanho: '12 unidades' })).toBeNull();
-  });
-
-  it('marks a sold-out combination unavailable', () => {
-    expect(isOptionValueAvailable(cookies, 'Tamanho', '8 unidades', { Sabor: 'Red Velvet' })).toBe(
-      false,
-    );
-    expect(isOptionValueAvailable(cookies, 'Tamanho', '8 unidades', { Sabor: 'Tradicional' })).toBe(
-      true,
-    );
-  });
-
-  it('marks a non-existent combination unavailable', () => {
-    expect(isOptionValueAvailable(cookies, 'Tamanho', '12 unidades', { Sabor: 'Red Velvet' })).toBe(
-      false,
-    );
-  });
-});
-
-describe('card variants', () => {
-  it('uses the first variant as the default a pantry card shows', () => {
-    // The design's cross-sell reads "Café da Ophelia · 250 g em grão · €18".
-    expect(defaultVariant(cafe)?.id).toBe('c1');
-  });
-
-  it('uses the cheapest variant for a favourite card\'s add button', () => {
-    // The handoff: the favourite card "adds the smallest size directly".
-    expect(cheapestVariant(cookies)?.price.amount).toBe('17.00');
-    expect(cheapestVariant(cafe)?.id).toBe('c2');
-  });
-
-  it('lists each distinct size once, in catalogue order', () => {
-    expect(sizeSteps(cookies).map((step) => step.label)).toEqual([
-      '4 unidades',
-      '8 unidades',
-      '12 unidades',
+  it('keeps every real option', () => {
+    expect(realOptions(cookies).map((option) => option.name)).toEqual([
+      'Quantidade',
+      'Cookie variety',
     ]);
   });
 });
 
-describe('labels', () => {
-  it('joins option values for the cart line', () => {
-    expect(variantLabel(cookies.variants[0]!)).toBe('Tradicional · 4 unidades');
+describe('hasChoices', () => {
+  it('is false for a product with a single variant', () => {
+    expect(hasChoices(single)).toBe(false);
   });
 
-  it('extracts the size alone', () => {
-    expect(sizeLabel(cookies.variants[0]!)).toBe('4 unidades');
-    expect(sizeLabel(cafe.variants[0]!)).toBe('250 g · em grão');
+  it('is true when the visitor has something to pick', () => {
+    expect(hasChoices(cookies)).toBe(true);
+  });
+});
+
+describe('variantLabel', () => {
+  it('joins the real option values', () => {
+    expect(variantLabel(cookies.variants[0]!)).toBe('2 · Chocolate chip');
   });
 
-  it("never leaks Shopify's synthetic option value into the cart", () => {
-    const single = product({
-      options: [{ id: 'o', name: 'Tamanho', values: ['Default Title'] }],
-      variants: [variant('s1', [['Tamanho', 'Default Title']], '4.00')],
-    });
+  it('is empty for an unoptioned product', () => {
     expect(variantLabel(single.variants[0]!)).toBe('');
-    expect(sizeLabel(single.variants[0]!)).toBe('');
+  });
+});
+
+describe('defaultVariant', () => {
+  it('takes the first purchasable variant, in catalogue order', () => {
+    expect(defaultVariant(cookies)?.id).toBe('v1');
+  });
+
+  it('falls back to the first variant when nothing is in stock', () => {
+    const soldOut = product({
+      options: cookies.options,
+      variants: [variant('x1', [['Quantidade', '2']], '40.00', false)],
+    });
+    expect(defaultVariant(soldOut)?.id).toBe('x1');
+  });
+});
+
+describe('cheapestVariant', () => {
+  it('ignores sold-out variants when a purchasable one exists', () => {
+    const mixed = product({
+      options: [{ id: 'o1', name: 'Tamanho', values: ['pequeno', 'grande'] }],
+      variants: [
+        variant('cheap', [['Tamanho', 'pequeno']], '5.00', false),
+        variant('ok', [['Tamanho', 'grande']], '9.00'),
+      ],
+    });
+    expect(cheapestVariant(mixed)?.id).toBe('ok');
+  });
+
+  it('picks the lowest price among purchasable variants', () => {
+    expect(cheapestVariant(cookies)?.id).toBe('v1');
+  });
+});
+
+describe('matchVariant', () => {
+  it('resolves a full selection to a real variant', () => {
+    const found = matchVariant(cookies, { Quantidade: '4', 'Cookie variety': 'Linzer' });
+    expect(found?.id).toBe('v4');
+  });
+
+  it('returns null for a combination the shop does not sell', () => {
+    expect(matchVariant(cookies, { Quantidade: '6', 'Cookie variety': 'Linzer' })).toBeNull();
+  });
+});
+
+describe('isOptionValueAvailable', () => {
+  it('is false when every variant carrying the value is sold out', () => {
+    expect(
+      isOptionValueAvailable(cookies, 'Cookie variety', 'Linzer', { Quantidade: '2' }),
+    ).toBe(false);
+  });
+
+  it('is true when some combination is purchasable', () => {
+    expect(isOptionValueAvailable(cookies, 'Cookie variety', 'Linzer', {})).toBe(true);
+  });
+});
+
+describe('defaultSelection', () => {
+  it('mirrors the default variant', () => {
+    expect(defaultSelection(cookies)).toEqual({
+      Quantidade: '2',
+      'Cookie variety': 'Chocolate chip',
+    });
+  });
+});
+
+describe('optionValuePrice', () => {
+  it('gives a price when every variant with that value agrees', () => {
+    expect(optionValuePrice(cookies, 'Quantidade', '4')?.amount).toBe('50.00');
+  });
+
+  it('gives none when the value spans several prices', () => {
+    expect(optionValuePrice(cookies, 'Cookie variety', 'Chocolate chip')).toBeNull();
   });
 });

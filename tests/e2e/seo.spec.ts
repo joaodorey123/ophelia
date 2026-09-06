@@ -64,18 +64,21 @@ test.describe('non-indexable pages', () => {
     });
   }
 
-  test('a sorted collection canonicalises back to the plain URL', async ({ page }) => {
-    await page.goto('/comprar/cookies?ordenar=preco-desc', { waitUntil: 'domcontentloaded' });
-    const meta = await head(page);
-    expect(meta.canonical).toMatch(/\/comprar\/cookies$/);
-
-    const rels = await page.evaluate(() =>
-      Array.from(document.querySelectorAll('a[href*="ordenar="]')).map((a) =>
-        a.getAttribute('rel'),
-      ),
-    );
-    expect(rels.length).toBeGreaterThan(0);
-    for (const rel of rels) expect(rel).toContain('nofollow');
+  /*
+   * Query strings must never fork a page into several indexable URLs. The
+   * handoff has no sort control, but paging carries a Shopify cursor, and a
+   * cursor in a canonical would put an unbounded number of near-duplicate URLs
+   * into the index.
+   */
+  test('query strings do not fork the canonical URL', async ({ page }) => {
+    for (const url of [
+      '/comprar/cookies?cursor=abc123',
+      '/comprar/cookies?utm_source=instagram',
+    ]) {
+      await page.goto(url, { waitUntil: 'domcontentloaded' });
+      const meta = await head(page);
+      expect(meta.canonical, url).toMatch(/\/comprar\/cookies$/);
+    }
   });
 });
 
@@ -137,16 +140,19 @@ test.describe('structured data', () => {
   test('a product page carries Product, Offer and BreadcrumbList matching the page', async ({
     page,
   }) => {
-    await page.goto('/produto/ophelia-cookies');
+    await page.goto('/produto/ophelia-cookies-ny');
     const nodes = await jsonLd(page);
     const product = nodes.find((node) => node['@type'] === 'Product');
     expect(product).toBeTruthy();
     expect(nodes.some((node) => node['@type'] === 'BreadcrumbList')).toBe(true);
 
-    // The schema price must be the price the customer is shown.
-    const shown = (await page.locator('main').getByText(/^€\d/).first().textContent()) ?? '';
-    const low = product.offers.lowPrice ?? product.offers.price;
-    expect(shown.replace(/[^\d]/g, '')).toBe(String(Math.round(Number(low))));
+    // The schema price must be the price the customer is shown. Prices render
+    // in the handoff's Portuguese format, "30,00 EUR" with a comma decimal.
+    const shown =
+      (await page.locator('main').getByText(/\d+,\d{2}\s*€/).first().textContent()) ?? '';
+    const shownCents = shown.replace(/[^\d,]/g, '').replace(',', '');
+    const low = Number(product.offers.lowPrice ?? product.offers.price);
+    expect(shownCents).toBe(String(Math.round(low * 100)));
 
     expect(product.brand.name).toBe('Ophelia');
     expect(product.offers.offers?.[0]?.availability).toContain('schema.org/');

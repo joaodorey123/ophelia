@@ -1,0 +1,87 @@
+.page {
+  padding-block: 70px 40px;
+}
+
+.intro {
+  max-width: 600px;
+}
+
+.title {
+  margin-top: 16px;
+}
+
+.lede {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--oph-ink-soft);
+  max-width: 52ch;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 52px 32px;
+  margin-top: 56px;
+}
+
+/* ── Article ───────────────────────────────────────────────────────────── */
+.article {
+  padding-block: 46px 40px;
+}
+
+.back {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--oph-muted-4);
+  margin-bottom: 30px;
+}
+
+.back:hover {
+  color: var(--oph-ink);
+}
+
+.meta {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--oph-muted-4);
+}
+
+.articleTitle {
+  margin-top: 14px;
+}
+
+.hero {
+  margin: 34px 0 6px;
+}
+
+.standfirst {
+  margin-top: 26px;
+  font-family: var(--oph-font-serif);
+  font-size: 23px;
+  line-height: 1.62;
+  color: var(--oph-ink-dark);
+}
+
+.body {
+  margin-top: 24px;
+}
+
+.foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 56px;
+  padding-top: 30px;
+  border-top: 1px solid var(--oph-line-14);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--oph-muted-4);
+}

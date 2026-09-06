@@ -22,6 +22,9 @@ export type StorefrontRequest = {
 
 const DEFAULT_REVALIDATE_SECONDS = 60 * 15;
 
+/** API-version mismatches are logged once each, not once per request. */
+const warnedVersions = new Set<string>();
+
 /**
  * The single point where a Shopify Storefront API request is made.
  *
@@ -49,8 +52,14 @@ export async function storefront<T>({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': config.storefrontAccessToken,
         Accept: 'application/json',
+        /*
+         * The two token kinds use different headers, and sending a private
+         * token in the public header is rejected outright.
+         */
+        ...(config.tokenKind === 'private'
+          ? { 'Shopify-Storefront-Private-Token': config.storefrontAccessToken }
+          : { 'X-Shopify-Storefront-Access-Token': config.storefrontAccessToken }),
       },
       body: JSON.stringify({ query, variables }),
       ...(cache ? { cache } : {}),
@@ -66,10 +75,33 @@ export async function storefront<T>({
     throw new CommerceError('network', 'Could not reach the Shopify Storefront API.', { cause });
   }
 
+  /*
+   * Shopify downgrades an unsupported API version instead of failing, and only
+   * mentions it in a response header. Surface it once per process so a stale
+   * SHOPIFY_STOREFRONT_API_VERSION cannot hide behind fields that still happen
+   * to resolve.
+   */
+  const served = response.headers.get('x-shopify-api-version');
+  if (served && served !== config.apiVersion && !warnedVersions.has(config.apiVersion)) {
+    warnedVersions.add(config.apiVersion);
+    console.warn(
+      `[shopify] Requested Storefront API ${config.apiVersion}, but Shopify served ${served}. ` +
+        `Set SHOPIFY_STOREFRONT_API_VERSION to a supported version.`,
+    );
+  }
+
   if (!response.ok) {
+    let detail = '';
+    try {
+      const text = await response.text();
+      // 401/403 bodies name the problem (bad token, unpublished channel).
+      if (text) detail = ` ${text.slice(0, 300)}`;
+    } catch {
+      // Body already consumed or unreadable — the status is enough.
+    }
     throw new CommerceError(
       'unavailable',
-      `Shopify Storefront API responded ${response.status} ${response.statusText}.`,
+      `Shopify Storefront API responded ${response.status} ${response.statusText}.${detail}`,
     );
   }
 

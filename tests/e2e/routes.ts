@@ -1,34 +1,43 @@
-/** Every public route the suite exercises. */
+/**
+ * Every public route the suite exercises.
+ *
+ * The browser suite runs against the development fixture
+ * (OPHELIA_FORCE_LOCAL_CATALOGUE=true), so these product and collection
+ * handles are the fixture's — which are generated from the handoff's own
+ * catalogue. See playwright.config.ts.
+ */
 export const PUBLIC_ROUTES = [
   '/',
+  '/comprar',
   '/comprar/cookies',
   '/comprar/mercearia',
-  '/comprar/presentes',
-  '/comprar/lifestyle',
-  '/produto/ophelia-cookies',
-  '/produto/cafe-da-ophelia',
-  '/produto/cartao-personalizado',
+  '/comprar/cafe',
+  '/comprar/bolos',
+  '/comprar/casa',
+  '/produto/ophelia-cookies-ny',
+  '/produto/mel-de-rosmaninho',
   '/quem-somos',
-  '/eventos',
-  '/personalizadas',
+  '/diario',
+  '/diario/granola',
+  '/contacto',
   '/envios-e-devolucoes',
   '/termos-e-privacidade',
 ] as const;
 
 /** Reachable, but must never be indexed. */
-export const PRIVATE_ROUTES = ['/carrinho', '/pesquisa', '/conta'] as const;
+export const PRIVATE_ROUTES = ['/carrinho', '/pesquisa'] as const;
 
 export const ALL_ROUTES = [...PUBLIC_ROUTES, ...PRIVATE_ROUTES];
 
 /**
  * The widths named in the QA brief. 375/390/430 are phones, 768 a tablet,
- * 1024+ desktop. The handoff designs only two states, so everything between
- * must reflow through the same auto-fit grids without breaking.
+ * 1024+ desktop. Every grid in the design is auto-fit/auto-fill with minmax,
+ * so everything between must reflow without breaking.
  */
 export const VIEWPORTS = [
   { name: '375 (iPhone SE)', width: 375, height: 812 },
   { name: '390 (iPhone 14)', width: 390, height: 844 },
-  { name: '430 (designed phone)', width: 430, height: 932 },
+  { name: '430 (large phone)', width: 430, height: 932 },
   { name: '768 (tablet)', width: 768, height: 1024 },
   { name: '1024 (small laptop)', width: 1024, height: 768 },
   { name: '1280 (laptop)', width: 1280, height: 800 },

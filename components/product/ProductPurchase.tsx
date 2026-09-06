@@ -1,307 +1,247 @@
 'use client';
 
-import { useId, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useCart } from '@/components/cart/CartProvider';
 import { Button } from '@/components/ui/Button';
-import { FieldLabel, Kicker } from '@/components/ui/Type';
 import { CART_ATTRIBUTE, type Product } from '@/lib/commerce/types';
 import { addMoney, formatMoney, multiplyMoney } from '@/lib/format';
 import {
   defaultSelection,
-  isDefaultOption,
   isOptionValueAvailable,
   matchVariant,
-  resolveOptions,
-  SIZE_OPTION,
+  optionValuePrice,
+  realOptions,
 } from '@/lib/product';
 
 import styles from './ProductPurchase.module.css';
 
-const MAX_MESSAGE = 120;
-const MAX_QUANTITY = 99;
+export type GiftCard = {
+  variantId: string;
+  price: { amount: string; currencyCode: string };
+};
+
+export type Panel = { id: string; title: string; body: string };
 
 /**
- * The product page's buying panel.
+ * The buying panel: options, the handwritten-card add-on, quantity and the
+ * add button, then the accordions.
  *
- * Option selection drives the variant, and the variant drives the price, the
- * availability and the add-to-cart total — nothing is derived from a hardcoded
- * price. The personalised card is added as its own line (handoff cart rule 3)
- * and its message is also attached to the product line so the kitchen sees it
- * in context.
+ * Selecting an option resolves a real Shopify variant — `selected` is the
+ * merchandise that goes into the cart, never a visual state that happens to
+ * look chosen. A combination Shopify does not sell renders inert rather than
+ * silently falling back to another variant.
  */
 export function ProductPurchase({
   product,
   giftCard,
-  shippingNote,
+  panels,
+  giftCardTitle,
+  giftCardNote,
 }: {
   product: Product;
-  /** The "Cartão personalizado" product, when the shop sells one. */
-  giftCard: { variantId: string; price: { amount: string; currencyCode: string } } | null;
-  shippingNote: string;
+  giftCard: GiftCard | null;
+  panels: Panel[];
+  giftCardTitle: string;
+  giftCardNote: string;
 }) {
   const { add, isPending } = useCart();
 
-  const [selection, setSelection] = useState<Record<string, string>>(() => defaultSelection(product));
+  const options = useMemo(() => realOptions(product), [product]);
+  const [selection, setSelection] = useState<Record<string, string>>(() =>
+    defaultSelection(product),
+  );
   const [quantity, setQuantity] = useState(1);
-  const [cardOn, setCardOn] = useState(false);
-  const [cardMessage, setCardMessage] = useState('');
+  const [withCard, setWithCard] = useState(false);
+  const [message, setMessage] = useState('');
+  const [openPanel, setOpenPanel] = useState<string | null>(panels[0]?.id ?? null);
 
-  const messageId = useId();
-  const counterId = useId();
+  const selected = matchVariant(product, selection);
+  const unitPrice = selected?.price ?? product.priceRange.minVariantPrice;
 
-  const variant = useMemo(() => matchVariant(product, selection), [product, selection]);
-
-  const { flavour: flavourOption, size: sizeOption } = resolveOptions(product);
-
-  const unitPrice = variant?.price ?? product.priceRange.minVariantPrice;
-  const lineTotal = useMemo(() => {
+  const total = useMemo(() => {
     const base = multiplyMoney(unitPrice, quantity);
-    return cardOn && giftCard ? addMoney(base, giftCard.price) : base;
-  }, [cardOn, giftCard, quantity, unitPrice]);
+    return withCard && giftCard ? addMoney(base, giftCard.price) : base;
+  }, [giftCard, quantity, unitPrice, withCard]);
 
-  const canBuy = Boolean(variant?.availableForSale) && !isPending;
-
-  function choose(optionName: string, value: string) {
-    setSelection((current) => ({ ...current, [optionName]: value }));
-  }
+  const canBuy = Boolean(selected?.availableForSale) && !isPending;
 
   function onAdd() {
-    if (!variant) return;
-
-    const message = cardMessage.trim();
-    const lines = [
-      {
-        merchandiseId: variant.id,
-        quantity,
-        ...(cardOn && message
-          ? { attributes: [{ key: CART_ATTRIBUTE.giftMessage, value: message }] }
-          : {}),
-      },
-    ];
-
-    if (cardOn && giftCard) {
-      lines.push({ merchandiseId: giftCard.variantId, quantity: 1 });
-    }
-
-    // Adds from the product page open the drawer.
-    add(lines, { openDrawer: true, toastLabel: product.title });
+    if (!selected) return;
+    const trimmed = message.trim();
+    add(
+      [
+        { merchandiseId: selected.id, quantity },
+        ...(withCard && giftCard
+          ? [
+              {
+                merchandiseId: giftCard.variantId,
+                quantity: 1,
+                ...(trimmed
+                  ? { attributes: [{ key: CART_ATTRIBUTE.giftMessage, value: trimmed }] }
+                  : {}),
+              },
+            ]
+          : []),
+      ],
+      { openDrawer: true, toastLabel: product.title },
+    );
   }
 
-  /** Hides Shopify's synthetic "Default Title" when it is the only value. */
-  const showValues = (values: string[]) =>
-    values.filter((value) => !isDefaultOption(value) || values.length > 1);
-
   return (
-    <>
-      <div className={styles.detail}>
-        <div>
-          {product.editorial.kicker ? <Kicker>{product.editorial.kicker}</Kicker> : null}
-          <h1 className={styles.title}>{product.title}</h1>
-          <p aria-live="polite">
-            <span className={styles.price}>{formatMoney(unitPrice)}</span>
-            {variant?.compareAtPrice &&
-            Number(variant.compareAtPrice.amount) > Number(variant.price.amount) ? (
-              <span className={styles.compareAt}>{formatMoney(variant.compareAtPrice)}</span>
-            ) : null}
-          </p>
-          {product.description ? <p className={styles.description}>{product.description}</p> : null}
-        </div>
+    <div className={styles.panel}>
+      <div
+        className={styles.description}
+        // Shopify sanitises descriptionHtml before it leaves the Storefront API.
+        dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+      />
 
-        {/* Sabor — only for products that actually have flavours. */}
-        {flavourOption ? (
-          <fieldset className={styles.optionGroup}>
-            <legend>
-              <FieldLabel>{flavourOption.name}</FieldLabel>
-            </legend>
-            <div className={styles.pills}>
-              {showValues(flavourOption.values).map((value) => {
-                const selected = selection[flavourOption.name] === value;
-                const available = isOptionValueAvailable(product, flavourOption.name, value, {});
-                return (
-                  <button
-                    key={value}
-                    type="button"
-                    className={[
-                      styles.pill,
-                      selected ? styles.pillSelected : undefined,
-                      available ? undefined : styles.pillUnavailable,
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                    onClick={() => choose(flavourOption.name, value)}
-                    disabled={!available}
-                    aria-pressed={selected}
-                  >
-                    {value}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
-        ) : null}
-
-        {/* Tamanho da caixa — kept visible even for single-size products. */}
-        {sizeOption ? (
-          <fieldset className={styles.optionGroup}>
-            <legend>
-              <FieldLabel>
-                {sizeOption.name === SIZE_OPTION ? 'Tamanho da caixa' : sizeOption.name}
-              </FieldLabel>
-            </legend>
-            <div className={styles.sizeGrid}>
-              {sizeOption.values.map((value) => {
-                const selected = selection[sizeOption.name] === value;
-                const available = isOptionValueAvailable(product, sizeOption.name, value, {
-                  ...(flavourOption && selection[flavourOption.name]
-                    ? { [flavourOption.name]: selection[flavourOption.name] as string }
-                    : {}),
-                });
-                const candidate = matchVariant(product, { ...selection, [sizeOption.name]: value });
-                return (
-                  <button
-                    key={value}
-                    type="button"
-                    className={[
-                      styles.sizeCard,
-                      selected ? styles.sizeCardSelected : undefined,
-                      available ? undefined : styles.sizeCardUnavailable,
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                    onClick={() => choose(sizeOption.name, value)}
-                    disabled={!available}
-                    aria-pressed={selected}
-                  >
-                    <span className={styles.sizeLabel}>
-                      {isDefaultOption(value) ? 'Tamanho único' : value}
-                    </span>
-                    <span className={styles.sizePrice}>
-                      {candidate ? formatMoney(candidate.price) : 'Indisponível'}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
-        ) : null}
-
-        {variant && !variant.availableForSale ? (
-          <p className={styles.soldOut} role="status">
-            Esta combinação está esgotada de momento. Escolhe outro tamanho ou sabor, ou escreve-nos
-            para info@callmeophelia.com.
-          </p>
-        ) : null}
-
-        {!variant ? (
-          <p className={styles.soldOut} role="status">
-            Esta combinação não existe. Escolhe outro tamanho ou sabor.
-          </p>
-        ) : null}
-
-        <div className={styles.buyRow}>
-          <div className={styles.stepper}>
-            <button
-              type="button"
-              className={styles.stepperButton}
-              onClick={() => setQuantity((value) => Math.max(1, value - 1))}
-              disabled={quantity <= 1}
-              aria-label="Diminuir quantidade"
-            >
-              −
-            </button>
-            <span className={styles.stepperValue} aria-hidden="true">
-              {quantity}
-            </span>
-            <span className="oph-visually-hidden" aria-live="polite">
-              Quantidade: {quantity}
-            </span>
-            <button
-              type="button"
-              className={styles.stepperButton}
-              onClick={() => setQuantity((value) => Math.min(MAX_QUANTITY, value + 1))}
-              disabled={quantity >= MAX_QUANTITY}
-              aria-label="Aumentar quantidade"
-            >
-              +
-            </button>
+      {options.map((option) => (
+        <div key={option.id} className={styles.option}>
+          <span className={styles.optionLabel} id={`option-${option.id}`}>
+            {option.name.toLowerCase()}
+          </span>
+          <div className={styles.values} role="group" aria-labelledby={`option-${option.id}`}>
+            {option.values.map((value) => {
+              const isSelected = selection[option.name] === value;
+              const available = isOptionValueAvailable(product, option.name, value, {});
+              const price = optionValuePrice(product, option.name, value);
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  className={[
+                    styles.value,
+                    isSelected ? styles.valueSelected : '',
+                    available ? '' : styles.valueUnavailable,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-pressed={isSelected}
+                  disabled={!available}
+                  onClick={() => setSelection((current) => ({ ...current, [option.name]: value }))}
+                >
+                  <span className={styles.valueName}>{value}</span>
+                  {price ? <span className={styles.valuePrice}>{formatMoney(price)}</span> : null}
+                </button>
+              );
+            })}
           </div>
-
-          <Button variant="primary" size="lg" grow onClick={onAdd} disabled={!canBuy}>
-            {isPending ? 'A adicionar…' : `Adicionar ao cesto · ${formatMoney(lineTotal)}`}
-          </Button>
         </div>
+      ))}
 
-        {/* Cartão personalizado */}
-        {giftCard ? (
-          <div className={styles.cardPanel}>
-            <label className={styles.cardLabel}>
-              <input
-                type="checkbox"
-                checked={cardOn}
-                onChange={(event) => setCardOn(event.target.checked)}
-                className={styles.cardCheckbox}
-              />
-              <span>
-                <span className={styles.cardTitle}>
-                  Adicionar cartão personalizado{' '}
-                  <span className={styles.cardPrice}>+ {formatMoney(giftCard.price)}</span>
-                </span>
-                <span className={styles.cardHelp}>
-                  Escrito à mão por nós e colocado dentro da caixa.
-                </span>
+      {giftCard ? (
+        <>
+          <label className={styles.addon}>
+            <input
+              type="checkbox"
+              className={styles.checkbox}
+              checked={withCard}
+              onChange={(event) => setWithCard(event.target.checked)}
+            />
+            <span>
+              <span className={styles.addonTitle}>{giftCardTitle}</span>
+              <span className={styles.addonNote}>
+                {giftCardNote} · {formatMoney(giftCard.price)}
               </span>
-            </label>
+            </span>
+          </label>
 
-            {cardOn ? (
-              <>
-                <label htmlFor={messageId} className="oph-visually-hidden">
-                  A tua mensagem para o cartão
-                </label>
-                <textarea
-                  id={messageId}
-                  rows={3}
-                  maxLength={MAX_MESSAGE}
-                  value={cardMessage}
-                  onChange={(event) => setCardMessage(event.target.value)}
-                  placeholder="Escreve a tua mensagem"
-                  className={styles.cardTextarea}
-                  aria-describedby={counterId}
-                />
-                <span id={counterId} className={styles.cardCounter} aria-live="polite">
-                  {cardMessage.length}/{MAX_MESSAGE} caracteres
-                </span>
-              </>
-            ) : null}
-          </div>
-        ) : null}
+          {withCard ? (
+            <>
+              <label className="oph-sr-only" htmlFor="oph-gift-message">
+                A mensagem do cartão
+              </label>
+              <textarea
+                id="oph-gift-message"
+                className={styles.message}
+                rows={3}
+                maxLength={280}
+                placeholder="a mensagem que queres que escrevamos…"
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              />
+            </>
+          ) : null}
+        </>
+      ) : null}
 
-        <p className={styles.shippingNote}>{shippingNote}</p>
-
-        {product.editorial.ingredients ? (
-          <div className={styles.ingredients}>
-            <h2 className={styles.ingredientsTitle}>Ingredientes</h2>
-            <p className={styles.ingredientsBody}>{product.editorial.ingredients}</p>
-          </div>
-        ) : null}
-      </div>
-
-      {/* Mobile sticky bar — the live line total plus a single action. */}
-      <div className={styles.buyBar}>
-        <div className={styles.buyBarMeta}>
-          <span className={styles.buyBarName}>{product.title}</span>
-          <span className={styles.buyBarTotal}>{formatMoney(lineTotal)}</span>
+      <div className={styles.buy}>
+        <div className={styles.stepper}>
+          <button
+            type="button"
+            className={styles.stepperButton}
+            onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+            disabled={quantity <= 1}
+            aria-label="Diminuir quantidade"
+          >
+            −
+          </button>
+          <span className={styles.stepperValue} aria-live="polite">
+            {quantity}
+          </span>
+          <button
+            type="button"
+            className={styles.stepperButton}
+            onClick={() => setQuantity((current) => Math.min(99, current + 1))}
+            disabled={quantity >= 99}
+            aria-label="Aumentar quantidade"
+          >
+            +
+          </button>
         </div>
-        <Button
-          variant="primary"
-          size="md"
-          className={styles.buyBarAction}
-          onClick={onAdd}
-          disabled={!canBuy}
-        >
-          Adicionar ao cesto
+
+        <Button variant="primary" className={styles.add} onClick={onAdd} disabled={!canBuy}>
+          {isPending
+            ? 'a juntar…'
+            : selected?.availableForSale
+              ? `juntar ao cesto · ${formatMoney(total)}`
+              : 'esgotado'}
         </Button>
       </div>
-    </>
+
+      {selected && !selected.availableForSale ? (
+        <p className={styles.stock} role="status">
+          Esta opção está esgotada. Escolhe outra ou escreve-nos.
+        </p>
+      ) : null}
+      {!selected ? (
+        <p className={styles.stock} role="status">
+          Esta combinação não está disponível.
+        </p>
+      ) : null}
+
+      <div className={styles.panels}>
+        {panels.map((panel) => {
+          const isOpen = openPanel === panel.id;
+          return (
+            <div key={panel.id} className={styles.panelRow}>
+              <button
+                type="button"
+                className={styles.panelButton}
+                aria-expanded={isOpen}
+                aria-controls={`panel-${panel.id}`}
+                onClick={() => setOpenPanel(isOpen ? null : panel.id)}
+              >
+                <span className={styles.panelTitle}>{panel.title}</span>
+                <span className={styles.panelSign} aria-hidden>
+                  {isOpen ? '−' : '+'}
+                </span>
+              </button>
+              <div
+                id={`panel-${panel.id}`}
+                className={`${styles.panelBody} ${isOpen ? styles.panelBodyOpen : ''}`}
+                /* `hidden` would cancel the max-height transition, so the
+                   collapsed body is made inert instead: invisible to the
+                   pointer, and skipped by tab order and screen readers. */
+                inert={!isOpen}
+              >
+                <p className={styles.panelText}>{panel.body}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

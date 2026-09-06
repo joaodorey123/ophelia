@@ -145,6 +145,12 @@ export type Cart = {
   lines: CartLine[];
 };
 
+/** A page of products plus Shopify's cursor for the next one. */
+export type ProductPage = {
+  products: Product[];
+  pageInfo: { hasNextPage: boolean; endCursor: string | null };
+};
+
 export type ProductSortKey = 'RELEVANCE' | 'BEST_SELLING' | 'CREATED_AT' | 'PRICE' | 'TITLE';
 
 export type ProductQueryOptions = {
@@ -171,6 +177,9 @@ export interface CatalogueSource {
   readonly kind: 'shopify' | 'local';
   getProduct(handle: string): Promise<Product | null>;
   getProducts(options?: ProductQueryOptions): Promise<Product[]>;
+  /** Like getProducts, but carries the cursor needed to page through a shop
+   *  larger than one request. */
+  getProductPage(options?: ProductQueryOptions): Promise<ProductPage>;
   getCollection(handle: string): Promise<Collection | null>;
   getCollectionProducts(
     handle: string,
@@ -178,6 +187,8 @@ export interface CatalogueSource {
   ): Promise<CollectionWithProducts | null>;
   getCollections(): Promise<Collection[]>;
   searchProducts(term: string, options?: ProductQueryOptions): Promise<Product[]>;
+  /** Related products for a product page. May legitimately be empty. */
+  getProductRecommendations(product: Product, limit?: number): Promise<Product[]>;
 }
 
 /** Every cart mutation the storefront performs. */

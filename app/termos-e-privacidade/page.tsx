@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { Kicker } from '@/components/ui/Type';
+import { Display, Kicker } from '@/components/ui/Type';
 import { pageMetadata } from '@/lib/seo/metadata';
 import { breadcrumbSchema } from '@/lib/seo/structured-data';
 import { SITE } from '@/lib/site';
@@ -39,7 +39,7 @@ export default function TermsPage() {
       <article className={styles.page}>
         <Breadcrumbs crumbs={crumbs} />
         <Kicker>Informação legal</Kicker>
-        <h1 className={styles.title}>Termos e privacidade</h1>
+        <Display as="h1" size="article" className={styles.title}>Termos e privacidade</Display>
         <p className={styles.updated}>
           {SITE.legalName}, {SITE.taxId}, com sede na {SITE.address.street}, {SITE.address.locality}.
         </p>
