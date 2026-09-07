@@ -41,11 +41,21 @@ export function Display({
   id?: string;
 }) {
   const [fontSize, lineHeight] = DISPLAY_SIZE[size];
+  /*
+   * The scale variable is the theme layer's hook: it defaults to 1, so an
+   * untouched theme renders the handoff's own clamp() exactly, and the client
+   * can nudge one heading without disturbing the rest.
+   */
   return (
     <Tag
       id={id}
       className={className ? `${styles.display} ${className}` : styles.display}
-      style={{ '--size': fontSize, '--lh': lineHeight } as CSSProperties}
+      style={
+        {
+          '--size': `calc(${fontSize} * var(--oph-scale-${size}, 1))`,
+          '--lh': lineHeight,
+        } as CSSProperties
+      }
     >
       {children}
     </Tag>

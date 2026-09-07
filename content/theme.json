@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "navy": "#1e2f52",
+    "navyHover": "#2c4370",
+    "cream": "#fbf8f3",
+    "beige": "#f3f0e9",
+    "heroCard": "#f7f2e7",
+    "inkBody": "#3e4f73",
+    "muted": "#4a5c85",
+    "gold": "#8f6b36"
+  },
+  "typeScale": {
+    "hero": 1,
+    "pageXl": 1,
+    "page": 1,
+    "pageSm": 1,
+    "article": 1,
+    "product": 1,
+    "section": 1,
+    "sectionSm": 1,
+    "band": 1,
+    "newsletter": 1,
+    "quote": 1,
+    "lede": 1
+  },
+  "bodyScale": 1
+}

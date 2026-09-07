@@ -13,6 +13,7 @@ import { DeckleFilters } from '@/components/ui/DeckleFilters';
 import { getCart } from '@/lib/cart/get-cart';
 import { getCollectionsSafe } from '@/lib/commerce/safe';
 import { site } from '@/lib/content';
+import { themeStyle } from '@/lib/content/theme';
 import { rootMetadata } from '@/lib/seo/metadata';
 import { organizationSchema, websiteSchema } from '@/lib/seo/structured-data';
 import { SITE } from '@/lib/site';
@@ -62,6 +63,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // One cart read per request, shared by the header badge and the drawer.
   const [cart, collections] = await Promise.all([getCart(), getCollectionsSafe()]);
+  const themeCss = themeStyle();
 
   return (
     <html
@@ -69,6 +71,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={`${bethEllen.variable} ${cormorant.variable} ${jost.variable}`}
     >
       <body>
+        {/* The client's theme overrides, emitted only when they differ from
+            the token layer. Inline so there is no extra request and no flash
+            of the default palette. */}
+        {themeCss ? <style dangerouslySetInnerHTML={{ __html: themeCss }} /> : null}
+
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <DeckleFilters />
 
