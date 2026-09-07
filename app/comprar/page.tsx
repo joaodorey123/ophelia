@@ -47,7 +47,7 @@ export default async function ShopPage({
 
   return (
     <div className={`${sections.wide} ${styles.page}`}>
-      <div className={styles.intro}>
+      <div className={styles.intro} data-editor-section="shop">
         <Kicker>{shop.kicker}</Kicker>
         <Display as="h1" size="page" className={styles.title}>
           {shop.title}

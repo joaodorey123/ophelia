@@ -29,7 +29,7 @@ export default async function ContactoPage({
   const preselected = assunto && contacto.subjects.includes(assunto) ? assunto : undefined;
 
   return (
-    <div className={`${sections.mid} ${styles.page}`}>
+    <div className={`${sections.mid} ${styles.page}`} data-editor-section="contacto">
       <div className={styles.intro}>
         <Kicker>{contacto.kicker}</Kicker>
         <Display as="h1" size="page" className={styles.title}>

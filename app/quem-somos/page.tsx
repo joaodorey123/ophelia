@@ -46,7 +46,7 @@ const GALLERY: { tape: TapeStrip; deckle: 1 | 2; offset: boolean }[] = [
 export default function AboutPage() {
   return (
     <>
-      <section className={styles.hero}>
+      <section className={styles.hero} data-editor-section="about">
         <Image
           className={styles.heroImage}
           src={about.hero.image}
@@ -65,7 +65,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className={`${sections.narrow} ${styles.lede}`}>
+      <div className={`${sections.narrow} ${styles.lede}`} data-editor-section="about">
         <Display as="p" size="lede" className={styles.ledeText}>
           {about.lede.lines.map((line) => (
             <span key={line} className={styles.ledeLine}>
@@ -127,7 +127,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <section className={styles.closing}>
+      <section className={styles.closing} data-editor-section="about">
         <Image
           className={styles.frame}
           src="/brand/frame-flowers.png"

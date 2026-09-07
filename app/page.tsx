@@ -79,7 +79,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className={styles.hero}>
+      <section className={styles.hero} data-editor-section="home-hero">
         <Image
           className={styles.heroImage}
           src={home.hero.image}
@@ -106,7 +106,11 @@ export default async function HomePage() {
       </section>
 
       {hasRealCollections ? (
-        <section className={`${sections.wide} ${styles.collections}`} aria-labelledby="oph-cols">
+        <section
+          className={`${sections.wide} ${styles.collections}`}
+          aria-labelledby="oph-cols"
+          data-editor-section="home-collections"
+        >
           <div className={sections.header}>
             <Display as="h2" size="section" id="oph-cols">
               {home.collections.heading}
@@ -154,7 +158,11 @@ export default async function HomePage() {
       ) : null}
 
       {favourites.length > 0 ? (
-        <section className={`${sections.wide} ${styles.favourites}`} aria-labelledby="oph-fav">
+        <section
+          className={`${sections.wide} ${styles.favourites}`}
+          aria-labelledby="oph-fav"
+          data-editor-section="home-favourites"
+        >
           <div className={sections.header}>
             <Display as="h2" size="section" id="oph-fav">
               {home.favourites.heading}
@@ -176,7 +184,7 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section className={styles.story} aria-labelledby="oph-story">
+      <section className={styles.story} aria-labelledby="oph-story" data-editor-section="home-story">
         <Image
           className={styles.storyFlowers}
           src="/brand/bg-flowers.png"
@@ -215,7 +223,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className={`${sections.wide} ${styles.reviews}`} aria-labelledby="oph-reviews">
+      <section
+        className={`${sections.wide} ${styles.reviews}`}
+        aria-labelledby="oph-reviews"
+        data-editor-section="reviews"
+      >
         <Display as="h2" size="section" id="oph-reviews" className={styles.reviewsHeading}>
           {home.reviews.heading}
         </Display>
@@ -234,7 +246,11 @@ export default async function HomePage() {
       </section>
 
       {posts.length > 0 ? (
-        <section className={`${sections.wide} ${styles.diary}`} aria-labelledby="oph-diary">
+        <section
+          className={`${sections.wide} ${styles.diary}`}
+          aria-labelledby="oph-diary"
+          data-editor-section="diario"
+        >
           <div className={sections.header}>
             <Display as="h2" size="section" id="oph-diary">
               {home.diary.heading}

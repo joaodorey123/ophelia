@@ -22,7 +22,7 @@ export const metadata = pageMetadata({
 export default function DiarioPage() {
   return (
     <div className={`${sections.wide} ${styles.page}`}>
-      <div className={styles.intro}>
+      <div className={styles.intro} data-editor-section="diario-intro">
         <Kicker>{diario.kicker}</Kicker>
         <Display as="h1" size="pageSm" className={styles.title}>
           {diario.titleLead}
@@ -31,7 +31,7 @@ export default function DiarioPage() {
         <p className={styles.lede}>{diario.lede}</p>
       </div>
 
-      <div className={styles.grid}>
+      <div className={styles.grid} data-editor-section="diario">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} withExcerpt />
         ))}
