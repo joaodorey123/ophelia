@@ -18,9 +18,14 @@
   transform: scale(1.045);
 }
 
+/* The tape hangs above the print, so the card needs room for it. */
+.wornMedia {
+  margin-top: 10px;
+}
+
 .meta {
   display: block;
-  margin-top: 15px;
+  margin-top: 18px;
   font-size: 10px;
   letter-spacing: 0.26em;
   text-transform: uppercase;

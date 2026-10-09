@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { JsonLd } from '@/components/seo/JsonLd';
-import { TapedPhoto } from '@/components/ui/TapedPhoto';
+import { WornPhoto } from '@/components/ui/WornPhoto';
 import { Display } from '@/components/ui/Type';
 import { getPost, posts } from '@/lib/content';
 import { postPath } from '@/lib/navigation';
@@ -79,20 +79,14 @@ export default async function ArticlePage({ params }: Params) {
           </Display>
 
           <div className={styles.hero}>
-            <TapedPhoto
-              src={post.image}
-              alt=""
-              ratio="16 / 11"
-              pad={14}
-              mountPad={8}
-              mountShadow="lg"
-              deckle={1}
-              priority
-              sizes="(max-width: 1000px) 100vw, 820px"
-              tapes={[
-                { type: 'striped', top: '0', left: '38%', width: 96, height: 22, rotate: -3 },
-              ]}
-            />
+            <WornPhoto
+            src={post.image}
+            alt=""
+            ratio="16 / 11"
+            variant={pageNumber}
+            priority
+            sizes="(max-width: 1000px) 100vw, 820px"
+          />
           </div>
 
           <p className={styles.standfirst}>{post.excerpt}</p>

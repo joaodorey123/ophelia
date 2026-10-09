@@ -32,8 +32,8 @@ export default function DiarioPage() {
       </div>
 
       <div className={styles.grid} data-editor-section="diario">
-        {posts.map((post) => (
-          <PostCard key={post.slug} post={post} withExcerpt />
+        {posts.map((post, index) => (
+          <PostCard key={post.slug} post={post} withExcerpt worn variant={index} />
         ))}
       </div>
     </div>
