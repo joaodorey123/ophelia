@@ -4,11 +4,19 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { SESSION_COOKIE, verifySession } from './auth';
+import { ConfigError } from './config';
 
 /** True when the caller holds a valid session. */
 export async function hasSession(): Promise<boolean> {
   const store = await cookies();
-  return verifySession(store.get(SESSION_COOKIE)?.value);
+  try {
+    return verifySession(store.get(SESSION_COOKIE)?.value);
+  } catch (error) {
+    // Without a signing key nobody can hold a session; the sign-in screen
+    // then explains what is missing instead of the request failing.
+    if (error instanceof ConfigError) return false;
+    throw error;
+  }
 }
 
 /**
