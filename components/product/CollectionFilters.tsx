@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Collection } from '@/lib/commerce/types';
 import { SHOP_INDEX, collectionPath } from '@/lib/navigation';
 
-import styles from '@/app/comprar/collection.module.css';
+import styles from '@/app/(site)/comprar/collection.module.css';
 
 /**
  * The category pills.

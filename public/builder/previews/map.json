@@ -1,0 +1,164 @@
+[
+  {
+    "id": "inicio",
+    "label": "Página inicial",
+    "path": "/",
+    "image": "/builder/previews/inicio.png",
+    "aspect": "1280 / 5131",
+    "regions": [
+      {
+        "id": "home-hero",
+        "top": 3.586045605145196,
+        "left": 0,
+        "width": 100,
+        "height": 12.979925940362502,
+        "label": "Fotografia e título principal",
+        "href": "/builder/secao/home-hero"
+      },
+      {
+        "id": "home-collections",
+        "top": 16.5659715455077,
+        "left": 0,
+        "width": 100,
+        "height": 12.397376242447866,
+        "label": "Cartões das categorias",
+        "href": "/builder/secao/home-collections"
+      },
+      {
+        "id": "home-favourites",
+        "top": 28.963347787955563,
+        "left": 0,
+        "width": 100,
+        "height": 13.387984798284936,
+        "label": "Produtos em destaque",
+        "href": "/builder/secao/home-favourites"
+      },
+      {
+        "id": "home-story",
+        "top": 44.22231290196842,
+        "left": 0,
+        "width": 100,
+        "height": 15.474566361333073,
+        "label": "A nossa história",
+        "href": "/builder/secao/home-story"
+      },
+      {
+        "id": "reviews",
+        "top": 59.696879263301504,
+        "left": 0,
+        "width": 100,
+        "height": 10.866851003702982,
+        "label": "Opiniões",
+        "href": "/builder/secao/reviews"
+      },
+      {
+        "id": "diario",
+        "top": 70.56373026700449,
+        "left": 0,
+        "width": 100,
+        "height": 11.555069674527383,
+        "label": "Artigos do diário",
+        "href": "/builder/diario"
+      }
+    ]
+  },
+  {
+    "id": "loja",
+    "label": "Loja",
+    "path": "/comprar",
+    "image": "/builder/previews/loja.png",
+    "aspect": "1280 / 2044",
+    "regions": [
+      {
+        "id": "shop",
+        "top": 12.426614481409,
+        "left": 25.78125,
+        "width": 48.4375,
+        "height": 6.937224804305283,
+        "label": "Introdução da loja",
+        "href": "/builder/secao/shop"
+      }
+    ]
+  },
+  {
+    "id": "quem-somos",
+    "label": "Quem somos",
+    "path": "/quem-somos",
+    "image": "/builder/previews/quem-somos.png",
+    "aspect": "1280 / 4075",
+    "regions": [
+      {
+        "id": "about",
+        "top": 4.515337423312883,
+        "left": 0,
+        "width": 100,
+        "height": 12.368098159509202,
+        "label": "Página quem somos",
+        "href": "/builder/secao/about"
+      },
+      {
+        "id": "about",
+        "top": 16.883435582822088,
+        "left": 3.90625,
+        "width": 92.1875,
+        "height": 44.16641104294479,
+        "label": "Página quem somos",
+        "href": "/builder/secao/about"
+      },
+      {
+        "id": "about",
+        "top": 63.40567484662577,
+        "left": 0,
+        "width": 100,
+        "height": 14.088573619631903,
+        "label": "Página quem somos",
+        "href": "/builder/secao/about"
+      }
+    ]
+  },
+  {
+    "id": "diario",
+    "label": "Diário",
+    "path": "/diario",
+    "image": "/builder/previews/diario.png",
+    "aspect": "1280 / 2488",
+    "regions": [
+      {
+        "id": "diario-intro",
+        "top": 10.209003215434084,
+        "left": 2.65625,
+        "width": 46.875,
+        "height": 9.259445337620578,
+        "label": "Introdução do diário",
+        "href": "/builder/secao/diario-intro"
+      },
+      {
+        "id": "diario",
+        "top": 21.719252411575564,
+        "left": 2.65625,
+        "width": 94.6875,
+        "height": 39.829305667202576,
+        "label": "Artigos do diário",
+        "href": "/builder/diario"
+      }
+    ]
+  },
+  {
+    "id": "contacto",
+    "label": "Contacto",
+    "path": "/contacto",
+    "image": "/builder/previews/contacto.png",
+    "aspect": "1280 / 2449",
+    "regions": [
+      {
+        "id": "contacto",
+        "top": 7.513270722743977,
+        "left": 0.78125,
+        "width": 98.4375,
+        "height": 55.053720906492444,
+        "label": "Página de contacto",
+        "href": "/builder/secao/contacto"
+      }
+    ]
+  }
+]

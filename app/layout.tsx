@@ -2,23 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Jost } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import { CartDrawer, CartToast } from '@/components/cart/CartDrawer';
-import { CartProvider } from '@/components/cart/CartProvider';
-import { AnnouncementBar } from '@/components/layout/AnnouncementBar';
-import { CatalogueNotice } from '@/components/layout/CatalogueNotice';
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { JsonLd } from '@/components/seo/JsonLd';
-import { DeckleFilters } from '@/components/ui/DeckleFilters';
-import { getCart } from '@/lib/cart/get-cart';
-import { getCollectionsSafe } from '@/lib/commerce/safe';
-import { site } from '@/lib/content';
-import { themeStyle } from '@/lib/content/theme';
 import { rootMetadata } from '@/lib/seo/metadata';
-import { organizationSchema, websiteSchema } from '@/lib/seo/structured-data';
 import { SITE } from '@/lib/site';
-
-import './globals.css';
 
 /**
  * The three faces are part of the visual contract, so all three are
@@ -60,42 +45,18 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // One cart read per request, shared by the header badge and the drawer.
-  const [cart, collections] = await Promise.all([getCart(), getCollectionsSafe()]);
-  const themeCss = themeStyle();
-
+/**
+ * The bare document: language and faces only. The shop's chrome is added by
+ * the (site) layout, so the content editor at /builder can share this
+ * deployment without the storefront's header, footer and cart around it.
+ */
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang={SITE.locale}
       className={`${bethEllen.variable} ${cormorant.variable} ${jost.variable}`}
     >
-      <body>
-        {/* The client's theme overrides, emitted only when they differ from
-            the token layer. Inline so there is no extra request and no flash
-            of the default palette. */}
-        {themeCss ? <style dangerouslySetInnerHTML={{ __html: themeCss }} /> : null}
-
-        <JsonLd data={[organizationSchema(), websiteSchema()]} />
-        <DeckleFilters />
-
-        <CartProvider initialCart={cart}>
-          <a className="oph-skip-link" href="#conteudo">
-            Saltar para o conteúdo
-          </a>
-
-          <CatalogueNotice />
-          <AnnouncementBar />
-          <Header wordmark={site.brand.wordmark} />
-
-          <main id="conteudo">{children}</main>
-
-          <Footer collections={collections} />
-
-          <CartDrawer freeShippingFrom={site.shipping.freeShippingFrom} />
-          <CartToast />
-        </CartProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

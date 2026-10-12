@@ -41,6 +41,14 @@ Variables**. The ones that matter per environment:
 | `OPHELIA_REVALIDATION_SECRET` | Shopify's webhook signing secret | — |
 | `OPHELIA_ENQUIRY_WEBHOOK_URL` | the contact-form endpoint | optional |
 | `OPHELIA_FORCE_LOCAL_CATALOGUE` | **never set** | **never set** |
+| `GITHUB_REPO` | `joaodorey123/ophelia` | same |
+| `GITHUB_BRANCH` | `main` | same |
+| `GITHUB_TOKEN` | fine-grained token, this repo only, Contents read & write | same |
+| `BUILDER_PASSWORD_HASH` | output of `npm run builder:hash-password` | same |
+| `BUILDER_SESSION_SECRET` | random, 32+ characters | same |
+
+The last five are for the content editor at `/builder`. A publish from any deployment commits to
+`GITHUB_BRANCH`, so it always lands on the production site.
 
 Only `NEXT_PUBLIC_SITE_URL` is exposed to the browser. Everything else is server-only, and the
 build fails loudly rather than silently shipping a token if that is ever confused.

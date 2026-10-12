@@ -35,6 +35,15 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
+    // The content editor is private: never indexed, never framed, and it
+    // sends no referrer when a link opens the live site.
+    const privateHeaders = [
+      { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+      { key: 'X-Frame-Options', value: 'DENY' },
+      { key: 'Referrer-Policy', value: 'no-referrer' },
+      { key: 'Cache-Control', value: 'private, no-store' },
+    ];
+
     return [
       {
         source: '/:path*',
@@ -45,6 +54,9 @@ const nextConfig: NextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         ],
       },
+      { source: '/builder', headers: privateHeaders },
+      { source: '/builder/:path*', headers: privateHeaders },
+      { source: '/api/builder/:path*', headers: privateHeaders },
     ];
   },
 };

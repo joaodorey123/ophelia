@@ -1,4 +1,4 @@
-import { CartPageContent } from '@/app/carrinho/CartPageContent';
+import { CartPageContent } from '@/app/(site)/carrinho/CartPageContent';
 import { Display } from '@/components/ui/Type';
 import { site } from '@/lib/content';
 import { pageMetadata } from '@/lib/seo/metadata';

@@ -1,0 +1,114 @@
+/*
+ * The builder's own styling. Loaded only by the /builder layout, so none of
+ * it reaches the storefront's pages.
+ *
+ * It borrows the storefront's palette and faces so an edit is judged in
+ * something close to its final context, but it is a tool, not the shop: denser,
+ * plainer, and never pretending to be a preview of the page.
+ */
+
+:root {
+  --navy: #1e2f52;
+  --navy-hover: #2c4370;
+  --cream: #fbf8f3;
+  --beige: #f3f0e9;
+  --white: #fff;
+  --ink: #1e2f52;
+  --ink-body: #3e4f73;
+  --muted: #4a5c85;
+  --muted-soft: #7c88a3;
+  --line: rgba(30, 47, 82, 0.14);
+  --line-strong: rgba(30, 47, 82, 0.28);
+  --danger: #9c3b28;
+  --danger-bg: #fdf1ee;
+  --ok: #2f6b46;
+  --ok-bg: #eef6f1;
+  --warn-bg: #fdf6e7;
+  --warn: #7a5a12;
+  --radius: 3px;
+  --shadow: 0 2px 10px rgba(30, 47, 82, 0.07);
+  --font-ui: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-beth-ellen), cursive;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--navy);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

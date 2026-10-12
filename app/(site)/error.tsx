@@ -6,7 +6,7 @@ import { Button, ButtonLink } from '@/components/ui/Button';
 import { Display, Kicker } from '@/components/ui/Type';
 import { SITE } from '@/lib/site';
 
-import styles from './status.module.css';
+import styles from '../status.module.css';
 
 /**
  * Route-level error boundary. Shows the failure honestly, offers a retry, and

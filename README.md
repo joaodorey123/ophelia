@@ -151,8 +151,12 @@ E2E_COMMERCE=shopify E2E_PRODUCT_HANDLE=<handle> npx playwright test cart
 ## Repository layout
 
 ```
-app/                    Routes, metadata, sitemap, robots, API handlers
+app/
+  (site)/               Every storefront page, inside the shop's chrome
+  builder/              The content editor at /builder (no shop chrome)
+  api/builder/          The editor's sign-in, upload, publish and deploy APIs
 components/
+  builder/              Content editor screens and fields
   blog/                 Diary card
   cart/                 Cart provider, drawer, line, checkout button
   forms/                Accessible enquiry form
@@ -165,10 +169,11 @@ lib/
   cart/                 Cookie handling, cart reads, server actions
   catalogue/            Development fixture (data + adapter)
   commerce/             Domain types, config, adapter selection
+  builder/              Editor: auth, GitHub commits, field schema
   content/              Typed readers for content/
   shopify/              Storefront client, queries, mutations, transform, adapter
   seo/                  Metadata and structured data
-scripts/                shopify-doctor.mjs
+scripts/                shopify-doctor.mjs, builder-hash-password.mjs, builder-capture-previews.mjs
 tests/                  Unit (Vitest) and browser (Playwright) suites
 design-handoff/         The design this is built from — reference, not code
 ```
@@ -189,9 +194,24 @@ design-handoff/         The design this is built from — reference, not code
 | `/diario`, `/diario/[slug]` | Diary |
 | `/contacto` | Contact |
 | `/envios-e-devolucoes`, `/termos-e-privacidade` | Client's legal text |
+| `/builder` | Content editor — password-protected, never indexed |
 
 URLs are Portuguese throughout, matching the handoff. `/blog`, `/contact`, `/produtos` and
 `/checkout` redirect permanently to their canonical equivalents.
+
+### The content editor
+
+`/builder` edits `content/*.json` and adds photos to `public/uploads/`. Publishing commits the
+changed files to this repository in one commit through the GitHub API; Vercel deploys that commit
+like any other, and the editor follows the deploy until it is live. Nothing is written to the
+server's own disk, so it works on Vercel's read-only filesystem.
+
+It lives outside the `(site)` route group, so it renders without the shop's header, footer, cart
+or styles. It is password-protected (scrypt hash + signed, httpOnly session cookie), sends
+`noindex` and `X-Frame-Options: DENY`, and is disallowed in `robots.txt`. It needs `GITHUB_REPO`,
+`GITHUB_TOKEN`, `BUILDER_PASSWORD_HASH` and `BUILDER_SESSION_SECRET`; without them it shows which
+are missing and the storefront is unaffected. The clickable page map is regenerated with
+`npm run builder:capture` after a layout change.
 
 ---
 
