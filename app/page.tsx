@@ -260,8 +260,8 @@ export default async function HomePage() {
             </TextLink>
           </div>
           <div className={styles.diaryGrid}>
-            {posts.map((post) => (
-              <PostCard key={post.slug} post={post} />
+            {posts.map((post, index) => (
+              <PostCard key={post.slug} post={post} worn variant={index} />
             ))}
           </div>
         </section>
