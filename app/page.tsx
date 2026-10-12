@@ -184,7 +184,11 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section className={styles.story} aria-labelledby="oph-story" data-editor-section="home-story">
+      <section
+        className={styles.story}
+        aria-labelledby="oph-story"
+        data-editor-section="home-story"
+      >
         <Image
           className={styles.storyFlowers}
           src="/brand/bg-flowers.png"
@@ -246,25 +250,31 @@ export default async function HomePage() {
       </section>
 
       {posts.length > 0 ? (
-        <section
-          className={`${sections.wide} ${styles.diary}`}
-          aria-labelledby="oph-diary"
-          data-editor-section="diario"
-        >
-          <div className={sections.header}>
-            <Display as="h2" size="section" id="oph-diary">
-              {home.diary.heading}
-            </Display>
-            <TextLink href="/diario" small>
-              {home.diary.cta}
-            </TextLink>
+        <div className={styles.diaryStrip}>
+          <div className={styles.diaryPaper}>
+            <section
+              className={`${sections.wide} ${styles.diary}`}
+              aria-labelledby="oph-diary"
+              data-editor-section="diario"
+            >
+              <div className={sections.header}>
+                <Display as="h2" size="section" id="oph-diary">
+                  {home.diary.heading}
+                </Display>
+                <TextLink href="/diario" small>
+                  {home.diary.cta}
+                </TextLink>
+              </div>
+              <div className={styles.diaryGrid}>
+                {posts.map((post, index) => (
+                  <PostCard key={post.slug} post={post} worn variant={index} />
+                ))}
+              </div>
+            </section>
           </div>
-          <div className={styles.diaryGrid}>
-            {posts.map((post, index) => (
-              <PostCard key={post.slug} post={post} worn variant={index} />
-            ))}
-          </div>
-        </section>
+          <span className={styles.stripTapeLeft} aria-hidden />
+          <span className={styles.stripTapeRight} aria-hidden />
+        </div>
       ) : null}
     </>
   );

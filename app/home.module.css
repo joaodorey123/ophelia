@@ -232,7 +232,7 @@
 
 /* ── Diary ─────────────────────────────────────────────────────────────── */
 .diary {
-  padding-block: 96px 40px;
+  padding-block: 84px 80px;
 }
 
 .diaryGrid {
@@ -259,11 +259,439 @@
   .favourites,
   .reviews,
   .diary {
-    padding-block: 64px 20px;
+    padding-block: 60px 56px;
   }
 
   .storyInner {
     padding-block: 72px;
     gap: 40px;
+  }
+}
+
+/* ── The diary strip ───────────────────────────────────────────────────────
+ *
+ * The home page's diary section sits on a strip of the same worn notebook
+ * paper the articles are written on — torn along the top and bottom, aged,
+ * ruled, taped down. It separates the section from the reviews above and
+ * says "diary" before a word is read.
+ */
+.diaryStrip {
+  position: relative;
+  margin-top: 84px;
+  filter: drop-shadow(0 1px 1.5px rgba(30, 47, 82, 0.1))
+    drop-shadow(0 10px 22px rgba(30, 47, 82, 0.09));
+}
+
+.diaryPaper {
+  position: relative;
+  overflow: hidden;
+  background-color: #fdf8ee;
+  background-image:
+    /* An old fold across the strip. */
+    linear-gradient(
+      91.2deg,
+      transparent 63%,
+      rgba(30, 47, 82, 0.07) 63%,
+      rgba(30, 47, 82, 0.07) calc(63% + 1px),
+      rgba(255, 255, 255, 0.9) calc(63% + 1px),
+      rgba(255, 255, 255, 0.9) calc(63% + 2px),
+      transparent calc(63% + 2px)
+    ),
+    /* Foxing. */ radial-gradient(circle at 6% 30%, rgba(143, 107, 54, 0.12) 0, transparent 34px),
+    radial-gradient(circle at 47% 88%, rgba(143, 107, 54, 0.1) 0, transparent 26px),
+    radial-gradient(circle at 94% 64%, rgba(143, 107, 54, 0.11) 0, transparent 40px),
+    /* Faint ruling, as on a notebook page. */
+    repeating-linear-gradient(180deg, transparent 0 31px, rgba(30, 47, 82, 0.06) 31px 32px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .26 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  box-shadow:
+    inset 0 0 110px rgba(143, 107, 54, 0.1),
+    inset 0 0 24px rgba(143, 107, 54, 0.1);
+  clip-path: polygon(
+    0% 8.2px,
+    0.59% 8.2px,
+    1.18% 7.7px,
+    1.76% 10.9px,
+    2.35% 6.8px,
+    2.94% 8.9px,
+    3.53% 7.5px,
+    4.12% 7.2px,
+    4.71% 8.4px,
+    5.29% 9.8px,
+    5.88% 8.5px,
+    6.47% 12px,
+    7.06% 5.5px,
+    7.65% 3.2px,
+    8.24% 3.5px,
+    8.82% 4.4px,
+    9.41% 10.9px,
+    10% 4.2px,
+    10.59% 3.8px,
+    11.18% 5.7px,
+    11.76% 4.8px,
+    12.35% 11.2px,
+    12.94% 6.9px,
+    13.53% 7.1px,
+    14.12% 5.6px,
+    14.71% 7.1px,
+    15.29% 7.8px,
+    15.88% 7.8px,
+    16.47% 6.5px,
+    17.06% 9.1px,
+    17.65% 6.6px,
+    18.24% 4.9px,
+    18.82% 3.8px,
+    19.41% 3px,
+    20% 1.7px,
+    20.59% 1.7px,
+    21.18% 1.8px,
+    21.76% 3.2px,
+    22.35% 3.3px,
+    22.94% 3px,
+    23.53% 1.3px,
+    24.12% 1.5px,
+    24.71% 2.1px,
+    25.29% 1.6px,
+    25.88% 1.5px,
+    26.47% 2.3px,
+    27.06% 1.9px,
+    27.65% 2.4px,
+    28.24% 3.3px,
+    28.82% 4.5px,
+    29.41% 2.5px,
+    30% 2.9px,
+    30.59% 5.2px,
+    31.18% 2.7px,
+    31.76% 4.1px,
+    32.35% 2.3px,
+    32.94% 2.5px,
+    33.53% 1.6px,
+    34.12% 3px,
+    34.71% 1.1px,
+    35.29% 1.2px,
+    35.88% 1.2px,
+    36.47% 1.5px,
+    37.06% 2.2px,
+    37.65% 2.3px,
+    38.24% 7px,
+    38.82% 5.4px,
+    39.41% 3.2px,
+    40% 7.8px,
+    40.59% 4.1px,
+    41.18% 2.3px,
+    41.76% 3.7px,
+    42.35% 7.5px,
+    42.94% 2px,
+    43.53% 2.8px,
+    44.12% 6.1px,
+    44.71% 3.2px,
+    45.29% 5.4px,
+    45.88% 2.9px,
+    46.47% 2.3px,
+    47.06% 1.4px,
+    47.65% 2.2px,
+    48.24% 3px,
+    48.82% 4.1px,
+    49.41% 3.1px,
+    50% 4.9px,
+    50.59% 3.6px,
+    51.18% 6px,
+    51.76% 4.5px,
+    52.35% 2.4px,
+    52.94% 2.5px,
+    53.53% 2.7px,
+    54.12% 2.1px,
+    54.71% 2.1px,
+    55.29% 1.5px,
+    55.88% 3.2px,
+    56.47% 2.9px,
+    57.06% 1.9px,
+    57.65% 2.2px,
+    58.24% 2.8px,
+    58.82% 1.6px,
+    59.41% 2.6px,
+    60% 6.4px,
+    60.59% 1.2px,
+    61.18% 2.2px,
+    61.76% 3.5px,
+    62.35% 2.4px,
+    62.94% 2.6px,
+    63.53% 3.9px,
+    64.12% 4.6px,
+    64.71% 4.3px,
+    65.29% 5.5px,
+    65.88% 4.1px,
+    66.47% 4.8px,
+    67.06% 5.2px,
+    67.65% 5.3px,
+    68.24% 3.4px,
+    68.82% 4px,
+    69.41% 4.5px,
+    70% 5.2px,
+    70.59% 5.7px,
+    71.18% 7px,
+    71.76% 10.2px,
+    72.35% 7.4px,
+    72.94% 8.5px,
+    73.53% 6.9px,
+    74.12% 14.3px,
+    74.71% 15.7px,
+    75.29% 9.2px,
+    75.88% 6.4px,
+    76.47% 7.7px,
+    77.06% 7.4px,
+    77.65% 8.7px,
+    78.24% 10.2px,
+    78.82% 12.7px,
+    79.41% 12.8px,
+    80% 13.2px,
+    80.59% 15.1px,
+    81.18% 13.6px,
+    81.76% 15.1px,
+    82.35% 15.7px,
+    82.94% 18.1px,
+    83.53% 16.1px,
+    84.12% 14.2px,
+    84.71% 16.6px,
+    85.29% 17.7px,
+    85.88% 16.3px,
+    86.47% 15.8px,
+    87.06% 15.7px,
+    87.65% 16px,
+    88.24% 16.1px,
+    88.82% 16.2px,
+    89.41% 17.4px,
+    90% 16.7px,
+    90.59% 16px,
+    91.18% 15.4px,
+    91.76% 14.4px,
+    92.35% 13.3px,
+    92.94% 11.6px,
+    93.53% 13.7px,
+    94.12% 15.5px,
+    94.71% 13.9px,
+    95.29% 13.7px,
+    95.88% 10.7px,
+    96.47% 9.2px,
+    97.06% 10px,
+    97.65% 11.3px,
+    98.24% 12.8px,
+    98.82% 14.8px,
+    99.41% 15.3px,
+    100% 16.5px,
+    100% calc(100% - 18.7px),
+    99.41% calc(100% - 13.7px),
+    98.82% calc(100% - 13.2px),
+    98.24% calc(100% - 11.4px),
+    97.65% calc(100% - 11.7px),
+    97.06% calc(100% - 12.8px),
+    96.47% calc(100% - 13.2px),
+    95.88% calc(100% - 15.3px),
+    95.29% calc(100% - 14.1px),
+    94.71% calc(100% - 19.2px),
+    94.12% calc(100% - 15.1px),
+    93.53% calc(100% - 13.2px),
+    92.94% calc(100% - 12.1px),
+    92.35% calc(100% - 9.2px),
+    91.76% calc(100% - 9.4px),
+    91.18% calc(100% - 9.3px),
+    90.59% calc(100% - 11.5px),
+    90% calc(100% - 7.9px),
+    89.41% calc(100% - 10.9px),
+    88.82% calc(100% - 6.3px),
+    88.24% calc(100% - 5.5px),
+    87.65% calc(100% - 6px),
+    87.06% calc(100% - 7px),
+    86.47% calc(100% - 6.1px),
+    85.88% calc(100% - 5.8px),
+    85.29% calc(100% - 5.2px),
+    84.71% calc(100% - 6.4px),
+    84.12% calc(100% - 10.4px),
+    83.53% calc(100% - 7.9px),
+    82.94% calc(100% - 7px),
+    82.35% calc(100% - 7.9px),
+    81.76% calc(100% - 7.8px),
+    81.18% calc(100% - 8.4px),
+    80.59% calc(100% - 12.2px),
+    80% calc(100% - 7.1px),
+    79.41% calc(100% - 6.6px),
+    78.82% calc(100% - 11.5px),
+    78.24% calc(100% - 7.2px),
+    77.65% calc(100% - 8.7px),
+    77.06% calc(100% - 8.8px),
+    76.47% calc(100% - 9.8px),
+    75.88% calc(100% - 11.7px),
+    75.29% calc(100% - 10.6px),
+    74.71% calc(100% - 10.9px),
+    74.12% calc(100% - 10.1px),
+    73.53% calc(100% - 8.6px),
+    72.94% calc(100% - 11.4px),
+    72.35% calc(100% - 9.3px),
+    71.76% calc(100% - 9.7px),
+    71.18% calc(100% - 10.3px),
+    70.59% calc(100% - 10.7px),
+    70% calc(100% - 11.2px),
+    69.41% calc(100% - 9.6px),
+    68.82% calc(100% - 9.8px),
+    68.24% calc(100% - 11.8px),
+    67.65% calc(100% - 9.2px),
+    67.06% calc(100% - 8.9px),
+    66.47% calc(100% - 8px),
+    65.88% calc(100% - 7.2px),
+    65.29% calc(100% - 8.7px),
+    64.71% calc(100% - 7.1px),
+    64.12% calc(100% - 7.7px),
+    63.53% calc(100% - 6.5px),
+    62.94% calc(100% - 5.2px),
+    62.35% calc(100% - 5px),
+    61.76% calc(100% - 5.2px),
+    61.18% calc(100% - 4.5px),
+    60.59% calc(100% - 5.5px),
+    60% calc(100% - 4.6px),
+    59.41% calc(100% - 5.1px),
+    58.82% calc(100% - 7.1px),
+    58.24% calc(100% - 5.6px),
+    57.65% calc(100% - 5.7px),
+    57.06% calc(100% - 4.9px),
+    56.47% calc(100% - 3.5px),
+    55.88% calc(100% - 3px),
+    55.29% calc(100% - 1.1px),
+    54.71% calc(100% - 2px),
+    54.12% calc(100% - 2.8px),
+    53.53% calc(100% - 1.9px),
+    52.94% calc(100% - 1.8px),
+    52.35% calc(100% - 1.3px),
+    51.76% calc(100% - 2px),
+    51.18% calc(100% - 1.6px),
+    50.59% calc(100% - 1.5px),
+    50% calc(100% - 2.4px),
+    49.41% calc(100% - 3px),
+    48.82% calc(100% - 1.7px),
+    48.24% calc(100% - 2px),
+    47.65% calc(100% - 5.3px),
+    47.06% calc(100% - 1.3px),
+    46.47% calc(100% - 2.1px),
+    45.88% calc(100% - 1.4px),
+    45.29% calc(100% - 1.9px),
+    44.71% calc(100% - 1.8px),
+    44.12% calc(100% - 3.3px),
+    43.53% calc(100% - 3.4px),
+    42.94% calc(100% - 9.3px),
+    42.35% calc(100% - 5.7px),
+    41.76% calc(100% - 6.2px),
+    41.18% calc(100% - 8.8px),
+    40.59% calc(100% - 3.4px),
+    40% calc(100% - 5.2px),
+    39.41% calc(100% - 3.4px),
+    38.82% calc(100% - 3.3px),
+    38.24% calc(100% - 3px),
+    37.65% calc(100% - 4.1px),
+    37.06% calc(100% - 6.6px),
+    36.47% calc(100% - 4.4px),
+    35.88% calc(100% - 5.3px),
+    35.29% calc(100% - 9px),
+    34.71% calc(100% - 4.9px),
+    34.12% calc(100% - 4.7px),
+    33.53% calc(100% - 5.3px),
+    32.94% calc(100% - 5.6px),
+    32.35% calc(100% - 9.4px),
+    31.76% calc(100% - 4.9px),
+    31.18% calc(100% - 5.6px),
+    30.59% calc(100% - 9.4px),
+    30% calc(100% - 2.7px),
+    29.41% calc(100% - 1.2px),
+    28.82% calc(100% - 2.3px),
+    28.24% calc(100% - 2.3px),
+    27.65% calc(100% - 4.6px),
+    27.06% calc(100% - 1.7px),
+    26.47% calc(100% - 3.1px),
+    25.88% calc(100% - 4.6px),
+    25.29% calc(100% - 1.4px),
+    24.71% calc(100% - 1.2px),
+    24.12% calc(100% - 2.2px),
+    23.53% calc(100% - 3.2px),
+    22.94% calc(100% - 2.7px),
+    22.35% calc(100% - 1.5px),
+    21.76% calc(100% - 2.1px),
+    21.18% calc(100% - 1.8px),
+    20.59% calc(100% - 2.2px),
+    20% calc(100% - 2px),
+    19.41% calc(100% - 5.7px),
+    18.82% calc(100% - 1.3px),
+    18.24% calc(100% - 2.6px),
+    17.65% calc(100% - 2.4px),
+    17.06% calc(100% - 3.7px),
+    16.47% calc(100% - 1.3px),
+    15.88% calc(100% - 2.8px),
+    15.29% calc(100% - 2.1px),
+    14.71% calc(100% - 1.1px),
+    14.12% calc(100% - 1.9px),
+    13.53% calc(100% - 2.4px),
+    12.94% calc(100% - 2px),
+    12.35% calc(100% - 4px),
+    11.76% calc(100% - 2.1px),
+    11.18% calc(100% - 2px),
+    10.59% calc(100% - 2.1px),
+    10% calc(100% - 1.6px),
+    9.41% calc(100% - 3.6px),
+    8.82% calc(100% - 4.2px),
+    8.24% calc(100% - 6.9px),
+    7.65% calc(100% - 7.3px),
+    7.06% calc(100% - 7.8px),
+    6.47% calc(100% - 7.7px),
+    5.88% calc(100% - 8px),
+    5.29% calc(100% - 9.5px),
+    4.71% calc(100% - 8.5px),
+    4.12% calc(100% - 9.8px),
+    3.53% calc(100% - 8px),
+    2.94% calc(100% - 8.8px),
+    2.35% calc(100% - 6.9px),
+    1.76% calc(100% - 11.7px),
+    1.18% calc(100% - 6.5px),
+    0.59% calc(100% - 6.7px),
+    0% calc(100% - 10.4px)
+  );
+}
+
+/* Tape holding the strip down, over the torn top edge. */
+.stripTapeLeft,
+.stripTapeRight {
+  position: absolute;
+  z-index: 2;
+  top: -10px;
+  height: 28px;
+  pointer-events: none;
+}
+
+.stripTapeLeft {
+  left: 9%;
+  width: 116px;
+  background: var(--oph-tape-striped);
+  box-shadow: var(--oph-shadow-tape-sm);
+  transform: rotate(-4deg);
+}
+
+.stripTapeRight {
+  right: 12%;
+  width: 104px;
+  background: var(--oph-tape-kraft);
+  box-shadow: var(--oph-shadow-tape);
+  transform: rotate(5deg);
+}
+
+@media (max-width: 640px) {
+  .diaryStrip {
+    margin-top: 56px;
+  }
+
+  .stripTapeLeft {
+    left: 6%;
+    width: 84px;
+    height: 22px;
+  }
+
+  .stripTapeRight {
+    right: 8%;
+    width: 76px;
+    height: 22px;
   }
 }
