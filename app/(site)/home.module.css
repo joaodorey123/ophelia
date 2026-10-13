@@ -185,7 +185,6 @@
   top: -30px;
   left: 18px;
   width: 64px;
-  filter: drop-shadow(0 2px 3px rgba(30, 47, 82, 0.16));
 }
 
 .review:nth-child(3n + 1) .reviewFlower {

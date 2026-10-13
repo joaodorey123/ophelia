@@ -37,28 +37,34 @@
 }
 
 /*
- * The shadow under the rough outline: the same torn shape, blurred, on its own
- * layer behind the print. A drop-shadow filter on the print would follow the
- * outline too, but it is re-blurred on every frame of a scroll; this layer is
- * blurred once and then only composited. The blur sits on the outer span so
- * the inner span's clip-path does not cut it off.
+ * The shadow under the torn outline: two unblurred copies of the shape, a
+ * little lower each time and fainter, which reads as a soft shadow. Any blur
+ * here — a drop-shadow filter or a blurred layer — was re-rasterised as the
+ * page scrolled and made the section judder.
  */
 .shadow {
   position: absolute;
   inset: 0;
   z-index: -1;
-  transform: translateY(5px);
-  filter: blur(7px);
-  will-change: transform;
   pointer-events: none;
 }
 
-.shadow::before {
+.shadow::before,
+.shadow::after {
   content: '';
   position: absolute;
   inset: 0;
   clip-path: var(--print-clip);
-  background: rgba(30, 47, 82, 0.22);
+}
+
+.shadow::before {
+  background: rgba(30, 47, 82, 0.12);
+  transform: translateY(2px);
+}
+
+.shadow::after {
+  background: rgba(30, 47, 82, 0.06);
+  transform: translateY(6px);
 }
 
 /* Grain over the photo, blended so it textures both lights and darks. */
@@ -151,7 +157,6 @@
   position: absolute;
   z-index: 2;
   width: clamp(58px, 18%, 92px);
-  filter: drop-shadow(0 2px 3px rgba(30, 47, 82, 0.18));
 }
 
 .pinLeft {

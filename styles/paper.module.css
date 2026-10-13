@@ -12,26 +12,34 @@
 }
 
 /*
- * The strip's shadow: the torn outline, blurred once on its own layer. A
- * drop-shadow filter on the strip itself was re-blurred across the full width
- * on every frame of a scroll, which is what made this section judder.
+ * The shadow under the torn outline: two unblurred copies of the shape, a
+ * little lower each time and fainter, which reads as a soft shadow. Any blur
+ * here — a drop-shadow filter or a blurred layer — was re-rasterised as the
+ * page scrolled and made the section judder.
  */
 .shadow {
   position: absolute;
   inset: 0;
   z-index: -1;
-  transform: translateY(8px);
-  filter: blur(12px);
-  will-change: transform;
   pointer-events: none;
 }
 
-.shadow::before {
+.shadow::before,
+.shadow::after {
   content: '';
   position: absolute;
   inset: 0;
   clip-path: var(--paper-clip);
-  background: rgba(30, 47, 82, 0.16);
+}
+
+.shadow::before {
+  background: rgba(30, 47, 82, 0.07);
+  transform: translateY(3px);
+}
+
+.shadow::after {
+  background: rgba(30, 47, 82, 0.045);
+  transform: translateY(9px);
 }
 
 .paper {
