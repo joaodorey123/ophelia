@@ -45,6 +45,11 @@ export default defineConfig({
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
-    env: { OPHELIA_FORCE_LOCAL_CATALOGUE: 'true', NEXT_PUBLIC_SITE_URL: baseURL },
+    env: {
+      OPHELIA_FORCE_LOCAL_CATALOGUE: 'true',
+      NEXT_PUBLIC_SITE_URL: baseURL,
+      // The suite tests the site itself, not the pre-launch gate in front of it.
+      COMING_SOON_PASSWORD: '',
+    },
   },
 });

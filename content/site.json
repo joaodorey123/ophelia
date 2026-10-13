@@ -5,6 +5,15 @@
     "description": "Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, no Estoril.",
     "since": "estoril · desde 2019"
   },
+  "comingSoon": {
+    "enabled": true,
+    "kicker": "cake · brunch · friends",
+    "title": "em breve",
+    "text": "Estamos a preparar a nova casa da Ophelia online. Até lá, encontre-nos na loja no Estoril ou no Instagram, @callmeophelia.",
+    "passwordLabel": "palavra-passe",
+    "cta": "entrar",
+    "error": "A palavra-passe não está certa. Tente outra vez."
+  },
   "announcement": {
     "enabled": true,
     "messages": [

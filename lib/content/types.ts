@@ -23,6 +23,19 @@ export type SiteContent = {
     description: string;
     since: string;
   };
+  /**
+   * The "em breve" page that stands in front of the whole site until launch.
+   * Only active when COMING_SOON_PASSWORD is also set on the server.
+   */
+  comingSoon: {
+    enabled: boolean;
+    kicker: string;
+    title: string;
+    text: string;
+    passwordLabel: string;
+    cta: string;
+    error: string;
+  };
   announcement: { enabled: boolean; messages: string[] };
   /** The header's booking button. Hidden when `url` is empty. */
   reservations: { label: string; url: string };
