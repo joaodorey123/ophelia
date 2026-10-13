@@ -55,6 +55,7 @@ export function ProductCard({
             fill
             sizes={sizes}
             priority={priority}
+            quality={85}
           />
         ) : null}
       </Link>

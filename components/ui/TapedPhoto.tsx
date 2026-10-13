@@ -110,6 +110,7 @@ export function TapedPhoto({
             sizes={sizes}
             priority={priority}
             style={photoStyle}
+            quality={85}
           />
         </span>
       </div>

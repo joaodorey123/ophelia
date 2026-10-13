@@ -59,6 +59,7 @@ export function ProductGallery({ images, title }: { images: ProductImage[]; titl
                 alt=""
                 fill
                 sizes="120px"
+                quality={85}
               />
             </button>
           ))}

@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.shopify.com', pathname: '/**' }],
     formats: ['image/avif', 'image/webp'],
+    // 75 is the default; product photography asks for 85, because the smooth
+    // navy studio backgrounds band and blotch under heavier compression.
+    qualities: [75, 85],
   },
 
   /**
