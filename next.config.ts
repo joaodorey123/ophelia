@@ -28,6 +28,25 @@ const nextConfig: NextConfig = {
    */
   async redirects() {
     return [
+      /*
+       * One address for the whole site: https, no www. The hosting serves both
+       * www and plain http too, and duplicates split search ranking.
+       */
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.callmeophelia.com' }],
+        destination: 'https://callmeophelia.com/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [
+          { type: 'host', value: 'callmeophelia.com' },
+          { type: 'header', key: 'x-forwarded-proto', value: 'http' },
+        ],
+        destination: 'https://callmeophelia.com/:path*',
+        permanent: true,
+      },
       { source: '/produtos', destination: '/comprar', permanent: true },
       { source: '/produtos/:handle', destination: '/produto/:handle', permanent: true },
       { source: '/blog', destination: '/diario', permanent: true },
