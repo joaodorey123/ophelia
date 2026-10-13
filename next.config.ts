@@ -6,6 +6,11 @@ import type { NextConfig } from 'next';
  * /public, so nothing else needs allow-listing.
  */
 const nextConfig: NextConfig = {
+  /*
+   * A self-contained server (with only the node_modules it needs) for the
+   * cPanel Node.js hosting — see .github/workflows/deploy.yml.
+   */
+  output: 'standalone',
   reactStrictMode: true,
   poweredByHeader: false,
   images: {

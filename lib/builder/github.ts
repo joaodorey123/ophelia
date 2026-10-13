@@ -221,69 +221,33 @@ type CombinedStatus = {
   statuses: { context: string; state: string; target_url: string | null }[];
 };
 
-type CheckRuns = {
-  check_runs: { name: string; status: string; conclusion: string | null; details_url: string | null }[];
-};
-
 /**
  * Where a published commit has got to.
  *
- * Vercel reports deployment progress back to GitHub against the commit, so
- * asking GitHub avoids needing a second API token and tells us about the exact
+ * The deploy workflow (.github/workflows/deploy.yml) builds the site and
+ * uploads it to the cPanel hosting, reporting progress back to GitHub as a
+ * commit status. Asking GitHub needs no second token and is about the exact
  * commit the editor just made — not merely "something deployed recently".
  */
+export const DEPLOY_CONTEXT = 'deploy/cpanel';
+
 export async function getDeployState(
   sha: string,
   config = getRepoConfig(),
 ): Promise<{ state: DeployState; url: string | null }> {
-  const base = `/repos/${config.owner}/${config.repo}/commits/${sha}`;
+  const status = await api<CombinedStatus>(
+    `/repos/${config.owner}/${config.repo}/commits/${sha}/status`,
+    config,
+  ).catch(() => null);
 
-  const [status, checks] = await Promise.all([
-    api<CombinedStatus>(`${base}/status`, config).catch(() => null),
-    api<CheckRuns>(`${base}/check-runs`, config).catch(() => null),
-  ]);
+  // Only the hosting deploy counts. Anything else reporting on the commit —
+  // a leftover Vercel project, CI — says nothing about the live site.
+  const deploy = status?.statuses.find((entry) => entry.context === DEPLOY_CONTEXT);
 
-  const vercelStatuses = status?.statuses.filter((entry) =>
-    entry.context.toLowerCase().includes('vercel'),
-  ) ?? [];
-  const vercelChecks = checks?.check_runs.filter((entry) =>
-    entry.name.toLowerCase().includes('vercel'),
-  ) ?? [];
+  // Not reported yet: the workflow takes a few seconds to start.
+  if (!deploy) return { state: 'unknown', url: null };
 
-  /*
-   * More than one Vercel project can end up watching the same repository —
-   * a stray project from an earlier setup attempt, say. That project's
-   * unrelated failure must not be reported as "the site failed to update"
-   * when the real production project deployed successfully. So: any success
-   * counts as live; it is only "failed" when every reporting project failed,
-   * and "pending" while any of them is still building.
-   */
-  const entries = [
-    ...vercelStatuses.map((entry) => ({
-      state: entry.state === 'success' ? 'live' : entry.state === 'pending' ? 'pending' : 'failed',
-      url: entry.target_url,
-    })),
-    ...vercelChecks.map((entry) => ({
-      state:
-        entry.status !== 'completed'
-          ? 'pending'
-          : entry.conclusion === 'success'
-            ? 'live'
-            : 'failed',
-      url: entry.details_url,
-    })),
-  ] as { state: DeployState; url: string | null }[];
-
-  if (entries.length === 0) {
-    // No deployment reported yet. Vercel usually takes a few seconds to register.
-    return { state: 'unknown', url: null };
-  }
-
-  const live = entries.find((entry) => entry.state === 'live');
-  if (live) return live;
-
-  const pending = entries.find((entry) => entry.state === 'pending');
-  if (pending) return pending;
-
-  return entries[0]!;
+  const state: DeployState =
+    deploy.state === 'success' ? 'live' : deploy.state === 'pending' ? 'pending' : 'failed';
+  return { state, url: deploy.target_url };
 }

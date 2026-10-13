@@ -1,0 +1,122 @@
+# Builds the site and uploads it to the cPanel hosting on every push to main —
+# including every publish from the content editor at /builder.
+#
+# The build runs here, not on the hosting: the hosting caps memory at 2 GB,
+# which a Next.js build can exceed. The hosting only runs the finished server
+# (cPanel → Setup Node.js App, startup file app.js).
+#
+# Secrets (GitHub → Settings → Secrets and variables → Actions):
+#   FTP_SERVER     callmeophelia.com
+#   FTP_USERNAME   the FTP account whose home is the Node app's folder
+#   FTP_PASSWORD   its password
+#   ENV_FILE       the server-only settings, as the lines of a .env file
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cpanel
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  statuses: write
+
+env:
+  NEXT_PUBLIC_SITE_URL: https://callmeophelia.com
+  # Read by the content editor to follow a publish until it is live.
+  STATUS_CONTEXT: deploy/cpanel
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Report pending
+        run: |
+          curl -fsS -X POST -H "Authorization: Bearer ${{ github.token }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+            -d '{"state":"pending","context":"${{ env.STATUS_CONTEXT }}","description":"A publicar no site…","target_url":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Settings for the build
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          printf '%s\n' "$ENV_FILE" > .env.production
+          # The deployed site is never the development fixture.
+          echo 'OPHELIA_FORCE_LOCAL_CATALOGUE="false"' >> .env.production
+
+      - name: Cache the Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: next-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: next-${{ hashFiles('package-lock.json') }}-
+
+      - name: Build
+        run: npm run build
+
+      - name: Assemble the app folder
+        run: |
+          mkdir -p out/server out/tmp
+          cp -R .next/standalone/. out/server/
+          mkdir -p out/server/.next/static
+          cp -R .next/static/. out/server/.next/static/
+          mkdir -p out/server/public
+          cp -R public/. out/server/public/
+          cp deploy/cpanel/app.js out/app.js
+          cp .env.production out/.env.production
+          date -u +%FT%TZ > restart.txt
+
+      - name: Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./out/
+          server-dir: ./
+          exclude: |
+            tmp/**
+            **/.git*
+            **/.git*/**
+
+      - name: Restart the app
+        run: |
+          curl -fsS --ssl-reqd --ftp-create-dirs -T restart.txt \
+            --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
+            "ftp://${{ secrets.FTP_SERVER }}/tmp/restart.txt"
+
+      - name: Check the site answers
+        run: |
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$NEXT_PUBLIC_SITE_URL/robots.txt" || true)
+            [ "$code" = "200" ] && exit 0
+            sleep 6
+          done
+          echo "The site did not answer after the upload (last status: $code)."
+          exit 1
+
+      - name: Report result
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then state=success; text="No ar"; else state=failure; text="A publicação falhou"; fi
+          curl -fsS -X POST -H "Authorization: Bearer ${{ github.token }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+            -d "{\"state\":\"$state\",\"context\":\"${{ env.STATUS_CONTEXT }}\",\"description\":\"$text\",\"target_url\":\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"

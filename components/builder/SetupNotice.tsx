@@ -22,7 +22,7 @@ export function SetupNotice({ missing }: { missing: string[] }) {
         ))}
       </ul>
       <p style={{ marginTop: 10 }}>
-        Quem trata do site adiciona isto nas definições do projecto na Vercel. Está explicado no
+        Quem trata do site adiciona isto ao ficheiro .env.production do alojamento. Está explicado no
         ficheiro <code>.env.example</code>.
       </p>
     </div>
