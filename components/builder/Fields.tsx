@@ -702,7 +702,14 @@ function ListField({
     const item: Record<string, unknown> = {};
     for (const sub of field.fields) {
       if (!sub.path) continue;
-      item[sub.path] = sub.kind === 'strings' ? [''] : sub.kind === 'toggle' ? false : '';
+      item[sub.path] =
+        sub.kind === 'strings'
+          ? ['']
+          : sub.kind === 'list'
+            ? []
+            : sub.kind === 'toggle'
+              ? false
+              : '';
     }
     return item;
   }

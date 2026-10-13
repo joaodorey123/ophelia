@@ -1,12 +1,10 @@
-import Image from 'next/image';
-
-import { TapedPhoto, type TapeStrip } from '@/components/ui/TapedPhoto';
+import { Flower, type FlowerName } from '@/components/ui/Flower';
 import { Display, Kicker } from '@/components/ui/Type';
+import { WornPhoto } from '@/components/ui/WornPhoto';
 import { about } from '@/lib/content';
 import { pageMetadata } from '@/lib/seo/metadata';
 
 import styles from './story.module.css';
-import sections from '@/styles/sections.module.css';
 
 export const metadata = pageMetadata({
   title: 'Quem somos',
@@ -15,135 +13,101 @@ export const metadata = pageMetadata({
   path: '/quem-somos',
 });
 
-/**
- * The photo grid alternates tape type and deckle filter across the four
- * prints, and offsets the even columns — the handoff is specific about each,
- * so the recipe is data rather than four near-identical blocks of markup.
- */
-const GALLERY: { tape: TapeStrip; deckle: 1 | 2; offset: boolean }[] = [
-  {
-    tape: { type: 'torn', top: '0', left: '24px', width: 78, height: 24, rotate: -6 },
-    deckle: 1,
-    offset: false,
-  },
-  {
-    tape: { type: 'striped', bottom: '2px', right: '22px', width: 76, height: 20, rotate: 5 },
-    deckle: 2,
-    offset: true,
-  },
-  {
-    tape: { type: 'scotch', top: '0', left: '30px', width: 80, height: 22, rotate: -3 },
-    deckle: 1,
-    offset: false,
-  },
-  {
-    tape: { type: 'kraft', bottom: '2px', right: '26px', width: 74, height: 22, rotate: 4 },
-    deckle: 2,
-    offset: true,
-  },
-];
+/** One flower per chapter, at the edge of its photographs. */
+const CHAPTER_FLOWERS: FlowerName[] = ['ramo', 'papoila', 'esporas', 'cosmos'];
 
+/**
+ * Quem somos, set the way the client asked for: airy, centred, editorial.
+ *
+ * The story is told in chapters. Each pairs a narrow column of text with two
+ * overlapping prints, alternating sides, and a thin rule runs down the page
+ * from one chapter to the next — the thread of the story.
+ */
 export default function AboutPage() {
   return (
-    <>
-      <section className={styles.hero} data-editor-section="about">
-        <Image
-          className={styles.heroImage}
-          src={about.hero.image}
-          alt={about.hero.alt}
-          fill
-          sizes="100vw"
-          priority
-        />
-        <div className={styles.heroScrim}>
-          <div>
-            <Kicker tone="onScrim" className={styles.heroKicker}>{about.hero.kicker}</Kicker>
-            <Display as="h1" size="pageXl" className={styles.heroTitle}>
-              {about.hero.title}
-            </Display>
-          </div>
-        </div>
-      </section>
-
-      <div className={`${sections.narrow} ${styles.lede}`} data-editor-section="about">
-        <Display as="p" size="lede" className={styles.ledeText}>
-          {about.lede.lines.map((line) => (
+    <div className={styles.page} data-editor-section="about">
+      <header className={styles.intro}>
+        <Kicker className={styles.kicker}>{about.intro.kicker}</Kicker>
+        <Display as="h1" size="pageXl" className={styles.title}>
+          {about.intro.title}
+        </Display>
+        <Display as="p" size="lede" className={styles.lede}>
+          {about.intro.lines.map((line) => (
             <span key={line} className={styles.ledeLine}>
               {line}
             </span>
           ))}
         </Display>
+        <span className={styles.thread} aria-hidden />
+      </header>
 
-        <div className={styles.story}>
-          <div>
-            {about.story.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)} className={sections.prose}>
-                {paragraph}
-              </p>
-            ))}
-          </div>
-
-          <TapedPhoto
-            src={about.story.image}
-            alt={about.story.alt}
-            ratio="4 / 5"
-            pad={16}
-            mountPad={9}
-            mountShadow="lg"
-            deckle={2}
-            sizes="(max-width: 900px) 100vw, 520px"
-            tapes={[{ type: 'scotch', top: '0', left: '34%', width: 104, height: 28, rotate: -4 }]}
-          />
-        </div>
-
-        <div className={styles.timeline}>
-          {about.timeline.map((entry) => (
-            <div key={entry.year} className={styles.entry}>
-              <span className={styles.year}>{entry.year}</span>
-              <h2 className={styles.entryTitle}>{entry.title}</h2>
-              <p className={styles.entryBody}>{entry.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className={styles.gallery}>
-          {about.gallery.map((photo, index) => {
-            const recipe = GALLERY[index % GALLERY.length];
-            if (!recipe) return null;
-            return (
-              <TapedPhoto
-                key={photo.image}
-                src={photo.image}
-                alt={photo.alt}
-                ratio="3 / 4"
-                pad={12}
-                deckle={recipe.deckle}
-                className={recipe.offset ? styles.galleryOffset : undefined}
-                sizes="(max-width: 640px) 50vw, 260px"
-                tapes={[recipe.tape]}
+      {about.chapters.map((chapter, index) => {
+        const [first, second] = chapter.images;
+        const flip = index % 2 === 1;
+        return (
+          <section
+            key={chapter.title}
+            className={`${styles.chapter} ${flip ? styles.chapterFlip : ''}`}
+            aria-labelledby={`oph-chapter-${index}`}
+          >
+            <div className={styles.photos}>
+              {first ? (
+                <WornPhoto
+                  src={first.image}
+                  alt={first.alt}
+                  ratio="4 / 5"
+                  variant={index}
+                  className={styles.photoBack}
+                  sizes="(max-width: 900px) 70vw, 380px"
+                  priority={index === 0}
+                />
+              ) : null}
+              {second ? (
+                <WornPhoto
+                  src={second.image}
+                  alt={second.alt}
+                  ratio="4 / 5"
+                  variant={index + 2}
+                  className={styles.photoFront}
+                  sizes="(max-width: 900px) 55vw, 300px"
+                />
+              ) : null}
+              <Flower
+                name={CHAPTER_FLOWERS[index % CHAPTER_FLOWERS.length] ?? 'ramo'}
+                width={110}
+                className={styles.chapterFlower}
               />
-            );
-          })}
-        </div>
-      </div>
+            </div>
 
-      <section className={styles.closing} data-editor-section="about">
-        <Image
-          className={styles.frame}
-          src="/brand/frame-flowers.png"
-          alt=""
-          width={1854}
-          height={2400}
-          aria-hidden
-        />
-        <div className={styles.closingInner}>
-          <Display as="h2" size="quote">
-            {about.closing.headingLead}
-            <span>{about.closing.headingEmphasis}</span>
-          </Display>
-          <p className={styles.closingNote}>{about.closing.note}</p>
-        </div>
+            <div className={styles.text}>
+              <Kicker className={styles.kicker}>{chapter.kicker}</Kicker>
+              <Display
+                as="h2"
+                size="section"
+                id={`oph-chapter-${index}`}
+                className={styles.chapterTitle}
+              >
+                {chapter.title}
+              </Display>
+              {chapter.paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 40)} className={styles.paragraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+
+      <section className={styles.closing} aria-labelledby="oph-closing">
+        <span className={styles.thread} aria-hidden />
+        <Kicker className={styles.kicker}>{about.closing.kicker}</Kicker>
+        <p className={styles.closingBody}>{about.closing.body}</p>
+        <Display as="h2" size="band" id="oph-closing" className={styles.signature}>
+          {about.closing.signature}
+        </Display>
+        <Flower name="prado" width={520} className={styles.meadow} />
       </section>
-    </>
+    </div>
   );
 }

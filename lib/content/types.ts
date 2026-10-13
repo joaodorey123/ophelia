@@ -19,18 +19,15 @@ export type ImageRef = {
 export type SiteContent = {
   brand: {
     name: string;
-    wordmark: string;
     tagline: string;
     description: string;
     since: string;
   };
   announcement: { enabled: boolean; messages: string[] };
-  newsletter: {
-    kicker: string;
-    headingLines: string[];
-    placeholder: string;
-    cta: string;
-  };
+  /** The header's booking button. Hidden when `url` is empty. */
+  reservations: { label: string; url: string };
+  /** The blue band above the footer, pointing at the cake catalogue. */
+  orderBand: { kicker: string; headingLines: string[]; cta: string; href: string };
   shipping: { freeShippingFrom: number; shippingRate: number; note: string };
   footer: {
     helpHeading: string;
@@ -55,22 +52,15 @@ export type SiteContent = {
   };
 };
 
-export type CollectionCard = {
-  /** Shopify collection handle, or null for the "everything" card. */
-  handle: string | null;
-  name: string;
-  note: string;
-  image: string;
-};
-
 export type HomeContent = {
-  hero: { image: string; alt: string; kicker: string; title: string; cta: string };
-  collections: { heading: string; note: string; cards: CollectionCard[] };
+  /** `video`, when set, plays muted in place of the photograph. */
+  hero: { image: string; video: string; alt: string; title: string };
+  story: { kicker: string; headingLines: string[]; body: string; cta: string };
   /** Shopify product handles, in display order. */
   favourites: { heading: string; cta: string; handles: string[] };
-  story: {
+  events: {
     kicker: string;
-    headingLines: string[];
+    heading: string;
     body: string;
     cta: string;
     image: string;
@@ -82,28 +72,34 @@ export type HomeContent = {
 
 export type Review = { stars: string; text: string; who: string };
 
-export type TimelineEntry = { year: string; title: string; body: string };
+export type AboutChapter = {
+  kicker: string;
+  title: string;
+  paragraphs: string[];
+  /** Two photographs, shown overlapping beside the text. */
+  images: ImageRef[];
+};
 
 export type AboutContent = {
-  hero: { image: string; alt: string; kicker: string; title: string };
-  lede: { lines: string[] };
-  story: { paragraphs: string[]; image: string; alt: string };
-  timeline: TimelineEntry[];
-  gallery: ImageRef[];
-  closing: { headingLead: string; headingEmphasis: string; note: string };
+  intro: { kicker: string; title: string; lines: string[] };
+  chapters: AboutChapter[];
+  closing: { kicker: string; body: string; signature: string };
 };
 
 export type ContactRow = { label: string; value: string };
+
+/** A heading with one word set in the script face. */
+export type SplitHeading = { lead: string; emphasis: string };
 
 export type ContactoContent = {
   kicker: string;
   title: string;
   lede: string;
+  infoHeading: SplitHeading;
+  formHeading: SplitHeading;
+  info: ContactRow[];
   subjects: string[];
   success: { title: string; body: string; reset: string };
-  image: string;
-  alt: string;
-  info: ContactRow[];
 };
 
 export type Post = {
@@ -125,3 +121,56 @@ export type DiarioContent = {
 };
 
 export type ShopContent = { kicker: string; title: string; lede: string };
+
+export type MenuItem = {
+  name: string;
+  /** As printed, without the currency: "7,00". */
+  price: string;
+  description: string;
+  /** Printed in pink on the paper menu: the house specialities. */
+  highlight: boolean;
+  nuts: boolean;
+  glutenFree: boolean;
+  sesame: boolean;
+};
+
+export type MenuSection = {
+  kicker: string;
+  title: string;
+  /** A line under the section, e.g. the gluten-free bread option. */
+  note: string;
+  items: MenuItem[];
+};
+
+export type MenuGroup = { title: string; sections: MenuSection[] };
+
+export type MenuContent = {
+  kicker: string;
+  title: string;
+  intro: string;
+  comer: MenuGroup;
+  sobremesas: MenuGroup;
+  beber: MenuGroup;
+  legend: { highlight: string; nuts: string; glutenFree: string; sesame: string };
+  notes: string[];
+};
+
+export type BolosContent = {
+  kicker: string;
+  title: string;
+  lede: string;
+  /** Shown while the full catalogue is being prepared; hidden when empty. */
+  notice: string;
+  steps: { title: string; body: string }[];
+  cta: string;
+  gallery: ImageRef[];
+};
+
+export type EventosContent = {
+  kicker: string;
+  title: string;
+  lede: string;
+  paragraphs: string[];
+  cta: string;
+  images: ImageRef[];
+};

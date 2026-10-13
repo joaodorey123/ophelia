@@ -1,52 +1,101 @@
+/*
+ * Contactos: details on the left, the form on the right — two quiet
+ * columns, serif headings with one word in the script face.
+ */
 .page {
-  padding-block: 70px 40px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(48px, 8vw, 140px);
+  align-items: start;
+  padding-block: 90px 40px;
 }
 
-.intro {
-  max-width: 620px;
+.flower {
+  position: absolute;
+  top: 36px;
+  right: var(--oph-gutter);
+  transform: rotate(12deg);
 }
 
-.title {
-  margin-top: 16px;
+.heading {
+  margin: 14px 0 0;
+  font-family: var(--oph-font-serif);
+  font-weight: 300;
+  font-size: clamp(36px, 4.4vw, 54px);
+  line-height: 1.15;
+  color: var(--oph-ink);
+}
+
+.emphasis {
+  font-family: var(--oph-font-display);
+  font-size: 0.86em;
+  padding-left: 0.08em;
+}
+
+.formColumn .heading {
+  margin-top: 30px;
+  margin-bottom: 40px;
 }
 
 .lede {
-  margin-top: 18px;
-  font-size: 14px;
-  line-height: 1.9;
-  color: var(--oph-ink-soft);
-  max-width: 52ch;
+  margin-top: 28px;
+  max-width: 42ch;
+  font-family: var(--oph-font-serif);
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--oph-ink-body);
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 56px;
-  margin-top: 50px;
-  align-items: start;
+.rows {
+  margin: 48px 0 0;
 }
 
-.info {
+.row + .row {
   margin-top: 30px;
-}
-
-.row {
-  border-top: 1px solid var(--oph-line-14);
-  padding: 18px 0;
 }
 
 .rowLabel {
   display: block;
-  font-size: 10px;
+  font-size: 10.5px;
+  font-weight: 500;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--oph-muted-4);
-  margin-bottom: 8px;
+  color: var(--oph-ink);
+  margin-bottom: 10px;
 }
 
 .rowValue {
-  font-size: 14.5px;
-  line-height: 1.75;
-  color: var(--oph-ink-dark);
+  margin: 0;
+  font-family: var(--oph-font-serif);
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--oph-ink-body);
   white-space: pre-line;
+}
+
+.rowValue a {
+  /* A full 44px tap target, with the underline kept close to the text. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-decoration-color: var(--oph-line-30);
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+    padding-top: 64px;
+  }
+
+  .flower {
+    width: 84px;
+    top: 20px;
+  }
+
+  .formColumn .heading {
+    margin-top: 0;
+  }
 }

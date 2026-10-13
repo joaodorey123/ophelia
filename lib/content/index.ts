@@ -1,7 +1,10 @@
 import aboutJson from '@/content/about.json';
+import bolosJson from '@/content/bolos.json';
 import contactoJson from '@/content/contacto.json';
 import diarioJson from '@/content/diario.json';
+import eventosJson from '@/content/eventos.json';
 import homeJson from '@/content/home.json';
+import menuJson from '@/content/menu.json';
 import postsJson from '@/content/posts.json';
 import reviewsJson from '@/content/reviews.json';
 import shopJson from '@/content/shop.json';
@@ -9,9 +12,12 @@ import siteJson from '@/content/site.json';
 
 import type {
   AboutContent,
+  BolosContent,
   ContactoContent,
   DiarioContent,
+  EventosContent,
   HomeContent,
+  MenuContent,
   Post,
   Review,
   ShopContent,
@@ -32,6 +38,9 @@ export const about = aboutJson as AboutContent;
 export const contacto = contactoJson as ContactoContent;
 export const diario = diarioJson as DiarioContent;
 export const shop = shopJson as ShopContent;
+export const menu = menuJson as MenuContent;
+export const bolos = bolosJson as BolosContent;
+export const eventos = eventosJson as EventosContent;
 export const reviews = reviewsJson as Review[];
 
 /** Diary articles, newest first — the file is authored in that order. */

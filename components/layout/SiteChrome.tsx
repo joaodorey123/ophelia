@@ -42,7 +42,7 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
 
         <CatalogueNotice />
         <AnnouncementBar />
-        <Header wordmark={site.brand.wordmark} />
+        <Header reservations={site.reservations} />
 
         <main id="conteudo">{children}</main>
 

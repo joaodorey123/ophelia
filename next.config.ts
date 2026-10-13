@@ -27,7 +27,6 @@ const nextConfig: NextConfig = {
       { source: '/contact', destination: '/contacto', permanent: true },
       { source: '/checkout', destination: '/carrinho', permanent: true },
       // Retired routes from the previous design.
-      { source: '/eventos', destination: '/contacto', permanent: true },
       { source: '/personalizadas', destination: '/contacto', permanent: true },
       { source: '/conta', destination: '/', permanent: true },
       { source: '/conta/:path*', destination: '/', permanent: true },

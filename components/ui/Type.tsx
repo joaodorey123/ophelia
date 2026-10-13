@@ -15,7 +15,8 @@ const DISPLAY_SIZE = {
   pageXl: ['clamp(40px, 5.6vw, 70px)', '1.24'],
   page: ['clamp(36px, 4.6vw, 54px)', '1.24'],
   pageSm: ['clamp(34px, 4.4vw, 52px)', '1.24'],
-  article: ['clamp(30px, 4vw, 48px)', '1.3'],
+  /* Diary article titles, set smaller at the client's request. */
+  article: ['clamp(26px, 3vw, 36px)', '1.36'],
   product: ['clamp(32px, 3.8vw, 46px)', '1.28'],
   section: ['clamp(29px, 3.6vw, 37px)', '1.3'],
   sectionSm: ['clamp(26px, 3.2vw, 31px)', '1.3'],

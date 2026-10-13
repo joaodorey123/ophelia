@@ -1,7 +1,6 @@
 {
   "brand": {
     "name": "Ophelia",
-    "wordmark": "pastelaria · brunch · mercearia",
     "tagline": "Pastelaria, brunch e mercearia. Feito por nós, todos os dias, no Estoril.",
     "description": "Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, no Estoril.",
     "since": "estoril · desde 2019"
@@ -14,14 +13,17 @@
       "encomendas de bolos com 48h de antecedência"
     ]
   },
-  "newsletter": {
-    "kicker": "a carta da ophelia",
+  "reservations": {
+    "label": "reservas",
+    "url": "https://restaurants.umai.io/pt/restaurants/ophelia"
+  },
+  "orderBand": {
+    "kicker": "catálogo de bolos da ophelia",
     "headingLines": [
-      "receitas e novidades,",
-      "uma vez por mês."
+      "faça a sua encomenda"
     ],
-    "placeholder": "o teu email",
-    "cta": "subscrever →"
+    "cta": "aqui",
+    "href": "/bolos"
   },
   "shipping": {
     "freeShippingFrom": 60,

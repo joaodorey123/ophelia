@@ -17,7 +17,7 @@ import styles from './Header.module.css';
  * Below 900px the second row is replaced by a drawer, which the handoff calls
  * out as missing from the prototype and explicitly asks production to add.
  */
-export function Header({ wordmark }: { wordmark: string }) {
+export function Header({ reservations }: { reservations: { label: string; url: string } }) {
   const pathname = usePathname();
   const { count, open } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -110,6 +110,15 @@ export function Header({ wordmark }: { wordmark: string }) {
               <SearchIcon />
               pesquisar
             </button>
+
+            <button
+              type="button"
+              className={`${styles.utility} ${styles.mobileOnly}`}
+              onClick={() => setSearchOpen(true)}
+              aria-label="Pesquisar"
+            >
+              <SearchIcon />
+            </button>
           </div>
 
           <Link href="/" className={styles.brand} aria-label="Ophelia — página inicial">
@@ -121,22 +130,21 @@ export function Header({ wordmark }: { wordmark: string }) {
               height={52}
               priority
             />
-            <span className={styles.wordmark}>{wordmark}</span>
           </Link>
 
           <div className={styles.right}>
-            <button
-              type="button"
-              className={`${styles.utility} ${styles.mobileOnly}`}
-              onClick={() => setSearchOpen(true)}
-              aria-label="Pesquisar"
-            >
-              <SearchIcon />
-            </button>
-
-            <Link href="/contacto" className={`${styles.utility} ${styles.desktopOnly}`}>
-              contacto
-            </Link>
+            {/* Bookings live on UMAI; see lib/reservations.ts. */}
+            {reservations.url ? (
+              <a
+                href={reservations.url}
+                className={styles.reserve}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${reservations.label} — reservar mesa (abre numa nova janela)`}
+              >
+                {reservations.label}
+              </a>
+            ) : null}
 
             <button
               type="button"
@@ -148,8 +156,8 @@ export function Header({ wordmark }: { wordmark: string }) {
                 className={styles.basketIcon}
                 src="/brand/icon-cesto.png"
                 alt=""
-                width={20}
-                height={26}
+                width={28}
+                height={36}
               />
               <span className={styles.count} aria-hidden>
                 {count}
@@ -189,7 +197,12 @@ export function Header({ wordmark }: { wordmark: string }) {
           >
             <div className={styles.panelHead}>
               <span className={styles.panelTitle}>menu</span>
-              <button type="button" className={styles.close} onClick={closeMenu} aria-label="Fechar">
+              <button
+                type="button"
+                className={styles.close}
+                onClick={closeMenu}
+                aria-label="Fechar"
+              >
                 ×
               </button>
             </div>

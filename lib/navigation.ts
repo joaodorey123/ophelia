@@ -19,13 +19,16 @@ export type NavItem = {
 
 export const PRIMARY_NAV: NavItem[] = [
   { label: 'início', href: '/' },
-  { label: 'produtos', href: '/comprar', matchPrefix: '/comprar' },
   { label: 'quem somos', href: '/quem-somos' },
+  { label: 'loja online', href: '/comprar', matchPrefix: '/comprar' },
+  { label: 'menu brunch', href: '/menu' },
+  { label: 'bolos', href: '/bolos' },
+  { label: 'eventos', href: '/eventos' },
   { label: 'diário', href: '/diario' },
-  { label: 'contacto', href: '/contacto' },
+  { label: 'contactos', href: '/contacto' },
 ];
 
-/** `produtos` stays active on product pages, `diário` on article pages. */
+/** `loja online` stays active on product pages, `diário` on article pages. */
 const EXTRA_ACTIVE_PREFIXES: Record<string, string[]> = {
   '/comprar': ['/produto'],
   '/diario': ['/diario'],

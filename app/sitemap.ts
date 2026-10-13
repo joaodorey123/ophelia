@@ -16,10 +16,17 @@ export const revalidate = 3600;
 
 type Entry = MetadataRoute.Sitemap[number];
 
-const STATIC_PAGES: { path: string; priority: number; changeFrequency: Entry['changeFrequency'] }[] = [
+const STATIC_PAGES: {
+  path: string;
+  priority: number;
+  changeFrequency: Entry['changeFrequency'];
+}[] = [
   { path: '/', priority: 1, changeFrequency: 'weekly' },
   { path: '/quem-somos', priority: 0.7, changeFrequency: 'yearly' },
   { path: '/comprar', priority: 0.9, changeFrequency: 'weekly' },
+  { path: '/menu', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/bolos', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/eventos', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/diario', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/contacto', priority: 0.6, changeFrequency: 'yearly' },
   { path: '/envios-e-devolucoes', priority: 0.3, changeFrequency: 'yearly' },

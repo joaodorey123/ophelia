@@ -1,26 +1,19 @@
 {
-  "kicker": "fala com a gente",
-  "title": "contacto",
-  "lede": "Encomendas especiais, bolos, eventos ou presentes corporativos — escreve-nos e respondemos no mesmo dia.",
-  "subjects": [
-    "Encomenda de bolos",
-    "Cookies personalizadas",
-    "Eventos e catering",
-    "Presentes corporativos",
-    "Estado de uma encomenda",
-    "Outro assunto"
-  ],
-  "success": {
-    "title": "obrigada!",
-    "body": "Recebemos a tua mensagem. Respondemos por email dentro de poucas horas.",
-    "reset": "enviar outra"
+  "kicker": "fale connosco",
+  "title": "contactos",
+  "lede": "Encomendas de bolos, eventos, presentes corporativos ou só uma pergunta — escreva-nos e respondemos no mesmo dia.",
+  "infoHeading": {
+    "lead": "os nossos ",
+    "emphasis": "contactos"
   },
-  "image": "/photos/e05.jpg",
-  "alt": "A nossa loja no Estoril",
+  "formHeading": {
+    "lead": "escreva-",
+    "emphasis": "nos"
+  },
   "info": [
     {
-      "label": "a loja",
-      "value": "Estoril, Cascais\n(morada completa a confirmar)"
+      "label": "morada",
+      "value": "R. Rosa Parracho 27\n2750-778 Cascais"
     },
     {
       "label": "horário",
@@ -36,7 +29,20 @@
     },
     {
       "label": "encomendas & envios",
-      "value": "Preparamos e enviamos de segunda a quinta-feira.\nPedidos após as 12h00 de quinta seguem na segunda seguinte.\nEntrega até 2 dias úteis em Portugal continental."
+      "value": "Preparamos e enviamos de segunda a quinta-feira.\nPedidos após as 12h00 de quinta seguem na segunda seguinte."
     }
-  ]
+  ],
+  "subjects": [
+    "Encomenda de bolos",
+    "Cookies personalizadas",
+    "Eventos e catering",
+    "Presentes corporativos",
+    "Estado de uma encomenda",
+    "Outro assunto"
+  ],
+  "success": {
+    "title": "obrigada!",
+    "body": "Recebemos a sua mensagem. Respondemos por email dentro de poucas horas.",
+    "reset": "enviar outra"
+  }
 }

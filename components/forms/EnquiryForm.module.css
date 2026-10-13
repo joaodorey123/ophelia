@@ -1,7 +1,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 34px;
 }
 
 .field {
@@ -17,7 +17,7 @@
   margin-bottom: 8px;
 }
 
-/* Text, email and select are underline-only; the message is a boxed field. */
+/* Every field is a single underline, the message included. */
 .input,
 .select {
   width: 100%;
@@ -34,7 +34,8 @@
 .select {
   /* Reset the platform chrome, then draw the chevron with a background image. */
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--oph-muted-2) 50%),
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--oph-muted-2) 50%),
     linear-gradient(135deg, var(--oph-muted-2) 50%, transparent 50%);
   background-position:
     calc(100% - 12px) calc(50% + 1px),
@@ -54,9 +55,11 @@
 
 .textarea {
   width: 100%;
-  background: var(--oph-white);
-  border: 1px solid var(--oph-line-20);
-  padding: 14px;
+  min-height: 120px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--oph-line-25);
+  padding: 10px 0;
   font-size: 15px;
   line-height: 1.7;
   resize: vertical;
@@ -76,8 +79,9 @@
 }
 
 .submit {
-  align-self: flex-start;
-  padding: 17px 40px;
+  align-self: stretch;
+  padding: 18px 40px;
+  border-radius: 999px;
 }
 
 .status {

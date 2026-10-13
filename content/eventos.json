@@ -1,0 +1,24 @@
+{
+  "kicker": "desde 2019",
+  "title": "eventos",
+  "lede": "A Ophelia nasceu como uma pequena empresa de eventos. Jantares entre amigos, aniversários, casamentos e eventos corporativos — continuamos a pôr a mesa para as vossas celebrações.",
+  "paragraphs": [
+    "Tratamos da comida, das sobremesas e da mesa, com a mesma vontade de receber bem que aprendemos em casa.",
+    "Conte-nos o que está a imaginar — a data, o número de pessoas e o tipo de celebração — e preparamos uma proposta à medida."
+  ],
+  "cta": "pedir uma proposta",
+  "images": [
+    {
+      "image": "/photos/casa/02042.jpg",
+      "alt": "Uma mesa posta com vários pratos"
+    },
+    {
+      "image": "/photos/casa/02063.jpg",
+      "alt": "Pratos a serem servidos à mesa"
+    },
+    {
+      "image": "/photos/casa/02055.jpg",
+      "alt": "Um cartão de reservado ao lado de um café"
+    }
+  ]
+}

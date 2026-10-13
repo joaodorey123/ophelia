@@ -10,17 +10,21 @@ export const dynamic = 'force-dynamic';
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   await requireSession();
 
-  const pages = SECTIONS.filter((section) =>
-    ['home-hero', 'home-collections', 'home-favourites', 'home-story', 'home-sections'].includes(
-      section.id,
-    ),
-  ).map((section) => ({
+  const pages = SECTIONS.filter((section) => section.id.startsWith('home-')).map((section) => ({
     href: `/builder/secao/${section.id}`,
     label: section.title.replace('Início — ', ''),
   }));
 
+  const menuSections = SECTIONS.filter((section) => section.id.startsWith('menu')).map(
+    (section) => ({
+      href: `/builder/secao/${section.id}`,
+      label: section.title.replace('Menu — ', ''),
+    }),
+  );
+
   const others = SECTIONS.filter(
-    (section) => !section.id.startsWith('home-') && section.id !== 'reviews',
+    (section) =>
+      !section.id.startsWith('home-') && !section.id.startsWith('menu') && section.id !== 'reviews',
   ).map((section) => ({ href: `/builder/secao/${section.id}`, label: section.title }));
 
   return (
@@ -36,6 +40,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               ],
             },
             { title: 'Página inicial', items: pages },
+            { title: 'Menu brunch', items: menuSections },
             {
               title: 'Diário',
               items: [{ href: '/builder/diario', label: 'Artigos' }],

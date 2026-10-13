@@ -4,16 +4,17 @@ import Link from 'next/link';
 import { PostCard } from '@/components/blog/PostCard';
 import { ProductCard } from '@/components/product/ProductCard';
 import { TextLink } from '@/components/ui/Button';
-import { TapedPhoto } from '@/components/ui/TapedPhoto';
+import { Flower, PIN_FLOWERS } from '@/components/ui/Flower';
 import { Display, Kicker } from '@/components/ui/Type';
+import { WornPhoto } from '@/components/ui/WornPhoto';
 import { catalogue } from '@/lib/commerce';
-import { getCollectionsSafe } from '@/lib/commerce/safe';
 import type { Product } from '@/lib/commerce/types';
 import { home, latestPosts, reviews, site } from '@/lib/content';
-import { SHOP_INDEX, collectionPath } from '@/lib/navigation';
+import { SHOP_INDEX } from '@/lib/navigation';
 import { pageMetadata } from '@/lib/seo/metadata';
 
 import styles from './home.module.css';
+import paper from '@/styles/paper.module.css';
 import sections from '@/styles/sections.module.css';
 
 export const metadata = pageMetadata({
@@ -57,105 +58,60 @@ async function getFavourites(): Promise<Product[]> {
 }
 
 export default async function HomePage() {
-  const [collections, favourites] = await Promise.all([getCollectionsSafe(), getFavourites()]);
-
-  const byHandle = new Map(collections.map((collection) => [collection.handle, collection]));
-  /*
-   * Collection cards are editorial artwork over real Shopify collections, so
-   * only cards whose collection exists are shown. "ver tudo" has no handle and
-   * always points at the shop index.
-   */
-  const cards = home.collections.cards.filter(
-    (card) => card.handle === null || byHandle.has(card.handle),
-  );
-  /*
-   * The "ver tudo" card is a companion to the real collections, not a section
-   * of its own: with no collections published there is nothing to browse by,
-   * so the whole band is omitted rather than shown with a single card.
-   */
-  const hasRealCollections = cards.some((card) => card.handle !== null);
-
+  const favourites = await getFavourites();
   const posts = latestPosts(3);
 
   return (
-    <>
+    <div className={styles.page}>
+      {/* The photograph (or film) on its own. The page still needs a title for
+          search engines and screen readers, so it is kept, but only for them. */}
       <section className={styles.hero} data-editor-section="home-hero">
-        <Image
-          className={styles.heroImage}
-          src={home.hero.image}
-          alt={home.hero.alt}
-          fill
-          sizes="100vw"
-          priority
-        />
-        <div className={styles.heroVeil} aria-hidden />
+        <h1 className="oph-sr-only">{home.hero.title}</h1>
+        {home.hero.video ? (
+          <video
+            className={styles.heroVideo}
+            src={home.hero.video}
+            poster={home.hero.image}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-label={home.hero.alt}
+          />
+        ) : (
+          <Image
+            className={styles.heroImage}
+            src={home.hero.image}
+            alt={home.hero.alt}
+            fill
+            sizes="100vw"
+            priority
+          />
+        )}
+      </section>
 
-        <div className={styles.heroCard}>
-          <span className={styles.heroTapeTop} aria-hidden />
-          <span className={styles.heroTapeBottom} aria-hidden />
-          <div className={styles.heroInner}>
-            <Kicker>{home.hero.kicker}</Kicker>
-            <Display as="h1" size="hero" className={styles.heroTitle}>
-              {home.hero.title}
-            </Display>
-            <div className={styles.heroLink}>
-              <TextLink href={SHOP_INDEX}>{home.hero.cta}</TextLink>
-            </div>
+      <section
+        className={styles.story}
+        aria-labelledby="oph-story"
+        data-editor-section="home-story"
+      >
+        <Flower name="miosotis" width={150} className={styles.storyFlowerLeft} />
+        <Flower name="fresia" width={110} className={styles.storyFlowerRight} />
+        <div className={styles.storyInner}>
+          <Kicker>{home.story.kicker}</Kicker>
+          <Display as="h2" size="band" id="oph-story" className={styles.storyHeading}>
+            {home.story.headingLines.map((line) => (
+              <span key={line} className={styles.storyLine}>
+                {line}
+              </span>
+            ))}
+          </Display>
+          <p className={styles.storyBody}>{home.story.body}</p>
+          <div className={styles.storyLink}>
+            <TextLink href="/quem-somos">{home.story.cta}</TextLink>
           </div>
         </div>
       </section>
-
-      {hasRealCollections ? (
-        <section
-          className={`${sections.wide} ${styles.collections}`}
-          aria-labelledby="oph-cols"
-          data-editor-section="home-collections"
-        >
-          <div className={sections.header}>
-            <Display as="h2" size="section" id="oph-cols">
-              {home.collections.heading}
-            </Display>
-            <span className={sections.headerNote}>{home.collections.note}</span>
-          </div>
-
-          <div className={styles.collectionGrid}>
-            {cards.map((card, index) => (
-              <Link
-                key={card.name}
-                href={card.handle ? collectionPath(card.handle) : SHOP_INDEX}
-                className={styles.collectionCard}
-              >
-                <TapedPhoto
-                  src={card.image}
-                  alt=""
-                  ratio="4 / 5"
-                  pad={14}
-                  deckle={index % 2 === 0 ? 1 : 2}
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 230px"
-                  tapes={[
-                    { type: 'kraft', top: '0', left: '26px', width: 78, height: 24, rotate: -5 },
-                    {
-                      type: 'striped',
-                      bottom: '2px',
-                      right: '22px',
-                      width: 74,
-                      height: 20,
-                      rotate: 4,
-                    },
-                  ]}
-                />
-                <span className={styles.collectionName}>
-                  {card.name}
-                  <span className={styles.collectionArrow} aria-hidden>
-                    →
-                  </span>
-                </span>
-                <p className={styles.collectionNote}>{card.note}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       {favourites.length > 0 ? (
         <section
@@ -185,73 +141,35 @@ export default async function HomePage() {
       ) : null}
 
       <section
-        className={styles.story}
-        aria-labelledby="oph-story"
-        data-editor-section="home-story"
+        className={`${sections.wide} ${styles.events}`}
+        aria-labelledby="oph-events"
+        data-editor-section="home-events"
       >
-        <Image
-          className={styles.storyFlowers}
-          src="/brand/bg-flowers.png"
-          alt=""
-          fill
-          sizes="100vw"
-          aria-hidden
-        />
-        <div className={`${sections.wide} ${styles.storyInner}`}>
-          <TapedPhoto
-            src={home.story.image}
-            alt={home.story.alt}
-            ratio="1 / 1"
-            pad={16}
-            mountPad={9}
-            mountShadow="lg"
-            deckle={2}
-            sizes="(max-width: 900px) 100vw, 560px"
-            tapes={[{ type: 'torn', top: '0', left: '40%', width: 100, height: 29, rotate: -3 }]}
+        <div className={styles.eventsPhoto}>
+          <WornPhoto
+            src={home.events.image}
+            alt={home.events.alt}
+            ratio="4 / 5"
+            variant={1}
+            sizes="(max-width: 900px) 100vw, 640px"
           />
-
-          <div>
-            <Kicker>{home.story.kicker}</Kicker>
-            <Display as="h2" size="band" id="oph-story" className={styles.storyHeading}>
-              {home.story.headingLines.map((line) => (
-                <span key={line} className={styles.storyLine}>
-                  {line}
-                </span>
-              ))}
-            </Display>
-            <p className={styles.storyBody}>{home.story.body}</p>
-            <div className={styles.storyLink}>
-              <TextLink href="/quem-somos">{home.story.cta}</TextLink>
-            </div>
-          </div>
+          <Flower name="esporas" width={92} className={styles.eventsFlower} />
         </div>
-      </section>
-
-      <section
-        className={`${sections.wide} ${styles.reviews}`}
-        aria-labelledby="oph-reviews"
-        data-editor-section="reviews"
-      >
-        <Display as="h2" size="section" id="oph-reviews" className={styles.reviewsHeading}>
-          {home.reviews.heading}
-        </Display>
-        <div className={styles.reviewGrid}>
-          {reviews.map((review) => (
-            <figure key={review.who} className={styles.review}>
-              <span className={styles.reviewTape} aria-hidden />
-              <span className={styles.stars} aria-label="Cinco estrelas em cinco">
-                {review.stars}
-              </span>
-              <blockquote className={styles.quote}>“{review.text}”</blockquote>
-              <figcaption className={styles.who}>{review.who}</figcaption>
-            </figure>
-          ))}
+        <div className={styles.eventsText}>
+          <Kicker>{home.events.kicker}</Kicker>
+          <Display as="h2" size="section" id="oph-events" className={styles.eventsHeading}>
+            {home.events.heading}
+          </Display>
+          <p className={styles.eventsBody}>{home.events.body}</p>
+          <Link href="/eventos" className={styles.eventsButton}>
+            {home.events.cta}
+          </Link>
         </div>
       </section>
 
       {posts.length > 0 ? (
-        <div className={styles.diaryStrip}>
-          <div className={styles.diaryPaper}>
+        <div className={paper.strip}>
+          <div className={paper.paper}>
             <section
               className={`${sections.wide} ${styles.diary}`}
               aria-labelledby="oph-diary"
@@ -272,10 +190,34 @@ export default async function HomePage() {
               </div>
             </section>
           </div>
-          <span className={styles.stripTapeLeft} aria-hidden />
-          <span className={styles.stripTapeRight} aria-hidden />
         </div>
       ) : null}
-    </>
+
+      <section
+        className={`${sections.wide} ${styles.reviews}`}
+        aria-labelledby="oph-reviews"
+        data-editor-section="reviews"
+      >
+        <Display as="h2" size="section" id="oph-reviews" className={styles.reviewsHeading}>
+          {home.reviews.heading}
+        </Display>
+        <div className={styles.reviewGrid}>
+          {reviews.map((review, index) => (
+            <figure key={review.who} className={styles.review}>
+              <Flower
+                name={PIN_FLOWERS[index % PIN_FLOWERS.length] ?? 'flor-azul'}
+                width={64}
+                className={styles.reviewFlower}
+              />
+              <span className={styles.stars} aria-label="Cinco estrelas em cinco">
+                {review.stars}
+              </span>
+              <blockquote className={styles.quote}>“{review.text}”</blockquote>
+              <figcaption className={styles.who}>{review.who}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

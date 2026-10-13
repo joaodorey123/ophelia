@@ -10,6 +10,7 @@ import { clampDescription, pageMetadata } from '@/lib/seo/metadata';
 import { articleSchema, breadcrumbSchema } from '@/lib/seo/structured-data';
 
 import styles from '../diario.module.css';
+import paper from '@/styles/paper.module.css';
 import sections from '@/styles/sections.module.css';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -52,25 +53,23 @@ export default async function ArticlePage({ params }: Params) {
   const pageNumber = posts.length - posts.findIndex((entry) => entry.slug === post.slug);
 
   return (
-    <article className={styles.article}>
-      <JsonLd
-        data={[
-          articleSchema(post),
-          breadcrumbSchema([
-            { name: 'O diário', path: '/diario' },
-            { name: post.title, path: postPath(post.slug) },
-          ]),
-        ]}
-      />
+    <div className={`${paper.strip} ${styles.articleStrip}`}>
+      <div className={paper.paper}>
+        <article className={styles.article}>
+          <JsonLd
+            data={[
+              articleSchema(post),
+              breadcrumbSchema([
+                { name: 'O diário', path: '/diario' },
+                { name: post.title, path: postPath(post.slug) },
+              ]),
+            ]}
+          />
 
-      <Link href="/diario" className={styles.back}>
-        ← diário
-      </Link>
+          <Link href="/diario" className={styles.back}>
+            ← diário
+          </Link>
 
-      <div className={styles.sheetWrap}>
-        <span className={styles.underSheet} aria-hidden />
-
-        <div className={styles.sheet}>
           <span className={styles.meta}>
             {post.kicker} · {post.date}
           </span>
@@ -80,13 +79,13 @@ export default async function ArticlePage({ params }: Params) {
 
           <div className={styles.hero}>
             <WornPhoto
-            src={post.image}
-            alt=""
-            ratio="16 / 11"
-            variant={pageNumber}
-            priority
-            sizes="(max-width: 1000px) 100vw, 820px"
-          />
+              src={post.image}
+              alt=""
+              ratio="16 / 11"
+              variant={pageNumber}
+              priority
+              sizes="(max-width: 900px) 100vw, 780px"
+            />
           </div>
 
           <p className={styles.standfirst}>{post.excerpt}</p>
@@ -109,12 +108,8 @@ export default async function ArticlePage({ params }: Params) {
           <span className={styles.pageNumber} aria-hidden>
             pág. {pageNumber}
           </span>
-        </div>
-
-        <span className={styles.dogEar} aria-hidden />
-        <span className={styles.tapeLeft} aria-hidden />
-        <span className={styles.tapeRight} aria-hidden />
+        </article>
       </div>
-    </article>
+    </div>
   );
 }

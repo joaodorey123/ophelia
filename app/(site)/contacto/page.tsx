@@ -1,24 +1,23 @@
 import { EnquiryForm } from '@/components/forms/EnquiryForm';
-import { TapedPhoto } from '@/components/ui/TapedPhoto';
-import { Display, Kicker } from '@/components/ui/Type';
-import { contacto } from '@/lib/content';
+import { Flower } from '@/components/ui/Flower';
+import { Kicker } from '@/components/ui/Type';
+import { contacto, type SplitHeading } from '@/lib/content';
 import { pageMetadata } from '@/lib/seo/metadata';
 
 import styles from './contacto.module.css';
 import sections from '@/styles/sections.module.css';
 
 export const metadata = pageMetadata({
-  title: 'Contacto',
+  title: contacto.title.charAt(0).toUpperCase() + contacto.title.slice(1),
   description: contacto.lede,
   path: '/contacto',
 });
 
 /**
- * Contacto.
+ * Contactos: the shop's details on the left, the form on the right.
  *
- * `?assunto=` pre-selects a subject, which is what the footer's
- * "eventos & catering" and "presentes corporativos" links use instead of
- * pointing at pages that do not exist.
+ * `?assunto=` pre-selects a subject, which is what the Bolos and Eventos
+ * pages use to land people on the right one.
  */
 export default async function ContactoPage({
   searchParams,
@@ -29,45 +28,67 @@ export default async function ContactoPage({
   const preselected = assunto && contacto.subjects.includes(assunto) ? assunto : undefined;
 
   return (
-    <div className={`${sections.mid} ${styles.page}`} data-editor-section="contacto">
-      <div className={styles.intro}>
-        <Kicker>{contacto.kicker}</Kicker>
-        <Display as="h1" size="page" className={styles.title}>
-          {contacto.title}
-        </Display>
-        <p className={styles.lede}>{contacto.lede}</p>
-      </div>
+    <div className={`${sections.wide} ${styles.page}`} data-editor-section="contacto">
+      <Flower name="ramo" width={120} className={styles.flower} />
 
-      <div className={styles.layout}>
+      <section className={styles.info} aria-labelledby="oph-contact-info">
+        <Kicker>{contacto.kicker}</Kicker>
+        <h1 id="oph-contact-info" className={styles.heading}>
+          <Heading value={contacto.infoHeading} />
+        </h1>
+        <p className={styles.lede}>{contacto.lede}</p>
+
+        <dl className={styles.rows}>
+          {contacto.info.map((row) => (
+            <div key={row.label} className={styles.row}>
+              <dt className={styles.rowLabel}>{row.label}</dt>
+              <dd className={styles.rowValue}>
+                <RowValue label={row.label} value={row.value} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className={styles.formColumn} aria-labelledby="oph-contact-form">
+        <h2 id="oph-contact-form" className={styles.heading}>
+          <Heading value={contacto.formHeading} />
+        </h2>
         <EnquiryForm
           subjects={contacto.subjects}
           success={contacto.success}
           {...(preselected ? { defaultSubject: preselected } : {})}
         />
-
-        <div>
-          <TapedPhoto
-            src={contacto.image}
-            alt={contacto.alt}
-            ratio="4 / 3"
-            pad={14}
-            mountPad={8}
-            mountShadow="lg"
-            deckle={1}
-            sizes="(max-width: 900px) 100vw, 560px"
-            tapes={[{ type: 'torn', top: '0', left: '30%', width: 104, height: 28, rotate: -4 }]}
-          />
-
-          <dl className={styles.info}>
-            {contacto.info.map((row) => (
-              <div key={row.label} className={styles.row}>
-                <dt className={styles.rowLabel}>{row.label}</dt>
-                <dd className={styles.rowValue}>{row.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
+      </section>
     </div>
   );
+}
+
+function Heading({ value }: { value: SplitHeading }) {
+  return (
+    <>
+      {value.lead}
+      <span className={styles.emphasis}>{value.emphasis}</span>
+    </>
+  );
+}
+
+/** Emails and Instagram handles become links; everything else is text. */
+function RowValue({ label, value }: { label: string; value: string }) {
+  const trimmed = value.trim();
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+    return <a href={`mailto:${trimmed}`}>{trimmed}</a>;
+  }
+  if (/^@[\w.]+$/.test(trimmed) && /insta/i.test(label)) {
+    return (
+      <a
+        href={`https://www.instagram.com/${trimmed.slice(1)}/`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {trimmed}
+      </a>
+    );
+  }
+  return <>{value}</>;
 }

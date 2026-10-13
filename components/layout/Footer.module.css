@@ -1,18 +1,18 @@
-/* ── Newsletter band ───────────────────────────────────────────────────── */
-.newsletter {
+/* ── Order band ────────────────────────────────────────────────────────── */
+.band {
   background: var(--oph-navy);
   color: var(--oph-on-navy);
   margin-top: 96px;
 }
 
-.newsletterInner {
+.bandInner {
   max-width: 660px;
   margin-inline: auto;
   padding: 88px var(--oph-gutter);
   text-align: center;
 }
 
-.newsletterKicker {
+.bandKicker {
   font-size: 9.5px;
   letter-spacing: 0.42em;
   text-transform: uppercase;
@@ -20,55 +20,37 @@
   display: block;
 }
 
-.newsletterHeading {
+.bandHeading {
   margin-top: 16px;
 }
 
-.form {
-  display: flex;
+.bandLine {
+  display: block;
+}
+
+.bandButton {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  min-width: 180px;
+  min-height: 48px;
   margin-top: 34px;
-  border-bottom: 1px solid rgba(246, 241, 231, 0.4);
-}
-
-.input {
-  flex: 1;
-  min-width: 0;
-  background: none;
-  border: 0;
+  padding: 0 34px;
+  border: 1px solid rgba(246, 241, 231, 0.6);
+  border-radius: 999px;
   color: var(--oph-on-navy);
-  font-size: 13.5px;
-  padding: 12px 2px;
-  outline-offset: 4px;
-}
-
-.input::placeholder {
-  color: rgba(246, 241, 231, 0.6);
-}
-
-.submit {
-  flex: none;
-  color: var(--oph-on-navy);
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-size: 11.5px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  padding: 6px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
 }
 
-.submit:disabled {
-  opacity: 0.5;
-}
-
-.status {
-  margin-top: 14px;
-  font-size: 12px;
-  min-height: 1.4em;
-  color: rgba(246, 241, 231, 0.85);
-}
-
-.statusError {
-  color: #f2d3c6;
+.bandButton:hover,
+.bandButton:focus-visible {
+  background: var(--oph-on-navy);
+  color: var(--oph-navy);
 }
 
 /* ── Footer ────────────────────────────────────────────────────────────── */
@@ -159,6 +141,3 @@
 }
 
 /* Each heading line is its own block — the handoff breaks them explicitly. */
-.newsletterLine {
-  display: block;
-}

@@ -13,14 +13,36 @@ export type Field =
   /** A paragraph. */
   | { kind: 'textarea'; path: string; label: string; help?: string; rows?: number; max?: number }
   /** A list of plain strings — one input per entry, reorderable. */
-  | { kind: 'strings'; path: string; label: string; help?: string; itemLabel: string; multiline?: boolean }
+  | {
+      kind: 'strings';
+      path: string;
+      label: string;
+      help?: string;
+      itemLabel: string;
+      multiline?: boolean;
+    }
   /** A photograph. */
   | { kind: 'image'; path: string; label: string; help?: string; ratio?: string }
-  | { kind: 'number'; path: string; label: string; help?: string; min?: number; max?: number; step?: number }
+  | {
+      kind: 'number';
+      path: string;
+      label: string;
+      help?: string;
+      min?: number;
+      max?: number;
+      step?: number;
+    }
   | { kind: 'toggle'; path: string; label: string; help?: string }
   | { kind: 'color'; path: string; label: string; help?: string }
   /** A size multiplier, shown as a slider with a live sample. */
-  | { kind: 'scale'; path: string; label: string; help?: string; sample: string; preview: PreviewStyle }
+  | {
+      kind: 'scale';
+      path: string;
+      label: string;
+      help?: string;
+      sample: string;
+      preview: PreviewStyle;
+    }
   /** Pick a product from the shop, instead of typing its identifier. */
   | { kind: 'product'; path: string; label: string; help?: string }
   /** Pick a collection from the shop. */
@@ -54,13 +76,58 @@ export type Section = {
   fields: Field[];
 };
 
+/** One builder section per part of the menu: comer, sobremesas, beber. */
+function menuGroupSection(group: 'comer' | 'sobremesas' | 'beber'): Section {
+  const names = { comer: 'comer', sobremesas: 'sobremesas', beber: 'beber' } as const;
+  return {
+    id: `menu-${group}`,
+    title: `Menu — ${names[group]}`,
+    file: 'content/menu.json',
+    previewPath: '/menu',
+    description:
+      'As secções desta parte do menu e os pratos de cada uma. Os preços escrevem-se como no menu em papel, por exemplo 7,00.',
+    fields: [
+      { kind: 'text', path: `${group}.title`, label: 'Título desta parte' },
+      {
+        kind: 'list',
+        path: `${group}.sections`,
+        label: 'Secções',
+        itemLabel: 'Secção',
+        titleField: 'title',
+        fields: [
+          { kind: 'text', path: 'kicker', label: 'Linha pequena (opcional)' },
+          { kind: 'text', path: 'title', label: 'Título da secção' },
+          { kind: 'textarea', path: 'note', label: 'Nota (opcional)', rows: 2 },
+          {
+            kind: 'list',
+            path: 'items',
+            label: 'Pratos',
+            itemLabel: 'Prato',
+            titleField: 'name',
+            fields: [
+              { kind: 'text', path: 'name', label: 'Nome' },
+              { kind: 'text', path: 'price', label: 'Preço (€)', help: 'Por exemplo: 7,00' },
+              { kind: 'textarea', path: 'description', label: 'Descrição', rows: 2 },
+              { kind: 'toggle', path: 'highlight', label: 'Especialidade da casa (a cor-de-rosa)' },
+              { kind: 'toggle', path: 'glutenFree', label: 'Sem glúten' },
+              { kind: 'toggle', path: 'nuts', label: 'Tem frutos secos' },
+              { kind: 'toggle', path: 'sesame', label: 'Tem sésamo' },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+}
+
 export const SECTIONS: Section[] = [
   {
     id: 'home-hero',
-    title: 'Início — destaque',
+    title: 'Início — fotografia de topo',
     file: 'content/home.json',
     previewPath: '/',
-    description: 'A fotografia grande e o cartão sobreposto no topo da página inicial.',
+    description:
+      'A fotografia grande no topo da página inicial. Aparece sozinha, sem texto por cima.',
     fields: [
       { kind: 'image', path: 'hero.image', label: 'Fotografia', ratio: '16 / 9' },
       {
@@ -69,45 +136,43 @@ export const SECTIONS: Section[] = [
         label: 'Descrição da fotografia',
         help: 'Uma frase curta a dizer o que se vê. É lida por quem navega sem ver imagens, e ajuda o Google.',
       },
-      { kind: 'text', path: 'hero.kicker', label: 'Linha pequena', max: 60 },
-      { kind: 'text', path: 'hero.title', label: 'Título', max: 80 },
-      { kind: 'text', path: 'hero.cta', label: 'Texto do link', max: 30 },
-    ],
-  },
-  {
-    id: 'home-collections',
-    title: 'Início — coleções',
-    file: 'content/home.json',
-    previewPath: '/',
-    description:
-      'Os cartões das categorias. Se uma categoria ainda não estiver publicada na loja, o cartão dela não aparece no site.',
-    fields: [
-      { kind: 'text', path: 'collections.heading', label: 'Título da secção' },
-      { kind: 'textarea', path: 'collections.note', label: 'Nota ao lado', rows: 2 },
       {
-        kind: 'list',
-        path: 'collections.cards',
-        label: 'Cartões',
-        itemLabel: 'Cartão',
-        titleField: 'name',
-        fields: [
-          { kind: 'text', path: 'name', label: 'Nome' },
-          { kind: 'text', path: 'note', label: 'Nota' },
-          { kind: 'image', path: 'image', label: 'Fotografia', ratio: '4 / 5' },
-          {
-            kind: 'collection',
-            path: 'handle',
-            label: 'Para onde leva',
-            help: 'Escolhe a categoria que este cartão abre.',
-            allowNone: 'Todos os produtos',
-          },
-        ],
+        kind: 'text',
+        path: 'hero.video',
+        label: 'Vídeo (opcional)',
+        help: 'Deixa em branco para mostrar a fotografia. Para usar um vídeo, pede a quem trata do site para o colocar e escreve aqui o endereço que te derem.',
+      },
+      {
+        kind: 'text',
+        path: 'hero.title',
+        label: 'Título escondido',
+        help: 'Não aparece na página: é lido pelo Google e por quem usa um leitor de ecrã.',
+        max: 80,
       },
     ],
   },
   {
+    id: 'home-story',
+    title: 'Início — quem somos',
+    file: 'content/home.json',
+    previewPath: '/',
+    description: 'O texto sobre a casa, logo a seguir à fotografia de topo.',
+    fields: [
+      { kind: 'text', path: 'story.kicker', label: 'Linha pequena' },
+      {
+        kind: 'strings',
+        path: 'story.headingLines',
+        label: 'Título',
+        itemLabel: 'Linha',
+        help: 'Cada linha aparece numa linha própria.',
+      },
+      { kind: 'textarea', path: 'story.body', label: 'Texto', rows: 5 },
+      { kind: 'text', path: 'story.cta', label: 'Texto do link' },
+    ],
+  },
+  {
     id: 'home-favourites',
-    title: 'Início — favoritos',
+    title: 'Início — loja online',
     file: 'content/home.json',
     previewPath: '/',
     description:
@@ -128,18 +193,18 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
-    id: 'home-story',
-    title: 'Início — a nossa história',
+    id: 'home-events',
+    title: 'Início — eventos',
     file: 'content/home.json',
     previewPath: '/',
-    description: 'A faixa com a fotografia e o texto sobre a casa.',
+    description: 'A fotografia e o texto sobre eventos, com o botão para a página de eventos.',
     fields: [
-      { kind: 'text', path: 'story.kicker', label: 'Linha pequena' },
-      { kind: 'strings', path: 'story.headingLines', label: 'Título', itemLabel: 'Linha', help: 'Cada linha aparece numa linha própria.' },
-      { kind: 'textarea', path: 'story.body', label: 'Texto', rows: 5 },
-      { kind: 'text', path: 'story.cta', label: 'Texto do link' },
-      { kind: 'image', path: 'story.image', label: 'Fotografia', ratio: '1 / 1' },
-      { kind: 'text', path: 'story.alt', label: 'Descrição da fotografia' },
+      { kind: 'image', path: 'events.image', label: 'Fotografia', ratio: '4 / 5' },
+      { kind: 'text', path: 'events.alt', label: 'Descrição da fotografia' },
+      { kind: 'text', path: 'events.kicker', label: 'Linha pequena' },
+      { kind: 'text', path: 'events.heading', label: 'Título' },
+      { kind: 'textarea', path: 'events.body', label: 'Texto', rows: 5 },
+      { kind: 'text', path: 'events.cta', label: 'Texto do botão' },
     ],
   },
   {
@@ -147,11 +212,11 @@ export const SECTIONS: Section[] = [
     title: 'Início — outros títulos',
     file: 'content/home.json',
     previewPath: '/',
-    description: 'Os títulos das duas últimas secções da página inicial.',
+    description: 'Os títulos do diário e das opiniões na página inicial.',
     fields: [
-      { kind: 'text', path: 'reviews.heading', label: 'Título das opiniões' },
       { kind: 'text', path: 'diary.heading', label: 'Título do diário' },
       { kind: 'text', path: 'diary.cta', label: 'Link do diário' },
+      { kind: 'text', path: 'reviews.heading', label: 'Título das opiniões' },
     ],
   },
   {
@@ -169,7 +234,12 @@ export const SECTIONS: Section[] = [
         titleField: 'who',
         fields: [
           { kind: 'textarea', path: 'text', label: 'Texto', rows: 4 },
-          { kind: 'text', path: 'who', label: 'Quem escreveu', help: 'Por exemplo: MARTA S. · PORTO' },
+          {
+            kind: 'text',
+            path: 'who',
+            label: 'Quem escreveu',
+            help: 'Por exemplo: MARTA S. · PORTO',
+          },
           { kind: 'text', path: 'stars', label: 'Estrelas', help: 'Cinco estrelas: ★★★★★' },
         ],
       },
@@ -180,62 +250,176 @@ export const SECTIONS: Section[] = [
     title: 'Quem somos',
     file: 'content/about.json',
     previewPath: '/quem-somos',
-    description: 'A página da história da casa.',
+    description:
+      'A página da história da casa, contada em capítulos, cada um com duas fotografias.',
     fields: [
-      { kind: 'image', path: 'hero.image', label: 'Fotografia do topo', ratio: '16 / 9' },
-      { kind: 'text', path: 'hero.alt', label: 'Descrição da fotografia' },
-      { kind: 'text', path: 'hero.kicker', label: 'Linha pequena' },
-      { kind: 'text', path: 'hero.title', label: 'Título' },
-      { kind: 'strings', path: 'lede.lines', label: 'Frase de abertura', itemLabel: 'Linha' },
-      { kind: 'strings', path: 'story.paragraphs', label: 'Texto', itemLabel: 'Parágrafo', multiline: true },
-      { kind: 'image', path: 'story.image', label: 'Fotografia do texto', ratio: '4 / 5' },
-      { kind: 'text', path: 'story.alt', label: 'Descrição da fotografia' },
+      { kind: 'text', path: 'intro.kicker', label: 'Linha pequena' },
+      { kind: 'text', path: 'intro.title', label: 'Título' },
+      { kind: 'strings', path: 'intro.lines', label: 'Frase de abertura', itemLabel: 'Linha' },
       {
         kind: 'list',
-        path: 'timeline',
-        label: 'Cronologia',
-        itemLabel: 'Ano',
-        titleField: 'year',
+        path: 'chapters',
+        label: 'Capítulos',
+        itemLabel: 'Capítulo',
+        titleField: 'title',
         fields: [
-          { kind: 'text', path: 'year', label: 'Ano' },
+          {
+            kind: 'text',
+            path: 'kicker',
+            label: 'Linha pequena',
+            help: 'Por exemplo: 2019 · guarda',
+          },
           { kind: 'text', path: 'title', label: 'Título' },
-          { kind: 'textarea', path: 'body', label: 'Texto', rows: 3 },
+          {
+            kind: 'strings',
+            path: 'paragraphs',
+            label: 'Texto',
+            itemLabel: 'Parágrafo',
+            multiline: true,
+          },
+          {
+            kind: 'list',
+            path: 'images',
+            label: 'Fotografias',
+            itemLabel: 'Fotografia',
+            titleField: 'alt',
+            min: 2,
+            max: 2,
+            fields: [
+              { kind: 'image', path: 'image', label: 'Fotografia', ratio: '4 / 5' },
+              { kind: 'text', path: 'alt', label: 'Descrição' },
+            ],
+          },
         ],
       },
-      {
-        kind: 'list',
-        path: 'gallery',
-        label: 'Galeria',
-        itemLabel: 'Fotografia',
-        titleField: 'alt',
-        min: 4,
-        max: 4,
-        fields: [
-          { kind: 'image', path: 'image', label: 'Fotografia', ratio: '3 / 4' },
-          { kind: 'text', path: 'alt', label: 'Descrição' },
-        ],
-      },
-      { kind: 'text', path: 'closing.headingLead', label: 'Citação — início' },
-      { kind: 'text', path: 'closing.headingEmphasis', label: 'Citação — fim' },
-      { kind: 'textarea', path: 'closing.note', label: 'Nota final', rows: 2 },
+      { kind: 'text', path: 'closing.kicker', label: 'Final — linha pequena' },
+      { kind: 'textarea', path: 'closing.body', label: 'Final — texto', rows: 4 },
+      { kind: 'text', path: 'closing.signature', label: 'Final — frase manuscrita' },
     ],
   },
   {
-    id: 'contacto',
-    title: 'Contacto',
-    file: 'content/contacto.json',
-    previewPath: '/contacto',
-    description: 'A página de contacto, o formulário e a informação da loja.',
+    id: 'menu',
+    title: 'Menu — introdução e notas',
+    file: 'content/menu.json',
+    previewPath: '/menu',
+    description: 'O texto no topo do menu, a legenda e as notas no fim (IVA, glúten).',
+    fields: [
+      { kind: 'text', path: 'kicker', label: 'Linha pequena' },
+      { kind: 'text', path: 'title', label: 'Título' },
+      { kind: 'textarea', path: 'intro', label: 'Texto de abertura', rows: 3 },
+      { kind: 'text', path: 'legend.highlight', label: 'Legenda — especialidades (a cor-de-rosa)' },
+      { kind: 'text', path: 'legend.glutenFree', label: 'Legenda — sem glúten' },
+      { kind: 'text', path: 'legend.nuts', label: 'Legenda — frutos secos' },
+      { kind: 'text', path: 'legend.sesame', label: 'Legenda — sésamo' },
+      {
+        kind: 'strings',
+        path: 'notes',
+        label: 'Notas no fim do menu',
+        itemLabel: 'Nota',
+        multiline: true,
+      },
+    ],
+  },
+  ...(['comer', 'sobremesas', 'beber'] as const).map((group) => menuGroupSection(group)),
+  {
+    id: 'bolos',
+    title: 'Bolos',
+    file: 'content/bolos.json',
+    previewPath: '/bolos',
+    description: 'A página dos bolos por encomenda.',
     fields: [
       { kind: 'text', path: 'kicker', label: 'Linha pequena' },
       { kind: 'text', path: 'title', label: 'Título' },
       { kind: 'textarea', path: 'lede', label: 'Texto de abertura', rows: 3 },
-      { kind: 'image', path: 'image', label: 'Fotografia', ratio: '4 / 3' },
-      { kind: 'text', path: 'alt', label: 'Descrição da fotografia' },
-      { kind: 'strings', path: 'subjects', label: 'Assuntos do formulário', itemLabel: 'Assunto' },
-      { kind: 'text', path: 'success.title', label: 'Confirmação — título' },
-      { kind: 'textarea', path: 'success.body', label: 'Confirmação — texto', rows: 2 },
-      { kind: 'text', path: 'success.reset', label: 'Confirmação — link' },
+      {
+        kind: 'textarea',
+        path: 'notice',
+        label: 'Aviso',
+        rows: 2,
+        help: 'Enquanto o catálogo não está pronto. Deixa em branco para esconder.',
+      },
+      {
+        kind: 'list',
+        path: 'steps',
+        label: 'Como encomendar',
+        itemLabel: 'Passo',
+        titleField: 'title',
+        fields: [
+          { kind: 'text', path: 'title', label: 'Título' },
+          { kind: 'textarea', path: 'body', label: 'Texto', rows: 2 },
+        ],
+      },
+      { kind: 'text', path: 'cta', label: 'Texto do botão' },
+      {
+        kind: 'list',
+        path: 'gallery',
+        label: 'Fotografias',
+        itemLabel: 'Fotografia',
+        titleField: 'alt',
+        min: 3,
+        max: 3,
+        fields: [
+          { kind: 'image', path: 'image', label: 'Fotografia', ratio: '4 / 5' },
+          { kind: 'text', path: 'alt', label: 'Descrição' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'eventos',
+    title: 'Eventos',
+    file: 'content/eventos.json',
+    previewPath: '/eventos',
+    description: 'A página de eventos.',
+    fields: [
+      { kind: 'text', path: 'kicker', label: 'Linha pequena' },
+      { kind: 'text', path: 'title', label: 'Título' },
+      { kind: 'textarea', path: 'lede', label: 'Texto de abertura', rows: 3 },
+      {
+        kind: 'strings',
+        path: 'paragraphs',
+        label: 'Texto',
+        itemLabel: 'Parágrafo',
+        multiline: true,
+      },
+      { kind: 'text', path: 'cta', label: 'Texto do botão' },
+      {
+        kind: 'list',
+        path: 'images',
+        label: 'Fotografias',
+        itemLabel: 'Fotografia',
+        titleField: 'alt',
+        help: 'A primeira aparece grande, ao lado do texto; as outras por baixo.',
+        min: 1,
+        max: 3,
+        fields: [
+          { kind: 'image', path: 'image', label: 'Fotografia', ratio: '4 / 5' },
+          { kind: 'text', path: 'alt', label: 'Descrição' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'contacto',
+    title: 'Contactos',
+    file: 'content/contacto.json',
+    previewPath: '/contacto',
+    description: 'A página de contactos: a informação da loja à esquerda e o formulário à direita.',
+    fields: [
+      { kind: 'text', path: 'kicker', label: 'Linha pequena' },
+      {
+        kind: 'text',
+        path: 'title',
+        label: 'Nome da página',
+        help: 'Aparece no separador do navegador e no Google.',
+      },
+      { kind: 'text', path: 'infoHeading.lead', label: 'Título da esquerda — início' },
+      {
+        kind: 'text',
+        path: 'infoHeading.emphasis',
+        label: 'Título da esquerda — palavra manuscrita',
+      },
+      { kind: 'textarea', path: 'lede', label: 'Texto de abertura', rows: 3 },
       {
         kind: 'list',
         path: 'info',
@@ -243,10 +427,31 @@ export const SECTIONS: Section[] = [
         itemLabel: 'Linha',
         titleField: 'label',
         fields: [
-          { kind: 'text', path: 'label', label: 'Etiqueta' },
-          { kind: 'textarea', path: 'value', label: 'Valor', rows: 3, help: 'Podes usar várias linhas.' },
+          {
+            kind: 'text',
+            path: 'label',
+            label: 'Etiqueta',
+            help: 'Por exemplo: morada, telefone, horário.',
+          },
+          {
+            kind: 'textarea',
+            path: 'value',
+            label: 'Valor',
+            rows: 3,
+            help: 'Podes usar várias linhas.',
+          },
         ],
       },
+      { kind: 'text', path: 'formHeading.lead', label: 'Título do formulário — início' },
+      {
+        kind: 'text',
+        path: 'formHeading.emphasis',
+        label: 'Título do formulário — palavra manuscrita',
+      },
+      { kind: 'strings', path: 'subjects', label: 'Assuntos do formulário', itemLabel: 'Assunto' },
+      { kind: 'text', path: 'success.title', label: 'Confirmação — título' },
+      { kind: 'textarea', path: 'success.body', label: 'Confirmação — texto', rows: 2 },
+      { kind: 'text', path: 'success.reset', label: 'Confirmação — link' },
     ],
   },
   {
@@ -278,7 +483,8 @@ export const SECTIONS: Section[] = [
     id: 'site',
     title: 'Cabeçalho e rodapé',
     file: 'content/site.json',
-    description: 'A barra azul no topo, a newsletter e o rodapé. Aparecem em todas as páginas.',
+    description:
+      'A barra de avisos, o botão de reservas, a faixa azul de encomendas e o rodapé. Aparecem em todas as páginas.',
     fields: [
       { kind: 'text', path: 'brand.tagline', label: 'Frase do rodapé' },
       {
@@ -290,12 +496,34 @@ export const SECTIONS: Section[] = [
       },
       { kind: 'toggle', path: 'announcement.enabled', label: 'Mostrar a barra de avisos' },
       { kind: 'strings', path: 'announcement.messages', label: 'Avisos', itemLabel: 'Aviso' },
-      { kind: 'text', path: 'newsletter.kicker', label: 'Newsletter — linha pequena' },
-      { kind: 'strings', path: 'newsletter.headingLines', label: 'Newsletter — título', itemLabel: 'Linha' },
-      { kind: 'text', path: 'newsletter.placeholder', label: 'Newsletter — texto do campo' },
-      { kind: 'text', path: 'newsletter.cta', label: 'Newsletter — botão' },
+      { kind: 'text', path: 'reservations.label', label: 'Reservas — texto do botão' },
+      {
+        kind: 'text',
+        path: 'reservations.url',
+        label: 'Reservas — endereço',
+        help: 'A página da Ophelia no UMAI. Deixa em branco para esconder o botão.',
+      },
+      { kind: 'text', path: 'orderBand.kicker', label: 'Faixa azul — linha pequena' },
+      {
+        kind: 'strings',
+        path: 'orderBand.headingLines',
+        label: 'Faixa azul — título',
+        itemLabel: 'Linha',
+      },
+      { kind: 'text', path: 'orderBand.cta', label: 'Faixa azul — botão' },
+      {
+        kind: 'text',
+        path: 'orderBand.href',
+        label: 'Faixa azul — para onde leva',
+        help: 'Por exemplo: /bolos',
+      },
       { kind: 'text', path: 'footer.helpHeading', label: 'Rodapé — título da coluna' },
-      { kind: 'strings', path: 'footer.help', label: 'Rodapé — linhas de ajuda', itemLabel: 'Linha' },
+      {
+        kind: 'strings',
+        path: 'footer.help',
+        label: 'Rodapé — linhas de ajuda',
+        itemLabel: 'Linha',
+      },
       { kind: 'text', path: 'footer.legalRight', label: 'Rodapé — canto direito' },
     ],
   },
@@ -314,7 +542,14 @@ export const SECTIONS: Section[] = [
         max: 500,
         step: 1,
       },
-      { kind: 'number', path: 'shipping.shippingRate', label: 'Custo de envio (€)', min: 0, max: 100, step: 0.1 },
+      {
+        kind: 'number',
+        path: 'shipping.shippingRate',
+        label: 'Custo de envio (€)',
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
       { kind: 'textarea', path: 'shipping.note', label: 'Nota sobre envios', rows: 2 },
     ],
   },
@@ -322,7 +557,8 @@ export const SECTIONS: Section[] = [
     id: 'product',
     title: 'Página de produto',
     file: 'content/site.json',
-    description: 'Os textos que se repetem em todas as páginas de produto. Os nomes, preços e fotografias vêm da loja.',
+    description:
+      'Os textos que se repetem em todas as páginas de produto. Os nomes, preços e fotografias vêm da loja.',
     fields: [
       { kind: 'text', path: 'product.giftCardTitle', label: 'Cartão personalizado — título' },
       { kind: 'text', path: 'product.giftCardNote', label: 'Cartão personalizado — nota' },
@@ -356,7 +592,12 @@ export const THEME_SECTION: Section = {
   description:
     'Ajustes ao aspecto do site. Tudo começa como foi desenhado — muda só o que quiseres, e podes sempre voltar atrás.',
   fields: [
-    { kind: 'color', path: 'colors.navy', label: 'Azul principal', help: 'Títulos, botões, barra de avisos.' },
+    {
+      kind: 'color',
+      path: 'colors.navy',
+      label: 'Azul principal',
+      help: 'Títulos, botões, barra de avisos.',
+    },
     { kind: 'color', path: 'colors.navyHover', label: 'Azul — rato por cima' },
     { kind: 'color', path: 'colors.cream', label: 'Fundo da página' },
     { kind: 'color', path: 'colors.beige', label: 'Fundo das faixas' },
@@ -364,19 +605,97 @@ export const THEME_SECTION: Section = {
     { kind: 'color', path: 'colors.inkBody', label: 'Texto dos parágrafos' },
     { kind: 'color', path: 'colors.muted', label: 'Texto secundário' },
     { kind: 'color', path: 'colors.gold', label: 'Estrelas das opiniões' },
-    { kind: 'scale', path: 'bodyScale', label: 'Tamanho do texto corrido', sample: 'Preparamos tudo sob encomenda.', preview: 'body' },
-    { kind: 'scale', path: 'typeScale.hero', label: 'Título do destaque', sample: 'a loja da ophelia', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.section', label: 'Títulos de secção', sample: 'as nossas coleções', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.page', label: 'Títulos de página', sample: 'produtos', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.article', label: 'Títulos de artigo', sample: 'A granola que fazemos', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.product', label: 'Nome do produto', sample: 'Ophelia Cookies', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.quote', label: 'Citação final', sample: 'eternizar momentos.', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.lede', label: 'Frase de abertura', sample: 'Não somos uma empresa —', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.newsletter', label: 'Título da newsletter', sample: 'receitas e novidades,', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.band', label: 'Título da faixa', sample: 'somos uma família.', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.pageXl', label: 'Título "quem somos"', sample: 'quem somos', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.pageSm', label: 'Título do diário', sample: 'receitas, épocas', preview: 'display' },
-    { kind: 'scale', path: 'typeScale.sectionSm', label: 'Título das sugestões', sample: 'fica ainda melhor com', preview: 'display' },
+    {
+      kind: 'scale',
+      path: 'bodyScale',
+      label: 'Tamanho do texto corrido',
+      sample: 'Preparamos tudo sob encomenda.',
+      preview: 'body',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.hero',
+      label: 'Título do destaque',
+      sample: 'a loja da ophelia',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.section',
+      label: 'Títulos de secção',
+      sample: 'as nossas coleções',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.page',
+      label: 'Títulos de página',
+      sample: 'produtos',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.article',
+      label: 'Títulos de artigo',
+      sample: 'A granola que fazemos',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.product',
+      label: 'Nome do produto',
+      sample: 'Ophelia Cookies',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.quote',
+      label: 'Citação final',
+      sample: 'eternizar momentos.',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.lede',
+      label: 'Frase de abertura',
+      sample: 'Não somos uma empresa —',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.newsletter',
+      label: 'Título da newsletter',
+      sample: 'receitas e novidades,',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.band',
+      label: 'Título da faixa',
+      sample: 'somos uma família.',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.pageXl',
+      label: 'Título "quem somos"',
+      sample: 'quem somos',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.pageSm',
+      label: 'Título do diário',
+      sample: 'receitas, épocas',
+      preview: 'display',
+    },
+    {
+      kind: 'scale',
+      path: 'typeScale.sectionSm',
+      label: 'Título das sugestões',
+      sample: 'fica ainda melhor com',
+      preview: 'display',
+    },
   ],
 };
 
@@ -389,10 +708,26 @@ export const POST_FIELDS: Field[] = [
     label: 'Endereço',
     help: 'A parte final do endereço do artigo. Sai automaticamente do título — muda só se precisares.',
   },
-  { kind: 'text', path: 'kicker', label: 'Categoria', help: 'Por exemplo: receitas, épocas, presentes.' },
-  { kind: 'text', path: 'date', label: 'Data', help: 'Escrita como deve aparecer no site. Por exemplo: 28 agosto.' },
+  {
+    kind: 'text',
+    path: 'kicker',
+    label: 'Categoria',
+    help: 'Por exemplo: receitas, épocas, presentes.',
+  },
+  {
+    kind: 'text',
+    path: 'date',
+    label: 'Data',
+    help: 'Escrita como deve aparecer no site. Por exemplo: 28 agosto.',
+  },
   { kind: 'image', path: 'image', label: 'Fotografia', ratio: '16 / 11' },
-  { kind: 'textarea', path: 'excerpt', label: 'Resumo', rows: 3, help: 'A frase grande no início do artigo e no cartão da lista.' },
+  {
+    kind: 'textarea',
+    path: 'excerpt',
+    label: 'Resumo',
+    rows: 3,
+    help: 'A frase grande no início do artigo e no cartão da lista.',
+  },
   { kind: 'strings', path: 'body', label: 'Texto', itemLabel: 'Parágrafo', multiline: true },
 ];
 

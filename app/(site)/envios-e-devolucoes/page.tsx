@@ -34,7 +34,9 @@ export default function ShippingPage() {
       <article className={styles.page}>
         <Breadcrumbs crumbs={crumbs} />
         <Kicker>Informação</Kicker>
-        <Display as="h1" size="article" className={styles.title}>Envios e devoluções</Display>
+        <Display as="h1" size="product" className={styles.title}>
+          Envios e devoluções
+        </Display>
         <p className={styles.updated}>
           Documento fornecido pela {SITE.legalName} ({SITE.taxId}).
         </p>
@@ -48,17 +50,17 @@ export default function ShippingPage() {
         <section className={styles.section}>
           <h2 className={styles.heading}>Política de entrega</h2>
           <p className={styles.body}>
-            A Ophelia honrará as encomendas recebidas online até ao limite dos stocks disponíveis. Na
-            falta de disponibilidade do produto ou serviço, a Ophelia compromete-se a informar o
+            A Ophelia honrará as encomendas recebidas online até ao limite dos stocks disponíveis.
+            Na falta de disponibilidade do produto ou serviço, a Ophelia compromete-se a informar o
             cliente logo que lhe seja possível.
           </p>
           <p className={styles.body}>
             As encomendas são entregues por empresas de correio ou outras empresas que efetuem
             entregas. A encomenda considera-se entregue quando a transportadora a entrega ao cliente
-            e este assina o documento de receção. É da responsabilidade do cliente verificar o estado
-            das embalagens no momento da receção e indicar quaisquer anomalias na nota de entrega —
-            condição essencial, sem a qual não será aceite qualquer reclamação por danos de
-            transporte.
+            e este assina o documento de receção. É da responsabilidade do cliente verificar o
+            estado das embalagens no momento da receção e indicar quaisquer anomalias na nota de
+            entrega — condição essencial, sem a qual não será aceite qualquer reclamação por danos
+            de transporte.
           </p>
           <p className={styles.body}>
             Assim que o consumidor toma posse dos bens, o risco de perda ou dano é transferido para
@@ -67,8 +69,8 @@ export default function ShippingPage() {
           <ul className={styles.list}>
             <li>Não ceder à pressão dos entregadores e examinar os bens com o tempo necessário.</li>
             <li>
-              Não assinar a nota de entrega antes de verificar o estado das caixas e, se possível, da
-              mercadoria.
+              Não assinar a nota de entrega antes de verificar o estado das caixas e, se possível,
+              da mercadoria.
             </li>
             <li>
               Rejeitar os bens e indicar explicitamente as reservas na nota de entrega, caso não
@@ -96,8 +98,8 @@ export default function ShippingPage() {
           <p className={styles.body}>
             Nesses casos, o cliente deve contactar-nos até 24 horas após a entrega, por email para{' '}
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>, indicando o número do pedido e, se
-            possível, uma fotografia do problema. A Ophelia compromete-se a substituir o produto ou a
-            reembolsar o preço de compra, sem custos adicionais para o cliente. O reembolso tem um
+            possível, uma fotografia do problema. A Ophelia compromete-se a substituir o produto ou
+            a reembolsar o preço de compra, sem custos adicionais para o cliente. O reembolso tem um
             prazo máximo de 15 dias úteis.
           </p>
           <p className={styles.body}>
@@ -110,11 +112,12 @@ export default function ShippingPage() {
         <section className={styles.section}>
           <h2 className={styles.heading}>Garantia</h2>
           <p className={styles.body}>
-            Os produtos alimentares comercializados pela Ophelia estão abrangidos pela garantia legal
-            de conformidade, limitada ao prazo de validade indicado na embalagem. A garantia cobre
-            exclusivamente defeitos de fabrico, problemas de qualidade ou danos ocorridos durante o
-            transporte. Não são aceites reclamações por armazenamento incorreto, alterações naturais
-            de sabor ou textura dentro do prazo de validade, ou consumo após o prazo de validade.
+            Os produtos alimentares comercializados pela Ophelia estão abrangidos pela garantia
+            legal de conformidade, limitada ao prazo de validade indicado na embalagem. A garantia
+            cobre exclusivamente defeitos de fabrico, problemas de qualidade ou danos ocorridos
+            durante o transporte. Não são aceites reclamações por armazenamento incorreto,
+            alterações naturais de sabor ou textura dentro do prazo de validade, ou consumo após o
+            prazo de validade.
           </p>
         </section>
 

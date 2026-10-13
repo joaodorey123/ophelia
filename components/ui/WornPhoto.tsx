@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 
+import { Flower, PIN_FLOWERS } from './Flower';
 import styles from './WornPhoto.module.css';
 
 /**
@@ -13,6 +14,7 @@ import styles from './WornPhoto.module.css';
  */
 
 const TAPE = ['tapeCornerLeft', 'tapeCornerRight', 'tapeTop', 'tapeTorn'] as const;
+const PIN = ['pinLeft', 'pinRight', 'pinRightLow', 'pinLeftLow'] as const;
 
 export function WornPhoto({
   src,
@@ -21,6 +23,7 @@ export function WornPhoto({
   sizes,
   variant = 0,
   priority = false,
+  pin = 'flower',
   className,
 }: {
   src: string;
@@ -29,10 +32,12 @@ export function WornPhoto({
   sizes: string;
   variant?: number;
   priority?: boolean;
+  pin?: 'flower' | 'tape';
   className?: string;
 }) {
   const index = ((variant % 4) + 4) % 4;
   const tape = TAPE[index] ?? 'tapeCornerLeft';
+  const flower = PIN_FLOWERS[index] ?? 'flor-azul';
 
   return (
     <div
@@ -40,10 +45,21 @@ export function WornPhoto({
       style={{ '--ratio': ratio } as CSSProperties}
     >
       <div className={styles.print}>
-        <Image className={styles.photo} src={src} alt={alt} fill sizes={sizes} priority={priority} />
+        <Image
+          className={styles.photo}
+          src={src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+        />
         <span className={styles.grain} aria-hidden />
       </div>
-      <span className={`${styles.tape} ${styles[tape]}`} aria-hidden />
+      {pin === 'tape' ? (
+        <span className={`${styles.tape} ${styles[tape]}`} aria-hidden />
+      ) : (
+        <Flower name={flower} width={84} className={`${styles.pin} ${styles[PIN[index]!]}`} />
+      )}
     </div>
   );
 }

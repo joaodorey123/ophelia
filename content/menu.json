@@ -1,0 +1,1348 @@
+{
+  "kicker": "cake · brunch · friends",
+  "title": "o nosso menu",
+  "intro": "Pequeno-almoço a qualquer hora, brunch, comida de casa e sobremesas — tudo feito por nós, na cozinha da loja.",
+  "comer": {
+    "title": "comer",
+    "sections": [
+      {
+        "kicker": "pequeno-almoço",
+        "title": "a qualquer hora…",
+        "note": "",
+        "items": [
+          {
+            "name": "Iogurte",
+            "price": "7,00",
+            "description": "Com granola, mel da quinta, frutos silvestres e banana. Iogurte vegetal +1,20 €.",
+            "highlight": false,
+            "nuts": true,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Açaí",
+            "price": "9,00",
+            "description": "Com frutos silvestres, banana, granola e mel. Extra: leite em pó ou leite condensado 0,50 €.",
+            "highlight": false,
+            "nuts": true,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bowl pitaia",
+            "price": "11,00",
+            "description": "Com maracujá, frutos vermelhos, granola e mel.",
+            "highlight": true,
+            "nuts": true,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Papas de aveia",
+            "price": "7,30",
+            "description": "Com iogurte, frutos silvestres, banana e mel.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Torrada francesa clássica",
+            "price": "8,50",
+            "description": "Rabanada com frutos vermelhos, iogurte e maple.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Torrada francesa de banana",
+            "price": "9,00",
+            "description": "Rabanada com ganache de banana, banana caramelizada e noz-pecã.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Torrada francesa chocolate e avelã",
+            "price": "9,30",
+            "description": "Rabanada com ganache de chocolate e avelã.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Torradinha",
+            "price": "4,50",
+            "description": "Com manteiga e compota.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Tosta mista",
+            "price": "4,80",
+            "description": "Queijo e fiambre.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "croissants",
+        "note": "",
+        "items": [
+          {
+            "name": "Croissant francês",
+            "price": "2,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Croissant mais do mesmo",
+            "price": "3,70",
+            "description": "Queijo e fiambre.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Croissant red velvet",
+            "price": "4,00",
+            "description": "Recheio de framboesas, creme de queijo e frutos frescos.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Croissant recheado",
+            "price": "4,80",
+            "description": "Nutella e morangos, banana e doce de leite, ou creme de pistácio.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Croissant salmão",
+            "price": "6,50",
+            "description": "Recheio de queijo creme, salmão fumado e cebolinho fresco.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Croast",
+            "price": "7,80",
+            "description": "Croissant prensado, guacamole, ovo pochê, salada de rúcula e queijo parmesão. Extra: salmão 2,50 €.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "panquecas e waffles",
+        "note": "",
+        "items": [
+          {
+            "name": "Panquecas sem graça",
+            "price": "6,90",
+            "description": "Com açúcar e canela, Nutella, maple syrup, caramelo salgado, manteiga de amendoim ou doce de leite.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Panqueca sunshine",
+            "price": "7,90",
+            "description": "Panquecas com iogurte, mel e frutos silvestres.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Panqueca Ophelia",
+            "price": "8,50",
+            "description": "Com brigadeiro de chocolate, bolinhas de chocolate, morangos e natas frescas.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Panqueca churro",
+            "price": "7,90",
+            "description": "Com doce de leite, crispearls de caramelo salgado, banana, natas e canela.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Panqueca red velvet",
+            "price": "8,20",
+            "description": "Com creme de queijo e frutos silvestres.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Panqueca vegan",
+            "price": "8,90",
+            "description": "Com ganache de chocolate, coco e morangos.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": true,
+            "sesame": false
+          },
+          {
+            "name": "Panqueca salgada",
+            "price": "10,00",
+            "description": "Com 2 ovos fritos, bacon, abacate, maple syrup e cebola desidratada.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Waffle Hawai",
+            "price": "13,00",
+            "description": "Com 2 ovos estrelados, salmão, abacate, ovas e cebola.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Waffle americano",
+            "price": "9,90",
+            "description": "Com queijo cheddar, bacon e ovos estrelados.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Waffle Rio",
+            "price": "13,00",
+            "description": "Com frango panado, salada de pepino e cebola, guacamole e maionese sriracha.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "nem tudo são ovos",
+        "title": "brunch ophelia",
+        "note": "",
+        "items": [
+          {
+            "name": "Brunch Ophelia",
+            "price": "17,00",
+            "description": "Sumo de laranja ou sumo do dia + iogurte com frutos e granola caseira ou panqueca sem graça (topping de Nutella, maple, caramelo salgado ou manteiga de amendoim) + ovos à escolha + café, americano ou chá. Extra: cappuccino +1,20 €, mimosa +2,50 €.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "ovos",
+        "note": "Opção: pão sem glúten +1,50 €. Todos os nossos pratos são finalizados com cebola desidratada.",
+        "items": [
+          {
+            "name": "Ovo frito",
+            "price": "8,90",
+            "description": "Pão focaccia aberto com bacon, abacate e 2 ovos estrelados.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Ovo benedict com salmão",
+            "price": "10,90",
+            "description": "Fatia de pão trigo barbela, salmão, 2 ovos escalfados, molho holandês e salada.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Ovo benedict com bacon",
+            "price": "9,90",
+            "description": "Fatia de pão trigo barbela, bacon, 2 ovos escalfados, molho holandês e salada.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Ovo benedict com abacate",
+            "price": "10,00",
+            "description": "Fatia de pão trigo barbela, abacate fatiado, ovos escalfados, molho holandês e salada.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Ovo cremoso",
+            "price": "8,90",
+            "description": "Tosta de pão trigo barbela com ovos mexidos cremosos, bacon e espargos.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "A omelete",
+            "price": "9,90",
+            "description": "Recheada com queijo, acompanhada com salada e fatia de pão. Extra: espinafres 0,80 €, cogumelos selvagens 1,20 €.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "entradas",
+        "note": "",
+        "items": [
+          {
+            "name": "Chips Ophelia",
+            "price": "6,50",
+            "description": "Com guacamole.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Salada de tomate com burrata, pesto e tostas rústicas",
+            "price": "8,60",
+            "description": "Para partilhar… ou não.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Torrada francesa gratinada com queijo",
+            "price": "8,00",
+            "description": "Pão brioche quentinho gratinado no forno com queijo e alho.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Naan com hummus e chutney de manga",
+            "price": "7,00",
+            "description": "",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sopa do dia",
+            "price": "4,00",
+            "description": "Pergunte-nos qual é.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "tosta aberta",
+        "note": "Opção: pão sem glúten +1,50 €. Todos os nossos pratos são finalizados com cebola desidratada.",
+        "items": [
+          {
+            "name": "Burrata caprese",
+            "price": "11,90",
+            "description": "Focaccia, presunto, queijo burrata com tomate marinado e rúcula.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Abacate",
+            "price": "7,50",
+            "description": "Pão trigo barbela com creme de queijo, abacate e tiras de bacon.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Julia",
+            "price": "11,50",
+            "description": "Pão brioche, bacon, abacate, um ovo escalfado e molho holandês.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Odette",
+            "price": "7,70",
+            "description": "Pão trigo barbela, hummus, ovo escalfado, tomate seco, rúcula e caju.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": true
+          },
+          {
+            "name": "Margarida",
+            "price": "8,20",
+            "description": "Pão trigo barbela, guacamole, queijo feta vegan, romã e rabanete.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Maria",
+            "price": "9,90",
+            "description": "Pão trigo barbela, queijo creme, pepino, cebola roxa marinada, salmão, ovo escalfado e ovas.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "sandocas",
+        "note": "Opção: pão sem glúten +1,50 €. Todos os nossos pratos são finalizados com cebola desidratada.",
+        "items": [
+          {
+            "name": "Sandoca halloumi",
+            "price": "8,50",
+            "description": "Pão brioche com abacate, queijo halloumi grelhado, bacon e cebola crocante.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sandoca do mal",
+            "price": "10,50",
+            "description": "Pão brioche, salada fria de couve roxa, cenoura e maionese, bochechas estufadas a baixa temperatura e cebola caramelizada.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sandoca do bem",
+            "price": "9,90",
+            "description": "Pão de focaccia, molho tzatziki, cogumelos estufados, queijo grelhado, cebola caramelizada e rúcula.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sandoquinha",
+            "price": "9,90",
+            "description": "Pão bolo do caco, frango panado, alface, pickles de cebola e maionese sriracha.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "comida de casa",
+        "note": "",
+        "items": [
+          {
+            "name": "Tarte do dia",
+            "price": "8,90",
+            "description": "Massa quebrada com recheio de frango, com salada.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bochechas de porco da mãe",
+            "price": "13,00",
+            "description": "Bochechas de porco estufadas lentamente, acompanhadas com nhoque de banana e queijo.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Costelinha de vaca cremosa",
+            "price": "15,00",
+            "description": "Cozinhada a baixa temperatura, com cuscuz, salada de feijão-frade e queijo grelhado.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Salada Oph",
+            "price": "11,00",
+            "description": "Alface, abacate, manga, salmão fumado, queijo feta e croutons.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Saladinha de verão",
+            "price": "12,50",
+            "description": "Alface, presunto parma, feta, pepino, nectarina, mirtilo e noz-pecã.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bowl purple",
+            "price": "9,90",
+            "description": "Puré de batata-doce roxa com ovo escalfado, espinafres, bacon e queijo halloumi grelhado.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bowl frango teriyaki",
+            "price": "11,70",
+            "description": "Arroz, abacate, ceviche de manga, maionese sriracha e sésamo.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": true
+          },
+          {
+            "name": "Chillizinho de carne de vaca",
+            "price": "13,50",
+            "description": "Acompanhado de arroz, guacamole e crème fraîche.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Arroz negro",
+            "price": "9,80",
+            "description": "Acompanhado de estufado de cogumelos e manga fresca.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Caril de grão e manga",
+            "price": "11,50",
+            "description": "Acompanhado com arroz e caju.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Polenta cremosa",
+            "price": "12,50",
+            "description": "Com estufadinho de cogumelos selvagens e queijo burrata.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "extras",
+        "note": "",
+        "items": [
+          {
+            "name": "Frutos vermelhos",
+            "price": "2,00",
+            "description": "Morangos, amora, mirtilo e framboesa.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Toppings",
+            "price": "1,00",
+            "description": "Nutella, maple, mel, caramelo salgado, compota, manteiga ou doce.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Abacate",
+            "price": "2,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Halloumi grelhado",
+            "price": "2,25",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Ovo frito ou escalfado",
+            "price": "1,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Ovo mexido",
+            "price": "2,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bacon",
+            "price": "2,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Salmão fumado",
+            "price": "3,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bochecha",
+            "price": "3,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Molho holandês",
+            "price": "1,75",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Caixa take-away",
+            "price": "0,30",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      }
+    ]
+  },
+  "sobremesas": {
+    "title": "sobremesas",
+    "sections": [
+      {
+        "kicker": "menu sobremesa",
+        "title": "comece pela sobremesa",
+        "note": "",
+        "items": [
+          {
+            "name": "A famosinha pavlova da Ophelia",
+            "price": "7,00",
+            "description": "Frutos vermelhos, manga e maracujá, lemon curd, ou chocolate e morangos.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": true,
+            "sesame": false
+          },
+          {
+            "name": "Blondie",
+            "price": "5,50",
+            "description": "Com chocolate branco, framboesas, gelado e caramelo salgado.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Brownie de nibs de cacau",
+            "price": "4,90",
+            "description": "Acompanhado com natas e amêndoas caramelizadas.",
+            "highlight": false,
+            "nuts": true,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Aquele bolo de chocolate",
+            "price": "5,00",
+            "description": "Acompanhado com frutos silvestres ou morangos.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": true,
+            "sesame": false
+          },
+          {
+            "name": "O cheesecake dos deuses",
+            "price": "6,00",
+            "description": "De pistácio ou de frutos vermelhos.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Panna cotta de coco",
+            "price": "4,50",
+            "description": "Com coulis de maracujá.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": true,
+            "sesame": false
+          },
+          {
+            "name": "Cobbler de maçã e frutos vermelhos",
+            "price": "6,00",
+            "description": "Acompanhado com gelado de baunilha e pó de framboesa.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Cookiebrownie 100 g",
+            "price": "4,00",
+            "description": "Extra gelado +0,50 €.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": true,
+            "sesame": false
+          },
+          {
+            "name": "Cookie quentinha numa frigideira com gelado",
+            "price": "8,00",
+            "description": "O sabor varia com a semana — pergunte à nossa equipa. Ideal para partilhar… ou não.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Semifreddo",
+            "price": "5,00",
+            "description": "Semifrio de chocolate branco, morangos e merengue.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      }
+    ]
+  },
+  "beber": {
+    "title": "beber",
+    "sections": [
+      {
+        "kicker": "menu bebidas",
+        "title": "sumos naturais e smoothies",
+        "note": "Bebida vegetal +0,60 €",
+        "items": [
+          {
+            "name": "Sumo de laranja",
+            "price": "4,30",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Limonada",
+            "price": "3,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Limonada de maracujá",
+            "price": "4,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sumo verde",
+            "price": "4,00",
+            "description": "Maçã, laranja, espinafres, canela e gengibre.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sumo do dia",
+            "price": "3,60",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sumo de pitaya, morango e manga",
+            "price": "4,80",
+            "description": "",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sumo de cenoura, manga, ananás e maracujá",
+            "price": "4,80",
+            "description": "",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sumo de melancia, manga, morango e chia",
+            "price": "4,80",
+            "description": "",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Smoothie Ophelia",
+            "price": "4,50",
+            "description": "Leite, banana e morangos.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Smoothie açaí",
+            "price": "6,00",
+            "description": "Açaí, leite, banana, morango e granola.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Milkshake de manga",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Milkshake de morango",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Milkshake de chocolate",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "de especialidade, 100% arábica torrado por nós",
+        "title": "cafés",
+        "note": "Bebida vegetal +0,60 €. Leve o nosso café em grão ou moído, torrado na hora: 250 g — 18 €.",
+        "items": [
+          {
+            "name": "Espresso",
+            "price": "1,30",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Descafeinado",
+            "price": "1,30",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Espresso duplo",
+            "price": "2,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Espresso macchiato",
+            "price": "1,80",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Americano",
+            "price": "2,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Café coado",
+            "price": "3,25",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Cold brew",
+            "price": "3,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Galão",
+            "price": "3,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Meia de leite",
+            "price": "3,60",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Cappuccino",
+            "price": "3,40",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Latte macchiato caramelo",
+            "price": "4,50",
+            "description": "Quente ou frio.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Latte macchiato pistácio",
+            "price": "5,00",
+            "description": "Quente ou frio.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Mocha",
+            "price": "3,80",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Café Ophelia",
+            "price": "4,50",
+            "description": "",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Matcha latte",
+            "price": "4,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Chai latte",
+            "price": "4,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Pink chai",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Blue chai",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Dirty chai",
+            "price": "4,90",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Affogato",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "chocolates e infusões",
+        "note": "",
+        "items": [
+          {
+            "name": "Bule de chá",
+            "price": "2,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bule de infusão bio",
+            "price": "3,60",
+            "description": "Camomila, oriental apple ou rooibos vanilla.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Chá gelado de melão",
+            "price": "4,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Chá gelado floral",
+            "price": "2,60",
+            "description": "Hibisco e frutos vermelhos.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Chocolate quente mais líquido",
+            "price": "3,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Chocolate quente cremoso",
+            "price": "4,00",
+            "description": "",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Chocolate quente com borda de brigadeiro",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "bebidas alcoólicas e cocktails",
+        "note": "",
+        "items": [
+          {
+            "name": "Cerveja",
+            "price": "3,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Cerveja sem álcool",
+            "price": "3,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Sidra",
+            "price": "3,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Vinho a copo",
+            "price": "4,00",
+            "description": "Tinto, rosé ou branco.",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Bellini",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Mimosa",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Aperol",
+            "price": "9,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Espresso martini",
+            "price": "9,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Marialice",
+            "price": "11,00",
+            "description": "Gin, manga, cereja, mirtilo e morango.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Adelaide",
+            "price": "11,00",
+            "description": "Tequila, manga, papaia e ananás.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Emília",
+            "price": "11,00",
+            "description": "Vodka, banana, mirtilo, manga e açaí.",
+            "highlight": true,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      },
+      {
+        "kicker": "",
+        "title": "bebidas sem álcool",
+        "note": "",
+        "items": [
+          {
+            "name": "Água sem gás Luso 50 cl",
+            "price": "2,30",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Água de coco Vero",
+            "price": "5,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Água com gás Castelo",
+            "price": "2,50",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          },
+          {
+            "name": "Coca-Cola ou Coca-Cola Zero",
+            "price": "3,00",
+            "description": "",
+            "highlight": false,
+            "nuts": false,
+            "glutenFree": false,
+            "sesame": false
+          }
+        ]
+      }
+    ]
+  },
+  "legend": {
+    "highlight": "as nossas especialidades",
+    "nuts": "frutos secos",
+    "glutenFree": "sem glúten",
+    "sesame": "sésamo"
+  },
+  "notes": [
+    "IVA incluído à taxa em vigor.",
+    "Apesar de termos algumas opções sem glúten, não podemos garantir a ausência completa de glúten nem de contaminação cruzada: são confecionadas numa cozinha onde também se preparam alimentos com glúten. Por precaução, não são aptas para celíacos."
+  ]
+}

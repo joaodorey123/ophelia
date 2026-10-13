@@ -105,3 +105,20 @@ added before launch. Whatever is chosen must:
 - Keep working with JavaScript-dependent scripts absent — nothing on this site requires them.
 
 Shopify's own analytics covers checkout and orders without any script here.
+
+---
+
+## 5. Reservations (UMAI)
+
+The header's **reservas** button, beside the basket, links to Ophelia's page on UMAI
+(`site.reservations.url` in `content/site.json`, editable in `/builder` under *Cabeçalho e
+rodapé*). An empty URL hides the button.
+
+It is a plain link today, on purpose: UMAI's integration manual has not arrived yet. When it does,
+the integration slots in without touching the header's layout:
+
+- **Embedded widget** — replace the `<a>` in `components/layout/Header.tsx` with UMAI's widget
+  script, loaded on click so it costs nothing on pages where nobody books.
+- **API (availability, bookings)** — add a server-only route under `app/api/reservations/` that
+  calls UMAI with a server-only key (`UMAI_API_KEY`, never `NEXT_PUBLIC_`), and point the button at
+  a booking sheet that uses it.

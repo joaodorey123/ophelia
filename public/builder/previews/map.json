@@ -3,80 +3,62 @@
     "id": "inicio",
     "label": "Página inicial",
     "path": "/",
-    "image": "/builder/previews/inicio.png",
-    "aspect": "1280 / 5131",
+    "image": "/builder/previews/inicio.jpg",
+    "aspect": "1280 / 5105",
     "regions": [
       {
         "id": "home-hero",
-        "top": 3.586045605145196,
+        "top": 3.6043095004897157,
         "left": 0,
         "width": 100,
-        "height": 12.979925940362502,
-        "label": "Fotografia e título principal",
+        "height": 13.751224289911852,
+        "label": "Fotografia de topo",
         "href": "/builder/secao/home-hero"
       },
       {
-        "id": "home-collections",
-        "top": 16.5659715455077,
+        "id": "home-story",
+        "top": 17.355533790401566,
         "left": 0,
         "width": 100,
-        "height": 12.397376242447866,
-        "label": "Cartões das categorias",
-        "href": "/builder/secao/home-collections"
+        "height": 10.662646914789423,
+        "label": "Quem somos",
+        "href": "/builder/secao/home-story"
       },
       {
         "id": "home-favourites",
-        "top": 28.963347787955563,
+        "top": 28.018180705190986,
         "left": 0,
         "width": 100,
-        "height": 13.387984798284936,
+        "height": 12.672624877571009,
         "label": "Produtos em destaque",
         "href": "/builder/secao/home-favourites"
       },
       {
-        "id": "home-story",
-        "top": 44.22231290196842,
+        "id": "home-events",
+        "top": 40.690805582761996,
         "left": 0,
         "width": 100,
-        "height": 15.474566361333073,
-        "label": "A nossa história",
-        "href": "/builder/secao/home-story"
-      },
-      {
-        "id": "reviews",
-        "top": 59.696879263301504,
-        "left": 0,
-        "width": 100,
-        "height": 10.866851003702982,
-        "label": "Opiniões",
-        "href": "/builder/secao/reviews"
+        "height": 17.833925073457394,
+        "label": "Eventos",
+        "href": "/builder/secao/home-events"
       },
       {
         "id": "diario",
-        "top": 70.56373026700449,
+        "top": 60.170176297747304,
         "left": 0,
         "width": 100,
-        "height": 11.555069674527383,
+        "height": 12.417054358472086,
         "label": "Artigos do diário",
         "href": "/builder/diario"
-      }
-    ]
-  },
-  {
-    "id": "loja",
-    "label": "Loja",
-    "path": "/comprar",
-    "image": "/builder/previews/loja.png",
-    "aspect": "1280 / 2044",
-    "regions": [
+      },
       {
-        "id": "shop",
-        "top": 12.426614481409,
-        "left": 25.78125,
-        "width": 48.4375,
-        "height": 6.937224804305283,
-        "label": "Introdução da loja",
-        "href": "/builder/secao/shop"
+        "id": "reviews",
+        "top": 72.58723065621939,
+        "left": 0,
+        "width": 100,
+        "height": 11.157260039177277,
+        "label": "Opiniões",
+        "href": "/builder/secao/reviews"
       }
     ]
   },
@@ -84,35 +66,116 @@
     "id": "quem-somos",
     "label": "Quem somos",
     "path": "/quem-somos",
-    "image": "/builder/previews/quem-somos.png",
-    "aspect": "1280 / 4075",
+    "image": "/builder/previews/quem-somos.jpg",
+    "aspect": "1280 / 4789",
     "regions": [
       {
         "id": "about",
-        "top": 4.515337423312883,
-        "left": 0,
-        "width": 100,
-        "height": 12.368098159509202,
-        "label": "Página quem somos",
-        "href": "/builder/secao/about"
-      },
-      {
-        "id": "about",
-        "top": 16.883435582822088,
+        "top": 3.84213823345166,
         "left": 3.90625,
         "width": 92.1875,
-        "height": 44.16641104294479,
+        "height": 78.82582480684903,
         "label": "Página quem somos",
         "href": "/builder/secao/about"
+      }
+    ]
+  },
+  {
+    "id": "loja",
+    "label": "Loja online",
+    "path": "/comprar",
+    "image": "/builder/previews/loja.jpg",
+    "aspect": "1280 / 1957",
+    "regions": [
+      {
+        "id": "shop",
+        "top": 12.979049565661727,
+        "left": 25.78125,
+        "width": 48.4375,
+        "height": 7.2456246806336235,
+        "label": "Introdução da loja",
+        "href": "/builder/secao/shop"
+      }
+    ]
+  },
+  {
+    "id": "menu",
+    "label": "Menu brunch",
+    "path": "/menu",
+    "image": "/builder/previews/menu.jpg",
+    "aspect": "1280 / 8595",
+    "regions": [
+      {
+        "id": "menu",
+        "top": 2.140779522978476,
+        "left": 20.3125,
+        "width": 59.375,
+        "height": 4.079952006980802,
+        "label": "Introdução do menu",
+        "href": "/builder/secao/menu"
       },
       {
-        "id": "about",
-        "top": 63.40567484662577,
+        "id": "menu-comer",
+        "top": 6.9653504944735305,
         "left": 0,
         "width": 100,
-        "height": 14.088573619631903,
-        "label": "Página quem somos",
-        "href": "/builder/secao/about"
+        "height": 39.97563990692263,
+        "label": "Menu — comer",
+        "href": "/builder/secao/menu-comer"
+      },
+      {
+        "id": "menu-sobremesas",
+        "top": 46.94099040139616,
+        "left": 0,
+        "width": 100,
+        "height": 15.310318499127398,
+        "label": "Menu — sobremesas",
+        "href": "/builder/secao/menu-sobremesas"
+      },
+      {
+        "id": "menu-beber",
+        "top": 62.25130890052356,
+        "left": 0,
+        "width": 100,
+        "height": 25.456479057591626,
+        "label": "Menu — beber",
+        "href": "/builder/secao/menu-beber"
+      }
+    ]
+  },
+  {
+    "id": "bolos",
+    "label": "Bolos",
+    "path": "/bolos",
+    "image": "/builder/previews/bolos.jpg",
+    "aspect": "1280 / 2345",
+    "regions": [
+      {
+        "id": "bolos",
+        "top": 7.846481876332623,
+        "left": 0,
+        "width": 100,
+        "height": 56.72774520255863,
+        "label": "Página dos bolos",
+        "href": "/builder/secao/bolos"
+      }
+    ]
+  },
+  {
+    "id": "eventos",
+    "label": "Eventos",
+    "path": "/eventos",
+    "image": "/builder/previews/eventos.jpg",
+    "aspect": "1280 / 2467",
+    "regions": [
+      {
+        "id": "eventos",
+        "top": 7.458451560599919,
+        "left": 0,
+        "width": 100,
+        "height": 58.89301276854479,
+        "label": "Página de eventos",
+        "href": "/builder/secao/eventos"
       }
     ]
   },
@@ -120,24 +183,24 @@
     "id": "diario",
     "label": "Diário",
     "path": "/diario",
-    "image": "/builder/previews/diario.png",
-    "aspect": "1280 / 2488",
+    "image": "/builder/previews/diario.jpg",
+    "aspect": "1280 / 7525",
     "regions": [
       {
         "id": "diario-intro",
-        "top": 10.209003215434084,
-        "left": 2.65625,
+        "top": 3.561461794019934,
+        "left": 26.5625,
         "width": 46.875,
-        "height": 9.259445337620578,
+        "height": 3.1623754152823915,
         "label": "Introdução do diário",
         "href": "/builder/secao/diario-intro"
       },
       {
         "id": "diario",
-        "top": 21.719252411575564,
-        "left": 2.65625,
-        "width": 94.6875,
-        "height": 39.829305667202576,
+        "top": 7.786960132890365,
+        "left": 17.5,
+        "width": 65,
+        "height": 80.6501245847176,
         "label": "Artigos do diário",
         "href": "/builder/diario"
       }
@@ -145,18 +208,18 @@
   },
   {
     "id": "contacto",
-    "label": "Contacto",
+    "label": "Contactos",
     "path": "/contacto",
-    "image": "/builder/previews/contacto.png",
-    "aspect": "1280 / 2449",
+    "image": "/builder/previews/contacto.jpg",
+    "aspect": "1280 / 1912",
     "regions": [
       {
         "id": "contacto",
-        "top": 7.513270722743977,
-        "left": 0.78125,
-        "width": 98.4375,
-        "height": 55.053720906492444,
-        "label": "Página de contacto",
+        "top": 9.623430962343097,
+        "left": 0,
+        "width": 100,
+        "height": 46.94446260460251,
+        "label": "Página de contactos",
         "href": "/builder/secao/contacto"
       }
     ]

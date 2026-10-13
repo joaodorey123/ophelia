@@ -65,7 +65,16 @@ test.describe('no dead links', () => {
 });
 
 test.describe('primary navigation', () => {
-  const LABELS = ['início', 'produtos', 'quem somos', 'diário', 'contacto'];
+  const LABELS = [
+    'início',
+    'quem somos',
+    'loja online',
+    'menu brunch',
+    'bolos',
+    'eventos',
+    'diário',
+    'contactos',
+  ];
 
   /**
    * Below 900px the nav row is replaced by a drawer, so reaching the same
@@ -90,10 +99,10 @@ test.describe('primary navigation', () => {
     }
   });
 
-  test('"produtos" stays current on a product page', async ({ page }) => {
+  test('"loja online" stays current on a product page', async ({ page }) => {
     await page.goto('/produto/ophelia-cookies-ny');
     const nav = await openNav(page);
-    await expect(nav.getByRole('link', { name: 'produtos', exact: true })).toHaveAttribute(
+    await expect(nav.getByRole('link', { name: 'loja online', exact: true })).toHaveAttribute(
       'aria-current',
       'page',
     );
@@ -106,6 +115,20 @@ test.describe('primary navigation', () => {
       'aria-current',
       'page',
     );
+  });
+
+  test('the reservations button opens UMAI in a new tab', async ({ page }) => {
+    await page.goto('/');
+    const reserve = page.getByRole('link', { name: /reservar mesa/ });
+    await expect(reserve).toBeVisible();
+    await expect(reserve).toHaveAttribute('href', /umai\.io/);
+    await expect(reserve).toHaveAttribute('target', '_blank');
+  });
+
+  test('the blue band sends people to the cake catalogue', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('link', { name: /^aqui/ }).click();
+    await expect(page).toHaveURL(/\/bolos$/);
   });
 
   test('a category pill opens that collection', async ({ page }) => {
@@ -151,12 +174,19 @@ test.describe('robots and sitemap', () => {
 
     expect(locs.length).toBeGreaterThan(10);
     for (const excluded of ['/carrinho', '/pesquisa', '/api/']) {
-      expect(locs.some((loc) => loc.includes(excluded)), `${excluded} is in the sitemap`).toBe(
-        false,
-      );
+      expect(
+        locs.some((loc) => loc.includes(excluded)),
+        `${excluded} is in the sitemap`,
+      ).toBe(false);
     }
     expect(new Set(locs).size, 'sitemap contains duplicates').toBe(locs.length);
-    expect(locs.some((loc) => loc.endsWith('/diario')), 'diary missing').toBe(true);
-    expect(locs.some((loc) => loc.includes('/produto/')), 'products missing').toBe(true);
+    expect(
+      locs.some((loc) => loc.endsWith('/diario')),
+      'diary missing',
+    ).toBe(true);
+    expect(
+      locs.some((loc) => loc.includes('/produto/')),
+      'products missing',
+    ).toBe(true);
   });
 });

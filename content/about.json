@@ -1,67 +1,73 @@
 {
-  "hero": {
-    "image": "/photos/e07.jpg",
-    "alt": "A nossa loja",
-    "kicker": "estoril · desde 2019",
-    "title": "quem somos"
-  },
-  "lede": {
+  "intro": {
+    "kicker": "a nossa história",
+    "title": "quem somos",
     "lines": [
       "Não somos uma empresa —",
       "somos uma família."
     ]
   },
-  "story": {
-    "paragraphs": [
-      "Crescemos juntos entre jantares de família, avós que nos recebiam sempre com um bolo acabado de sair do forno e tardes na rua a brincar até o sol se pôr. As mesas de domingo eram recheadas de cabrito no forno, esparregado da avó Isabel e batatinhas assadas — mas nunca podiam faltar as deliciosas sobremesas da avó Alice.",
-      "A nossa mãe, Isabel, seguiu os passos de cada uma delas. Até hoje continuamos a juntar-nos à volta de uma mesa farta, onde o cuidado em receber, em garantir que tudo esteja delicioso e bonito, se prolonga em longas horas de conversa. Desconfiamos que o nosso gosto em receber venha exatamente daí — do amor que sempre sentimos à volta da mesa."
-    ],
-    "image": "/photos/k07.jpg",
-    "alt": "Na cozinha"
-  },
-  "timeline": [
+  "chapters": [
     {
-      "year": "2019",
-      "title": "A Ophelia nasce na Guarda",
-      "body": "Começou por ser uma pequena empresa de eventos: jantares entre amigos, aniversários, casamentos e eventos corporativos."
+      "kicker": "à volta da mesa",
+      "title": "a família",
+      "paragraphs": [
+        "Crescemos juntos entre jantares de família, avós que nos recebiam sempre com um bolo acabado de sair do forno e tardes na rua a brincar até o sol se pôr. As mesas de domingo eram recheadas de cabrito no forno, esparregado da avó Isabel e batatinhas assadas — mas nunca podiam faltar as deliciosas sobremesas da avó Alice.",
+        "A nossa mãe, Isabel, seguiu os passos de cada uma delas. Até hoje continuamos a juntar-nos à volta de uma mesa farta, onde o cuidado em receber, em garantir que tudo esteja delicioso e bonito, se prolonga em longas horas de conversa. Desconfiamos que o nosso gosto em receber venha exatamente daí — do amor que sempre sentimos à volta da mesa."
+      ],
+      "images": [
+        {
+          "image": "/photos/casa/02068.jpg",
+          "alt": "Um prato servido com o avental da Ophelia"
+        },
+        {
+          "image": "/photos/casa/02060.jpg",
+          "alt": "A ler o menu da Ophelia"
+        }
+      ]
     },
     {
-      "year": "2020",
-      "title": "Kits de aniversário e brunches",
-      "body": "Com a pandemia perdemos clientes e reinventámos o caminho — entregávamos brunch em casa para que ninguém deixasse de celebrar quem ama."
+      "kicker": "2019 · guarda",
+      "title": "o começo",
+      "paragraphs": [
+        "Em 2019 abrimos a Ophelia, que começou por ser uma pequena empresa de eventos sediada na Guarda. Durante um ano organizámos eventos corporativos, festas de aniversário, casamentos e jantares entre amigos.",
+        "Com a chegada da pandemia, perdemos alguns dos nossos principais clientes. Foi então que reinventámos o nosso caminho: começámos a entregar kits de aniversário e brunches em casa, para que ninguém deixasse de celebrar quem ama, mesmo à distância.",
+        "A empresa continuou a crescer e a cozinha da nossa mãe deixou de ter espaço para esta “loucura”. Era preciso parar, repensar e perceber qual seria o próximo passo."
+      ],
+      "images": [
+        {
+          "image": "/photos/casa/02079.jpg",
+          "alt": "Uma mesa posta com brunch"
+        },
+        {
+          "image": "/photos/casa/02055.jpg",
+          "alt": "Um cartão de reservado ao lado de um café"
+        }
+      ]
     },
     {
-      "year": "2021",
-      "title": "À procura do lugar certo",
-      "body": "A cozinha da nossa mãe já não tinha espaço para esta loucura. A mana mais nova veio para o Estoril estudar Gestão e Produção Alimentar."
-    },
-    {
-      "year": "2022",
-      "title": "A loja abre portas",
-      "body": "Uma loja pequenina com duas cozinhas independentes, que nos deixou conciliar o serviço de loja com eventos e encomendas. A maior aventura das nossas vidas."
-    }
-  ],
-  "gallery": [
-    {
-      "image": "/photos/e04.jpg",
-      "alt": "A loja"
-    },
-    {
-      "image": "/photos/k10.jpg",
-      "alt": "Na cozinha"
-    },
-    {
-      "image": "/photos/e03.jpg",
-      "alt": "Prateleiras da mercearia"
-    },
-    {
-      "image": "/photos/k09.jpg",
-      "alt": "Preparação do dia"
+      "kicker": "2022 · estoril",
+      "title": "a loja",
+      "paragraphs": [
+        "A mana mais nova veio para o Estoril estudar Gestão e Produção Alimentar e, depois de trabalhar em vários espaços, sentiu que era o momento certo para dar nova vida à Ophelia — que até então era apenas uma página de partilha de receitas no Instagram.",
+        "Depois de mais um ano à procura do lugar certo, surgiu uma loja pequenina, mas com duas cozinhas independentes que permitiam conciliar o serviço de loja com eventos e encomendas de bolos e sobremesas.",
+        "Em 2022, a Ophelia abriu portas — e tornou-se a maior aventura das nossas vidas."
+      ],
+      "images": [
+        {
+          "image": "/photos/casa/02004.jpg",
+          "alt": "A loja da Ophelia"
+        },
+        {
+          "image": "/photos/casa/02070.jpg",
+          "alt": "Caixas de cookies empilhadas na loja"
+        }
+      ]
     }
   ],
   "closing": {
-    "headingLead": "Acreditamos que a comida tem a magia de confortar, de aquecer o coração e de ",
-    "headingEmphasis": "eternizar momentos.",
-    "note": "Porque, para nós, as melhores memórias constroem-se à volta de uma mesa."
+    "kicker": "hoje",
+    "body": "Hoje, os valores continuam a ser os mesmos que nos acompanham desde sempre. Acreditamos que a comida tem a magia de confortar, de aquecer o coração e de eternizar momentos. Porque, para nós, as melhores memórias constroem-se à volta de uma mesa.",
+    "signature": "o melhor da vida acontece oph!"
   }
 }

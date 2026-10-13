@@ -191,6 +191,9 @@ design-handoff/         The design this is built from — reference, not code
 | `/carrinho` | Cart page (the drawer is the primary surface) |
 | `/pesquisa` | Server-rendered Shopify search |
 | `/quem-somos` | About |
+| `/menu` | Brunch menu (content/menu.json) |
+| `/bolos` | Cakes to order |
+| `/eventos` | Events |
 | `/diario`, `/diario/[slug]` | Diary |
 | `/contacto` | Contact |
 | `/envios-e-devolucoes`, `/termos-e-privacidade` | Client's legal text |

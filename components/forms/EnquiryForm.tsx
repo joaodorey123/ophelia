@@ -9,10 +9,7 @@ import { SITE } from '@/lib/site';
 import styles from './EnquiryForm.module.css';
 
 type Status =
-  | { kind: 'idle' }
-  | { kind: 'sending' }
-  | { kind: 'sent' }
-  | { kind: 'error'; message: string };
+  { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
 
 /**
  * The contact form.
@@ -78,8 +75,7 @@ export function EnquiryForm({
       const body = (await response.json().catch(() => ({}))) as { message?: string };
       setStatus({
         kind: 'error',
-        message:
-          body.message ?? `Não foi possível enviar. Escreve-nos para ${SITE.email}.`,
+        message: body.message ?? `Não foi possível enviar. Escreve-nos para ${SITE.email}.`,
       });
     } catch {
       setStatus({
@@ -188,7 +184,7 @@ export function EnquiryForm({
         <input id={`${ids}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <Button type="submit" variant="primary" className={styles.submit} disabled={sending}>
+      <Button type="submit" variant="outline" className={styles.submit} disabled={sending}>
         {sending ? 'a enviar…' : 'enviar mensagem'}
       </Button>
 

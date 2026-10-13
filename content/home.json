@@ -1,36 +1,42 @@
 {
   "hero": {
     "image": "/photos/e02.jpg",
+    "video": "",
     "alt": "A loja da Ophelia no Estoril",
-    "kicker": "estoril · desde 2019",
-    "title": "a loja da ophelia",
-    "cta": "ver tudo"
-  },
-  "collections": {
-    "heading": "as nossas coleções",
-    "note": "tudo feito por nós, em pequenas quantidades, na cozinha da loja.",
-    "cards": [
-      { "handle": "cookies", "name": "cookies", "note": "seis caixas, todas por encomenda", "image": "/photos/g1.jpeg" },
-      { "handle": "mercearia", "name": "mercearia", "note": "azeite, mel, doces e granola", "image": "/photos/g3.jpeg" },
-      { "handle": "cafe", "name": "café, chai & matcha", "note": "torrado na loja todos os dias", "image": "/photos/b05.jpg" },
-      { "handle": "bolos", "name": "bolos", "note": "sob encomenda, 48h antes", "image": "/photos/n07.jpg" },
-      { "handle": "casa", "name": "casa & presentes", "note": "velas, aventais e cartões", "image": "/photos/e03.jpg" },
-      { "handle": null, "name": "ver tudo", "note": "a loja completa", "image": "/photos/e04.jpg" }
-    ]
-  },
-  "favourites": {
-    "heading": "os favoritos da casa",
-    "cta": "ver todos",
-    "handles": ["ophelia-cookies", "cookiebrownie", "mel-de-rosmaninho", "azeite-da-ophelia"]
+    "title": "a loja da ophelia"
   },
   "story": {
     "kicker": "quem somos",
-    "headingLines": ["não somos uma empresa —", "somos uma família."],
+    "headingLines": [
+      "não somos uma empresa —",
+      "somos uma família."
+    ],
     "body": "Crescemos entre jantares de família e avós que nos recebiam sempre com um bolo acabado de sair do forno. Acreditamos que a comida tem a magia de confortar, de aquecer o coração e de eternizar momentos.",
-    "cta": "a nossa história",
-    "image": "/photos/k05.jpg",
-    "alt": "Na nossa cozinha"
+    "cta": "a nossa história"
   },
-  "reviews": { "heading": "o que dizem de nós" },
-  "diary": { "heading": "do nosso diário", "cta": "ler tudo" }
+  "favourites": {
+    "heading": "a nossa loja online",
+    "cta": "ver a loja",
+    "handles": [
+      "ophelia-cookies",
+      "cookiebrownie",
+      "mel-de-rosmaninho",
+      "azeite-da-ophelia"
+    ]
+  },
+  "events": {
+    "kicker": "desde 2019",
+    "heading": "eventos",
+    "body": "A Ophelia nasceu em 2019 como uma pequena empresa de eventos — jantares entre amigos, aniversários, casamentos e eventos corporativos. Hoje continuamos a pôr a mesa para as vossas celebrações, com a mesma vontade de receber bem.",
+    "cta": "saber mais",
+    "image": "/photos/casa/02043.jpg",
+    "alt": "Uma mesa posta para um brunch na Ophelia"
+  },
+  "diary": {
+    "heading": "do nosso diário",
+    "cta": "ler tudo"
+  },
+  "reviews": {
+    "heading": "o que dizem de nós"
+  }
 }

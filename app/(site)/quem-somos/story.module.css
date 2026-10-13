@@ -1,155 +1,205 @@
-.hero {
-  position: relative;
-  height: 56vh;
-  min-height: 380px;
-  overflow: hidden;
-  background: var(--oph-photo-fallback);
-}
-
-.heroImage {
-  object-fit: cover;
-}
-
 /*
- * This scrim depth is a contrast requirement, not decoration: the photograph
- * has pale walls and cream cushions, and a lighter wash drops the title under
- * 4.5:1. Measured at 4.68:1 for the title and 4.95:1 for the kicker.
+ * Quem somos — an airy, centred editorial page.
+ *
+ * Narrow serif text, generous white space, overlapping worn prints, and a
+ * hairline that threads down the page from chapter to chapter.
  */
-.heroScrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(24, 38, 66, 0.5) 0%,
-    rgba(24, 38, 66, 0.67) 48%,
-    rgba(24, 38, 66, 0.76) 100%
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.page {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 0 var(--oph-gutter) 20px;
+  overflow-x: clip;
+}
+
+/* Small capitals over a dotted rule, the way the reference sets its labels. */
+.kicker {
+  display: inline-block;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted var(--oph-line-30);
+}
+
+.thread {
+  display: block;
+  width: 1px;
+  height: 110px;
+  margin: 56px auto 0;
+  background: var(--oph-line-25);
+}
+
+/* ── Intro ─────────────────────────────────────────────────────────────── */
+.intro {
+  padding-top: 96px;
   text-align: center;
-  padding: 0 var(--oph-gutter);
 }
 
-.heroKicker {
-  text-shadow: 0 1px 10px rgba(20, 32, 58, 0.7);
-}
-
-.heroTitle {
-  margin-top: 16px;
-  color: var(--oph-on-photo);
-  text-shadow: 0 2px 18px rgba(20, 32, 58, 0.6);
+.title {
+  margin-top: 20px;
 }
 
 .lede {
-  padding-block: 88px 0;
-}
-
-.ledeText {
-  max-width: 26ch;
+  margin-top: 22px;
 }
 
 .ledeLine {
   display: block;
 }
 
-.story {
+/* ── Chapters ──────────────────────────────────────────────────────────── */
+.chapter {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 60px;
-  margin-top: 50px;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(40px, 7vw, 110px);
+  align-items: center;
+  padding-top: 90px;
 }
 
-.timeline {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 38px;
-  padding-block: 70px 0;
-}
-
-.entry {
-  border-top: 1px solid var(--oph-line-20);
-  padding-top: 20px;
-}
-
-.year {
-  font-family: var(--oph-font-serif);
-  font-size: 36px;
-  line-height: 1.1;
-  color: var(--oph-muted-4);
-  display: block;
-}
-
-.entryTitle {
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.entryBody {
-  margin-top: 8px;
-  font-size: 13.5px;
-  line-height: 1.9;
-  color: var(--oph-ink-body);
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 22px;
-  padding-block: 70px 0;
-}
-
-/* Columns 2 and 4 hang lower, so the row reads as pinned prints, not a grid. */
-.galleryOffset {
-  margin-top: 34px;
-}
-
-.closing {
+.chapter + .chapter {
   position: relative;
-  margin-top: 96px;
-  background: var(--oph-beige);
-  overflow: hidden;
-  /* The deep bottom padding is what keeps the type clear of the floral frame. */
-  padding: 96px var(--oph-gutter) 260px;
+  margin-top: 70px;
+}
+
+/* The thread from the chapter above, between the two. */
+.chapter + .chapter::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  width: 1px;
+  height: 110px;
+  background: var(--oph-line-25);
+}
+
+.chapterFlip .photos {
+  order: 2;
+}
+
+.photos {
+  position: relative;
+  padding-bottom: 70px;
+}
+
+.photoBack {
+  width: 72%;
+}
+
+.photoFront {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 52%;
+  z-index: 1;
+}
+
+.chapterFlip .photoBack {
+  margin-left: auto;
+}
+
+.chapterFlip .photoFront {
+  right: auto;
+  left: 0;
+}
+
+.chapterFlower {
+  position: absolute;
+  top: -40px;
+  right: 6%;
+  z-index: 2;
+  transform: rotate(10deg);
+}
+
+.chapterFlip .chapterFlower {
+  right: auto;
+  left: 4%;
+  transform: rotate(-12deg);
+}
+
+.text {
+  max-width: 440px;
+  margin-inline: auto;
   text-align: center;
 }
 
-.frame {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-  opacity: 0.85;
-  pointer-events: none;
+.chapterTitle {
+  margin-top: 22px;
 }
 
-.closingInner {
+.paragraph {
+  margin-top: 18px;
+  font-family: var(--oph-font-serif);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--oph-ink-body);
+}
+
+/* ── Closing ───────────────────────────────────────────────────────────── */
+.closing {
   position: relative;
-  max-width: 760px;
-  margin-inline: auto;
+  max-width: 620px;
+  margin: 40px auto 0;
+  text-align: center;
 }
 
-.closingNote {
+.closing .thread {
+  margin: 0 auto 40px;
+}
+
+.closingBody {
   margin-top: 24px;
-  font-size: 13.5px;
-  color: var(--oph-muted-1);
-  line-height: 1.9;
+  font-family: var(--oph-font-serif);
+  font-size: 21px;
+  line-height: 1.7;
+  color: var(--oph-ink);
 }
 
-@media (max-width: 640px) {
-  .closing {
-    padding-bottom: 180px;
-  }
+.signature {
+  margin-top: 30px;
+}
 
-  .lede {
+.meadow {
+  display: block;
+  width: min(520px, 100%);
+  margin: 40px auto 0;
+  opacity: 0.9;
+}
+
+/* ── Smaller screens ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .chapter {
+    grid-template-columns: 1fr;
     padding-top: 60px;
   }
 
-  .galleryOffset {
-    margin-top: 0;
+  .chapterFlip .photos {
+    order: 0;
+  }
+
+  .photos {
+    max-width: 520px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .text {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 640px) {
+  .intro {
+    padding-top: 64px;
+  }
+
+  .thread {
+    height: 70px;
+    margin-top: 40px;
+  }
+
+  .paragraph {
+    font-size: 17px;
+  }
+
+  .closingBody {
+    font-size: 19px;
   }
 }

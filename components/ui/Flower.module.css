@@ -1,0 +1,5 @@
+.flower {
+  pointer-events: none;
+  user-select: none;
+  height: auto;
+}

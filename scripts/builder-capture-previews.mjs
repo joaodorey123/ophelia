@@ -40,28 +40,37 @@ if (!BASE) {
 /** The pages the visual map offers, in the order a person thinks about them. */
 const PAGES = [
   { id: 'inicio', label: 'Página inicial', path: '/' },
-  { id: 'loja', label: 'Loja', path: '/comprar' },
   { id: 'quem-somos', label: 'Quem somos', path: '/quem-somos' },
+  { id: 'loja', label: 'Loja online', path: '/comprar' },
+  { id: 'menu', label: 'Menu brunch', path: '/menu' },
+  { id: 'bolos', label: 'Bolos', path: '/bolos' },
+  { id: 'eventos', label: 'Eventos', path: '/eventos' },
   { id: 'diario', label: 'Diário', path: '/diario' },
-  { id: 'contacto', label: 'Contacto', path: '/contacto' },
+  { id: 'contacto', label: 'Contactos', path: '/contacto' },
 ];
 
 /** What each marker opens, and what to call it on the map. */
 const TARGETS = {
-  'home-hero': { label: 'Fotografia e título principal', href: '/builder/secao/home-hero' },
-  'home-collections': { label: 'Cartões das categorias', href: '/builder/secao/home-collections' },
+  'home-hero': { label: 'Fotografia de topo', href: '/builder/secao/home-hero' },
+  'home-story': { label: 'Quem somos', href: '/builder/secao/home-story' },
   'home-favourites': { label: 'Produtos em destaque', href: '/builder/secao/home-favourites' },
-  'home-story': { label: 'A nossa história', href: '/builder/secao/home-story' },
+  'home-events': { label: 'Eventos', href: '/builder/secao/home-events' },
   reviews: { label: 'Opiniões', href: '/builder/secao/reviews' },
   diario: { label: 'Artigos do diário', href: '/builder/diario' },
   'diario-intro': { label: 'Introdução do diário', href: '/builder/secao/diario-intro' },
   about: { label: 'Página quem somos', href: '/builder/secao/about' },
-  contacto: { label: 'Página de contacto', href: '/builder/secao/contacto' },
+  contacto: { label: 'Página de contactos', href: '/builder/secao/contacto' },
+  menu: { label: 'Introdução do menu', href: '/builder/secao/menu' },
+  'menu-comer': { label: 'Menu — comer', href: '/builder/secao/menu-comer' },
+  'menu-sobremesas': { label: 'Menu — sobremesas', href: '/builder/secao/menu-sobremesas' },
+  'menu-beber': { label: 'Menu — beber', href: '/builder/secao/menu-beber' },
+  bolos: { label: 'Página dos bolos', href: '/builder/secao/bolos' },
+  eventos: { label: 'Página de eventos', href: '/builder/secao/eventos' },
   shop: { label: 'Introdução da loja', href: '/builder/secao/shop' },
 };
 
 const { chromium } = await import(
-  resolve(root, '../ophelia/node_modules/@playwright/test/index.mjs')
+  resolve(root, 'node_modules/@playwright/test/index.mjs')
 ).catch(() => import('playwright'));
 
 const WIDTH = 1280;
@@ -104,11 +113,12 @@ for (const entry of PAGES) {
     });
   });
 
-  await page.screenshot({ path: resolve(out, `${entry.id}.png`), fullPage: true });
+  // JPEG keeps a full-height page to a few hundred kilobytes; PNG ran to megabytes.
+  await page.screenshot({ path: resolve(out, `${entry.id}.jpg`), fullPage: true, type: 'jpeg', quality: 72 });
 
   map.push({
     ...entry,
-    image: `/builder/previews/${entry.id}.png`,
+    image: `/builder/previews/${entry.id}.jpg`,
     aspect: `${WIDTH} / ${height}`,
     regions: regions
       .filter((region) => TARGETS[region.id])

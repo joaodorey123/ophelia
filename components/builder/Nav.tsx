@@ -27,8 +27,11 @@ export function Nav({ groups }: { groups: { title: string; items: NavItem[] }[] 
         <div className={styles.navGroup} key={group.title}>
           <span className={styles.navTitle}>{group.title}</span>
           {group.items.map((item) => {
+            // Exact, or a page beneath it: /secao/menu must not light up on /secao/menu-comer.
             const active =
-              item.href === '/builder' ? pathname === '/builder' : pathname.startsWith(item.href);
+              item.href === '/builder'
+                ? pathname === '/builder'
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}

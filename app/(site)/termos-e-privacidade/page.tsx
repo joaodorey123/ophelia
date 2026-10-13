@@ -39,9 +39,12 @@ export default function TermsPage() {
       <article className={styles.page}>
         <Breadcrumbs crumbs={crumbs} />
         <Kicker>Informação legal</Kicker>
-        <Display as="h1" size="article" className={styles.title}>Termos e privacidade</Display>
+        <Display as="h1" size="product" className={styles.title}>
+          Termos e privacidade
+        </Display>
         <p className={styles.updated}>
-          {SITE.legalName}, {SITE.taxId}, com sede na {SITE.address.street}, {SITE.address.locality}.
+          {SITE.legalName}, {SITE.taxId}, com sede na {SITE.address.street}, {SITE.address.locality}
+          .
         </p>
 
         <nav className={styles.toc} aria-label="Nesta página">
@@ -61,8 +64,8 @@ export default function TermsPage() {
             O acesso e a navegação na loja online estão sujeitos aos presentes termos e condições,
             que integram as condições gerais de venda da loja, assim como a política de privacidade
             apresentadas pela {SITE.legalName}, {SITE.taxId}, com sede na {SITE.address.street},{' '}
-            {SITE.address.locality}, com o email <a href={`mailto:${SITE.email}`}>{SITE.email}</a> e o
-            número de telefone <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a>.
+            {SITE.address.locality}, com o email <a href={`mailto:${SITE.email}`}>{SITE.email}</a> e
+            o número de telefone <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a>.
           </p>
 
           <h3 className={styles.subheading}>Âmbito</h3>
@@ -134,11 +137,7 @@ export default function TermsPage() {
             . Antes de recorrer aos tribunais, o cliente tem o direito de tentar resolver qualquer
             litígio extrajudicialmente através da Plataforma Europeia de Resolução de Litígios em
             Linha, em{' '}
-            <a
-              href="https://webgate.ec.europa.eu/odr"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
+            <a href="https://webgate.ec.europa.eu/odr" rel="noopener noreferrer" target="_blank">
               webgate.ec.europa.eu/odr
             </a>
             . Em Portugal, pode igualmente recorrer aos Centros de Arbitragem de Conflitos de
@@ -153,17 +152,17 @@ export default function TermsPage() {
           <p className={styles.body}>
             Todos os produtos e bens são propriedade da Ophelia até que se realize o pagamento total
             dos mesmos por parte do cliente. Antes da transmissão de propriedade, a doação, a
-            transferência de propriedade como forma de garantia, o processamento ou a remodelação não
-            são permitidos sem a aprovação da Ophelia.
+            transferência de propriedade como forma de garantia, o processamento ou a remodelação
+            não são permitidos sem a aprovação da Ophelia.
           </p>
 
           <h3 className={styles.subheading}>Legislação e disposições finais</h3>
           <p className={styles.body}>
-            As presentes condições gerais e todos os contratos celebrados ao seu abrigo regem-se pela
-            legislação portuguesa. O website da Ophelia pode conter ligações a outros websites sobre
-            os quais não exerce qualquer controlo, nem é responsável pelo seu conteúdo. A Ophelia
-            reserva-se o direito de alterar estes termos e condições a qualquer momento, sem aviso
-            prévio; será aplicada a versão publicada no site no momento do pedido.
+            As presentes condições gerais e todos os contratos celebrados ao seu abrigo regem-se
+            pela legislação portuguesa. O website da Ophelia pode conter ligações a outros websites
+            sobre os quais não exerce qualquer controlo, nem é responsável pelo seu conteúdo. A
+            Ophelia reserva-se o direito de alterar estes termos e condições a qualquer momento, sem
+            aviso prévio; será aplicada a versão publicada no site no momento do pedido.
           </p>
         </section>
 
@@ -209,8 +208,8 @@ export default function TermsPage() {
             nossa loja online, melhorar a sua experiência de navegação e apresentar conteúdos e
             ofertas relevantes, em conformidade com o Regulamento Geral sobre a Proteção de Dados
             (RGPD). Os cookies são pequenos ficheiros de texto armazenados no seu dispositivo quando
-            visita um site. Permitem reconhecer o seu dispositivo e recordar determinadas informações
-            sobre a sua navegação.
+            visita um site. Permitem reconhecer o seu dispositivo e recordar determinadas
+            informações sobre a sua navegação.
           </p>
 
           <h3 className={styles.subheading}>Cookies que definimos</h3>
@@ -227,19 +226,19 @@ export default function TermsPage() {
               recordado entre páginas e possa ser processado corretamente.
             </li>
             <li>
-              <strong>Formulários.</strong> Podem recordar dados que introduziu, para correspondência
-              futura.
+              <strong>Formulários.</strong> Podem recordar dados que introduziu, para
+              correspondência futura.
             </li>
             <li>
-              <strong>Preferências do site.</strong> Guardam as preferências de funcionamento do site
-              que escolheu.
+              <strong>Preferências do site.</strong> Guardam as preferências de funcionamento do
+              site que escolheu.
             </li>
           </ul>
 
           <h3 className={styles.subheading}>Desativar cookies</h3>
           <p className={styles.body}>
-            Pode configurar o seu navegador para bloquear ou eliminar cookies. Note que a desativação
-            de cookies essenciais pode afetar o funcionamento do site.
+            Pode configurar o seu navegador para bloquear ou eliminar cookies. Note que a
+            desativação de cookies essenciais pode afetar o funcionamento do site.
           </p>
         </section>
       </article>

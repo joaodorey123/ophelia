@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { NewsletterForm } from '@/components/layout/NewsletterForm';
 import { Display } from '@/components/ui/Type';
 import type { Collection } from '@/lib/commerce/types';
 import { site } from '@/lib/content';
@@ -10,40 +9,38 @@ import { SHOP_INDEX, collectionPath } from '@/lib/navigation';
 import styles from './Footer.module.css';
 
 /**
- * The newsletter band and footer.
+ * The order band and footer.
  *
- * The band is hidden on routes that ask for it (the handoff hides it in
- * checkout); pass `newsletter={false}` there.
+ * The band points at the cake catalogue. It is hidden on routes that ask for
+ * it; pass `orderBand={false}` there.
  *
  * "a loja" is built from the collections Shopify actually has, so the column
  * can never contain a link to a collection that would 404.
  */
 export function Footer({
   collections,
-  newsletter = true,
+  orderBand = true,
 }: {
   collections: Collection[];
-  newsletter?: boolean;
+  orderBand?: boolean;
 }) {
   return (
     <>
-      {newsletter ? (
-        <section className={styles.newsletter} aria-labelledby="oph-newsletter">
-          <div className={styles.newsletterInner}>
-            <span className={styles.newsletterKicker}>{site.newsletter.kicker}</span>
-            <Display
-              as="h2"
-              size="newsletter"
-              id="oph-newsletter"
-              className={styles.newsletterHeading}
-            >
-              {site.newsletter.headingLines.map((line) => (
-                <span key={line} className={styles.newsletterLine}>
+      {orderBand ? (
+        <section className={styles.band} aria-labelledby="oph-order">
+          <div className={styles.bandInner}>
+            <span className={styles.bandKicker}>{site.orderBand.kicker}</span>
+            <Display as="h2" size="newsletter" id="oph-order" className={styles.bandHeading}>
+              {site.orderBand.headingLines.map((line) => (
+                <span key={line} className={styles.bandLine}>
                   {line}
                 </span>
               ))}
             </Display>
-            <NewsletterForm />
+            <Link href={site.orderBand.href} className={styles.bandButton}>
+              {site.orderBand.cta}
+              <span aria-hidden> →</span>
+            </Link>
           </div>
         </section>
       ) : null}
@@ -85,7 +82,7 @@ export function Footer({
               <Link href="/quem-somos">quem somos</Link>
               <Link href="/diario">o diário</Link>
               <Link href="/contacto">contacto</Link>
-              <Link href="/contacto?assunto=Eventos e catering">eventos &amp; catering</Link>
+              <Link href="/eventos">eventos &amp; catering</Link>
               <Link href="/contacto?assunto=Presentes corporativos">presentes corporativos</Link>
             </div>
           </nav>

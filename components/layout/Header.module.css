@@ -52,7 +52,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   justify-self: center;
+  /* A 44px tap target even at the phone logo's height. */
+  min-height: 44px;
 }
 
 .brand:hover {
@@ -60,19 +63,32 @@
 }
 
 .logo {
-  height: 52px;
+  height: 58px;
   width: auto;
 }
 
-.wordmark {
-  margin-top: 6px;
-  font-size: 8.5px;
-  letter-spacing: 0.44em;
-  text-transform: uppercase;
-  color: var(--oph-muted-4);
-  /* The tracking pushes the last letter past centre; pull it back. */
-  text-indent: 0.44em;
+/* The booking button, beside the basket. */
+.reserve {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 18px;
+  border: 1px solid var(--oph-navy);
+  border-radius: 999px;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
   white-space: nowrap;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.reserve:hover,
+.reserve:focus-visible {
+  background: var(--oph-navy);
+  color: var(--oph-cream);
 }
 
 .basket {
@@ -82,12 +98,12 @@
 }
 
 .basketIcon {
-  height: 26px;
+  height: 34px;
   width: auto;
 }
 
 .count {
-  font-size: 11.5px;
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -101,7 +117,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  /* Eight links: the gap gives way before the row would wrap. */
+  gap: clamp(18px, 2.4vw, 38px);
   padding-inline: var(--oph-gutter);
 }
 
@@ -133,13 +150,38 @@
   }
 
   .logo {
-    height: 40px;
+    height: 42px;
   }
 
-  .wordmark {
-    font-size: 7px;
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
+  /*
+   * A 44px tap target with a slimmer pill drawn inside it, so the header row
+   * keeps its proportions on a phone.
+   */
+  .reserve {
+    position: relative;
+    min-height: 44px;
+    padding: 0 12px;
+    border-color: transparent;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+  }
+
+  .reserve::before {
+    content: '';
+    position: absolute;
+    inset: 5px 0;
+    border: 1px solid var(--oph-navy);
+    border-radius: 999px;
+  }
+
+  .reserve:hover,
+  .reserve:focus-visible {
+    background: none;
+    color: inherit;
+  }
+
+  .basketIcon {
+    height: 30px;
   }
 
   .row2 {
@@ -171,7 +213,7 @@
 
   .left,
   .right {
-    gap: 4px;
+    gap: 2px;
   }
 
   .basket {
