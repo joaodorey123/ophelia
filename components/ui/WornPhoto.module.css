@@ -15,15 +15,16 @@
 .worn {
   position: relative;
   transform: rotate(var(--tilt, 0deg));
-  /* drop-shadow follows the rough outline; box-shadow would show a rectangle. */
-  filter: drop-shadow(0 1px 1px rgba(30, 47, 82, 0.14))
-    drop-shadow(0 6px 14px rgba(30, 47, 82, 0.12));
+  /* Rasterise the shadowed, tilted print once rather than on every scroll frame. */
+  will-change: transform;
+  isolation: isolate;
   transition: transform 0.6s var(--oph-ease-photo);
 }
 
 .print {
   position: relative;
   aspect-ratio: var(--ratio, 16 / 11);
+  clip-path: var(--print-clip);
   overflow: hidden;
   background: var(--oph-photo-well);
 }
@@ -35,12 +36,37 @@
   transition: transform var(--oph-photo-hover) var(--oph-ease-photo);
 }
 
+/*
+ * The shadow under the rough outline: the same torn shape, blurred, on its own
+ * layer behind the print. A drop-shadow filter on the print would follow the
+ * outline too, but it is re-blurred on every frame of a scroll; this layer is
+ * blurred once and then only composited. The blur sits on the outer span so
+ * the inner span's clip-path does not cut it off.
+ */
+.shadow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translateY(5px);
+  filter: blur(7px);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.shadow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--print-clip);
+  background: rgba(30, 47, 82, 0.22);
+}
+
 /* Grain over the photo, blended so it textures both lights and darks. */
 .grain {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-image: url('/textures/print-grain-1.png');
   background-size: 220px 220px;
   mix-blend-mode: soft-light;
   opacity: 1;
@@ -55,7 +81,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .16 0 0 0 0 .12 0 0 0 -1.6 1.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-image: url('/textures/print-grain-2.png');
   background-size: 160px 160px;
   opacity: 0.8;
 }
@@ -166,8 +192,8 @@
   --tilt: 1.3deg;
 }
 
-.v0 .print {
-  clip-path: polygon(
+.v0 {
+  --print-clip: polygon(
     0% 3px,
     0.91% 3.3px,
     1.82% 2.9px,
@@ -615,8 +641,8 @@
   );
 }
 
-.v1 .print {
-  clip-path: polygon(
+.v1 {
+  --print-clip: polygon(
     0% 3.1px,
     0.91% 3px,
     1.82% 3.9px,
@@ -1064,8 +1090,8 @@
   );
 }
 
-.v2 .print {
-  clip-path: polygon(
+.v2 {
+  --print-clip: polygon(
     0% 3.8px,
     0.91% 2.4px,
     1.82% 2.6px,
@@ -1513,8 +1539,8 @@
   );
 }
 
-.v3 .print {
-  clip-path: polygon(
+.v3 {
+  --print-clip: polygon(
     0% 2.9px,
     0.91% 3.3px,
     1.82% 3.5px,

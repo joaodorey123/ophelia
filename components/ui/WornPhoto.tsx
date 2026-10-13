@@ -44,6 +44,7 @@ export function WornPhoto({
       className={[styles.worn, styles[`v${index}`], className].filter(Boolean).join(' ')}
       style={{ '--ratio': ratio } as CSSProperties}
     >
+      <span className={styles.shadow} aria-hidden />
       <div className={styles.print}>
         <Image
           className={styles.photo}

@@ -169,6 +169,7 @@ export default async function HomePage() {
 
       {posts.length > 0 ? (
         <div className={paper.strip}>
+          <span className={paper.shadow} aria-hidden />
           <div className={paper.paper}>
             <section
               className={`${sections.wide} ${styles.diary}`}

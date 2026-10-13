@@ -54,6 +54,7 @@ export default async function ArticlePage({ params }: Params) {
 
   return (
     <div className={`${paper.strip} ${styles.articleStrip}`}>
+      <span className={paper.shadow} aria-hidden />
       <div className={paper.paper}>
         <article className={styles.article}>
           <JsonLd
