@@ -3,8 +3,10 @@
 `produtos.csv` é gerado por `products.py` a partir da lista da Ophelia
 (*Ophelia - PRODUTOS SITE.odt*) e das fotografias de produto.
 
-As fotografias são publicadas temporariamente em `public/shopify-import/`,
-só para o Shopify as copiar. Depois da importação, essa pasta é apagada.
+Importado a 13 de Outubro de 2026. As fotografias foram publicadas
+temporariamente em `public/shopify-import/` só para o Shopify as copiar, e
+apagadas a seguir; para voltar a importar, gere-as de novo a partir de
+`photos.txt`.
 
 ## Publicados (activos)
 
