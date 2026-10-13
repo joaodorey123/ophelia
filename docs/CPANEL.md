@@ -39,7 +39,7 @@ Leave "Run NPM Install" alone — the upload already contains everything.
 
 | Secret | Value |
 | --- | --- |
-| `FTP_SERVER` | `callmeophelia.com` |
+| `FTP_SERVER` | `cpp75.webserver.pt` — the hosting server, which its TLS certificate names |
 | `FTP_USERNAME` | the FTP account whose home is `ophelia-app` |
 | `FTP_PASSWORD` | its password |
 | `ENV_FILE` | the lines of the server's `.env` (Shopify, editor, GitHub token, site URL) |

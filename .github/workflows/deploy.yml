@@ -6,7 +6,7 @@
 # (cPanel → Setup Node.js App, startup file app.js).
 #
 # Secrets (GitHub → Settings → Secrets and variables → Actions):
-#   FTP_SERVER     callmeophelia.com
+#   FTP_SERVER     cpp75.webserver.pt (the host its TLS certificate names)
 #   FTP_USERNAME   the FTP account whose home is the Node app's folder
 #   FTP_PASSWORD   its password
 #   ENV_FILE       the server-only settings, as the lines of a .env file
