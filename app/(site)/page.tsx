@@ -18,7 +18,7 @@ import paper from '@/styles/paper.module.css';
 import sections from '@/styles/sections.module.css';
 
 export const metadata = pageMetadata({
-  title: 'Ophelia — pastelaria, brunch e mercearia no Estoril',
+  title: 'Ophelia · pastelaria, brunch e mercearia no Estoril',
   description: site.brand.description,
   path: '/',
 });

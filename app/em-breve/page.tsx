@@ -10,7 +10,7 @@ import '@/styles/tokens.css';
 import styles from './em-breve.module.css';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Ophelia — em breve' },
+  title: { absolute: 'Ophelia · em breve' },
   robots: { index: false, follow: false },
 };
 

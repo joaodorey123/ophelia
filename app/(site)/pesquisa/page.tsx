@@ -84,7 +84,7 @@ export default async function SearchPage({
         <div className={styles.empty}>
           <p className={styles.emptyTitle}>sem resultados para “{term}”</p>
           <p className={styles.emptyBody}>
-            Experimenta outra palavra — ou vê a loja completa, é pequena e vale a pena.
+            Experimenta outra palavra, ou vê a loja completa: é pequena e vale a pena.
           </p>
           <p style={{ marginTop: 22 }}>
             <TextLink href={SHOP_INDEX} small>

@@ -121,7 +121,7 @@ export function Header({ reservations }: { reservations: { label: string; url: s
             </button>
           </div>
 
-          <Link href="/" className={styles.brand} aria-label="Ophelia — página inicial">
+          <Link href="/" className={styles.brand} aria-label="Ophelia, página inicial">
             <Image
               className={styles.logo}
               src="/brand/logo-azul.png"
@@ -140,7 +140,7 @@ export function Header({ reservations }: { reservations: { label: string; url: s
                 className={styles.reserve}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${reservations.label} — reservar mesa (abre numa nova janela)`}
+                aria-label={`${reservations.label}: reservar mesa (abre numa nova janela)`}
               >
                 {reservations.label}
               </a>

@@ -124,7 +124,7 @@ export function CartDrawer({ freeShippingFrom }: { freeShippingFrom: number }) {
 
             <p className={styles.nudge}>
               {qualifies
-                ? `Envio grátis — acima de ${formatMoney({
+                ? `Envio grátis acima de ${formatMoney({
                     amount: freeShippingFrom.toFixed(2),
                     currencyCode: subtotal.currencyCode,
                   })} é por nossa conta.`

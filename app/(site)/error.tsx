@@ -32,7 +32,7 @@ export default function ErrorBoundary({
           não conseguimos carregar esta página
         </Display>
         <p className={styles.copy}>
-          O problema é nosso, não teu. Tenta outra vez — e se continuar, escreve-nos para{' '}
+          O problema é nosso, não teu. Tenta outra vez e, se continuar, escreve-nos para{' '}
           <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
         </p>
         <div className={styles.actions}>

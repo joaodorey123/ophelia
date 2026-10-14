@@ -48,7 +48,7 @@ export function Footer({
       <footer className={styles.footer}>
         <div className={styles.columns}>
           <div>
-            <Link href="/" aria-label="Ophelia — página inicial">
+            <Link href="/" aria-label="Ophelia, página inicial">
               <Image
                 className={styles.logo}
                 src="/brand/logo-azul.png"

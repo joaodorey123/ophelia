@@ -1,7 +1,7 @@
 {
   "kicker": "fale connosco",
   "title": "contactos",
-  "lede": "Encomendas de bolos, eventos, presentes corporativos ou só uma pergunta — escreva-nos e respondemos no mesmo dia.",
+  "lede": "Encomendas de bolos, eventos, presentes corporativos ou só uma pergunta: escreva-nos e respondemos no mesmo dia.",
   "infoHeading": {
     "lead": "os nossos ",
     "emphasis": "contactos"
@@ -17,7 +17,7 @@
     },
     {
       "label": "horário",
-      "value": "Terça a domingo · 9h00 – 18h00\nSegunda: fechado"
+      "value": "Terça a domingo, das 9h00 às 18h00\nSegunda: fechado"
     },
     {
       "label": "email",

@@ -1,7 +1,7 @@
 {
   "kicker": "cake · brunch · friends",
   "title": "o nosso menu",
-  "intro": "Pequeno-almoço a qualquer hora, brunch, comida de casa e sobremesas — tudo feito por nós, na cozinha da loja.",
+  "intro": "Pequeno-almoço a qualquer hora, brunch, comida de casa e sobremesas, tudo feito por nós na cozinha da loja.",
   "comer": {
     "title": "comer",
     "sections": [
@@ -781,7 +781,7 @@
           {
             "name": "Cookie quentinha numa frigideira com gelado",
             "price": "8,00",
-            "description": "O sabor varia com a semana — pergunte à nossa equipa. Ideal para partilhar… ou não.",
+            "description": "O sabor varia com a semana: pergunte à nossa equipa. Ideal para partilhar… ou não.",
             "highlight": true,
             "nuts": false,
             "glutenFree": false,
@@ -930,7 +930,7 @@
       {
         "kicker": "de especialidade, 100% arábica torrado por nós",
         "title": "cafés",
-        "note": "Bebida vegetal +0,60 €. Leve o nosso café em grão ou moído, torrado na hora: 250 g — 18 €.",
+        "note": "Bebida vegetal +0,60 €. Leve o nosso café em grão ou moído, torrado na hora, 250 g por 18 €.",
         "items": [
           {
             "name": "Espresso",

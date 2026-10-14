@@ -63,7 +63,7 @@ export function CartPageContent({ freeShippingFrom }: { freeShippingFrom: number
 
         <p className={styles.rowMuted}>
           {qualifies
-            ? 'Envio grátis — é por nossa conta.'
+            ? 'Envio grátis, é por nossa conta.'
             : `Faltam ${formatMoney(remaining)} para envio grátis.`}
         </p>
 
