@@ -84,8 +84,7 @@ export default async function HomePage() {
             src={home.hero.image}
             alt={home.hero.alt}
             fill
-            // Taller than wide on a phone, so a cropped landscape needs more width.
-            sizes="(max-width: 900px) 140vw, 100vw"
+            sizes="100vw"
             priority
           />
         )}

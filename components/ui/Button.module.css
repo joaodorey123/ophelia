@@ -22,8 +22,9 @@
 
 /* ── Outline ───────────────────────────────────────────────────────────── */
 .outline {
-  font-size: 10.5px;
-  letter-spacing: 0.18em;
+  /* 12px at least: smaller text fails mobile legibility checks. */
+  font-size: 12px;
+  letter-spacing: 0.15em;
   border: 1px solid var(--oph-line-30);
   padding: 9px 16px;
   color: var(--oph-ink);
@@ -38,7 +39,7 @@
 
 /* ── Primary ───────────────────────────────────────────────────────────── */
 .primary {
-  font-size: 11.5px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   background: var(--oph-navy);
   color: var(--oph-on-navy);
@@ -66,7 +67,7 @@
 }
 
 .linkRule {
-  font-size: 11.5px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   border-bottom: 1px solid currentColor;
@@ -74,7 +75,8 @@
 }
 
 .linkSm .linkRule {
-  font-size: 10.5px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   padding-bottom: 2px;
 }
 

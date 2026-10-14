@@ -16,6 +16,16 @@
   display: flex;
   width: max-content;
   animation: ophMarquee 38s linear infinite;
+  /*
+   * Still until the visitor first scrolls, taps or moves the pointer (see
+   * AnnouncementMotion): a strip moving from the first frame keeps the page
+   * "loading" by speed measures, and nobody reads it before then anyway.
+   */
+  animation-play-state: paused;
+}
+
+:global(html[data-moved]) .track {
+  animation-play-state: running;
 }
 
 .half {
@@ -25,7 +35,7 @@
 }
 
 .message {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 300;
   letter-spacing: 0.16em;
   text-transform: lowercase;

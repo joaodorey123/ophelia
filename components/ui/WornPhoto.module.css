@@ -75,7 +75,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url('/textures/print-grain-1.webp');
+  background-image: url('../../public/textures/print-grain-1.webp');
   background-size: 220px 220px;
   opacity: 0.22;
 }
@@ -89,7 +89,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/textures/print-grain-2.webp');
+  background-image: url('../../public/textures/print-grain-2.webp');
   background-size: 160px 160px;
   opacity: 0.8;
 }

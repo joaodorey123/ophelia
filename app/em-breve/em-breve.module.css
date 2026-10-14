@@ -13,7 +13,7 @@
   padding: 40px 20px;
   overflow: hidden;
   background-color: var(--oph-cream);
-  background-image: url('/decor/hortensias.webp');
+  background-image: url('../../public/decor/hortensias.webp');
   background-size: 900px auto;
   color: var(--oph-ink);
   font-family: var(--font-jost), sans-serif;

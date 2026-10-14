@@ -42,7 +42,6 @@ export function AddToCartButton({
       block={block}
       className={className}
       disabled={disabled}
-      aria-label={`Juntar ${productTitle} ao cesto`}
       onClick={() => {
         if (!variantId) return;
         add(
@@ -58,6 +57,9 @@ export function AddToCartButton({
       }}
     >
       {available ? children : 'esgotado'}
+      {/* Says which product, after the visible words, so the spoken name
+          starts with what is on the button. */}
+      <span className="oph-sr-only">: {productTitle}</span>
     </Button>
   );
 }

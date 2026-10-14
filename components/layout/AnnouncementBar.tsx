@@ -1,5 +1,6 @@
 import { site } from '@/lib/content';
 
+import { AnnouncementMotion } from './AnnouncementMotion';
 import styles from './AnnouncementBar.module.css';
 
 /**
@@ -14,6 +15,7 @@ export function AnnouncementBar() {
 
   return (
     <div className={styles.bar}>
+      <AnnouncementMotion />
       <div className={styles.track}>
         <div className={styles.half}>
           {messages.map((message) => (

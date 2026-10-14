@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Jost } from 'next/font/google';
 import localFont from 'next/font/local';
+import { preconnect } from 'react-dom';
 
 import { rootMetadata } from '@/lib/seo/metadata';
 import { SITE } from '@/lib/site';
@@ -11,10 +12,15 @@ import { SITE } from '@/lib/site';
  * layout shift from a late swap.
  *
  * Beth Ellen is the client's own file rather than the Google copy — it is the
- * face shipped in the handoff, and it is the one the design was set in.
+ * face shipped in the handoff, and it is the one the design was set in. It is
+ * subset to Latin and served as WOFF2.
+ *
+ * Cormorant and Jost are variable fonts: one file covers every weight, and
+ * only the Latin subset (which covers Portuguese) is loaded. Four font files
+ * in all, where there were seven.
  */
 const bethEllen = localFont({
-  src: './fonts/BethEllen-Regular.ttf',
+  src: './fonts/BethEllen-Regular.woff2',
   weight: '400',
   display: 'swap',
   variable: '--font-beth-ellen',
@@ -23,16 +29,14 @@ const bethEllen = localFont({
 });
 
 const cormorant = Cormorant_Garamond({
-  weight: ['300', '400', '500'],
   style: ['normal', 'italic'],
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   display: 'swap',
   variable: '--font-cormorant',
 });
 
 const jost = Jost({
-  weight: ['300', '400', '500'],
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   display: 'swap',
   variable: '--font-jost',
 });
@@ -51,6 +55,11 @@ export const viewport: Viewport = {
  * deployment without the storefront's header, footer and cart around it.
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Open the connections the first screen needs before the browser finds them.
+  const assets = process.env.NEXT_PUBLIC_ASSET_URL;
+  if (assets) preconnect(new URL(assets).origin, { crossOrigin: 'anonymous' });
+  preconnect('https://cdn.shopify.com');
+
   return (
     <html
       lang={SITE.locale}

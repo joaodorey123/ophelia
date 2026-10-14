@@ -7,7 +7,7 @@
   /* The flowers pinned to photo corners may poke past the edge; never scroll for them. */
   overflow-x: clip;
   background-color: var(--oph-cream);
-  background-image: url('/decor/hortensias.webp');
+  background-image: url('../../public/decor/hortensias.webp');
   background-size: 900px auto;
   background-repeat: repeat;
 }

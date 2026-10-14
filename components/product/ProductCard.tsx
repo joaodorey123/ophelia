@@ -49,8 +49,13 @@ export function ProductCard({
 
   return (
     <article className={styles.card}>
-      <Link href={href} className={styles.media} aria-label={product.title} tabIndex={-1}>
-        {showTag && tag ? <span className={styles.tag}>{tag}</span> : null}
+      {/* Named by the photo's alt text; the tag is decoration here. */}
+      <Link href={href} className={styles.media} tabIndex={-1}>
+        {showTag && tag ? (
+          <span className={styles.tag} aria-hidden>
+            {tag}
+          </span>
+        ) : null}
         {!product.availableForSale ? <span className={styles.soldOut}>esgotado</span> : null}
         {image ? (
           <Image
