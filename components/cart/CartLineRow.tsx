@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 
 import { useCart } from '@/components/cart/CartProvider';
 import { CART_ATTRIBUTE, type CartLine } from '@/lib/commerce/types';

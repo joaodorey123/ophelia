@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 
 import type { Collection } from '@/lib/commerce/types';
 import { SHOP_INDEX, collectionPath } from '@/lib/navigation';

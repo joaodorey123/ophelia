@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 
 import { WornPhoto } from '@/components/ui/WornPhoto';
 import type { Post } from '@/lib/content';

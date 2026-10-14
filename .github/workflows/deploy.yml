@@ -22,11 +22,15 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  # contents: write publishes the static assets to the gh-pages branch.
+  contents: write
   statuses: write
 
 env:
   NEXT_PUBLIC_SITE_URL: https://callmeophelia.com
+  # Images, scripts, styles and fonts are served from GitHub Pages' CDN: the
+  # hosting refuses bursts of more than ~20 requests per visitor.
+  NEXT_PUBLIC_ASSET_URL: https://joaodorey123.github.io/ophelia
   # Read by the content editor to follow a publish until it is live.
   STATUS_CONTEXT: deploy/cpanel
 
@@ -77,6 +81,38 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Assemble the static assets
+        run: |
+          mkdir -p cdn/_next
+          cp -R .next/static cdn/_next/static
+          cp -R public/_img cdn/_img
+          # Background images the stylesheets point at (resolved to the CDN too).
+          cp -R public/decor cdn/decor
+          cp -R public/textures cdn/textures
+          touch cdn/.nojekyll
+
+      - name: Publish the static assets to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ github.token }}
+          publish_branch: gh-pages
+          publish_dir: ./cdn
+          # Keep earlier builds' files, so a page rendered just before this
+          # deploy can still load its scripts and images.
+          keep_files: true
+          commit_message: 'Assets for ${{ github.sha }}'
+
+      - name: Wait until the assets are live
+        run: |
+          file=$(cd .next/static && find chunks -name '*.js' | head -1)
+          url="$NEXT_PUBLIC_ASSET_URL/_next/static/$file"
+          for i in $(seq 1 60); do
+            [ "$(curl -s -o /dev/null -w '%{http_code}' "$url")" = "200" ] && echo "live: $url" && exit 0
+            sleep 10
+          done
+          echo "The assets did not appear on GitHub Pages; leaving the live site as it is."
+          exit 1
+
       - name: Assemble the app folder
         run: |
           mkdir -p out/server out/tmp
@@ -84,7 +120,8 @@ jobs:
           mkdir -p out/server/.next/static
           cp -R .next/static/. out/server/.next/static/
           mkdir -p out/server/public
-          cp -R public/. out/server/public/
+          # Pre-built images are served by the CDN, not the hosting.
+          rsync -a --exclude '_img' public/ out/server/public/
           cp deploy/cpanel/app.js out/app.js
           cp .env.production out/.env.production
           date -u +%FT%TZ > restart.txt

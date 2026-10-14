@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 
 /**
  * Last-resort 404, outside every route group.

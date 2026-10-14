@@ -5,7 +5,16 @@ import type { NextConfig } from 'next';
  * served by Shopify. Editorial photography and brand artwork ship from
  * /public, so nothing else needs allow-listing.
  */
+/*
+ * Images, scripts, styles and fonts are published to GitHub Pages' CDN on
+ * every deploy (see .github/workflows/deploy.yml), so the hosting — which
+ * refuses bursts of more than ~20 requests per visitor — only serves pages.
+ * Unset locally and in tests: everything is then served by the app itself.
+ */
+const assetUrl = process.env.NEXT_PUBLIC_ASSET_URL?.replace(/\/$/, '') || undefined;
+
 const nextConfig: NextConfig = {
+  assetPrefix: assetUrl,
   /*
    * A self-contained server (with only the node_modules it needs) for the
    * cPanel Node.js hosting — see .github/workflows/deploy.yml.

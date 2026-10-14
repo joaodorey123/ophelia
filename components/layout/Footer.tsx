@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 
 import { Display } from '@/components/ui/Type';
 import type { Collection } from '@/lib/commerce/types';

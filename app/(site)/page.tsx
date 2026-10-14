@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 
 import { PostCard } from '@/components/blog/PostCard';
 import { ProductCard } from '@/components/product/ProductCard';

@@ -5,12 +5,15 @@ import manifest from './manifest.json';
  *
  * - Shopify product photos are resized by Shopify's own CDN.
  * - The site's own images were pre-built at every size by
- *   scripts/build-images.mjs; this picks the smallest one that is at least as
- *   wide as the browser asked for.
+ *   scripts/build-images.mjs and published to the asset CDN; this picks the
+ *   smallest one that is at least as wide as the browser asked for.
  * - Anything else (an image added since the last build) is served as is.
  */
 type Entry = { w: number; h: number; hash: string; widths: number[] };
 const images = manifest as Record<string, Entry>;
+
+/** The CDN the pre-built sizes are published to; empty means this server. */
+const ASSET_URL = (process.env.NEXT_PUBLIC_ASSET_URL ?? '').replace(/\/$/, '');
 
 export default function loader({ src, width }: { src: string; width: number; quality?: number }) {
   if (src.startsWith('https://cdn.shopify.com/')) {
@@ -24,5 +27,5 @@ export default function loader({ src, width }: { src: string; width: number; qua
 
   const chosen =
     entry.widths.find((size) => size >= width) ?? entry.widths[entry.widths.length - 1];
-  return `/_img/${entry.hash}-${chosen}.webp`;
+  return `${ASSET_URL}/_img/${entry.hash}-${chosen}.webp`;
 }
