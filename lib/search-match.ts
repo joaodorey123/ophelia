@@ -31,8 +31,10 @@ function scoreToken(token: string, title: string[], meta: string[], description:
   if (title.some((word) => word.startsWith(token))) return 10;
   if (title.join(' ').includes(token)) return 6;
   if (meta.some((word) => word.startsWith(token))) return 4;
-  // Word starts only: "mel" must not match inside "caramelizados".
-  if (description.some((word) => word.startsWith(token))) return 1;
+  // Descriptions are long and shared between products, so a short word must
+  // match a whole word there: "mel" finds "mel", not "melhor" or "caramelizados".
+  if (description.some((word) => (token.length >= 5 ? word.startsWith(token) : word === token)))
+    return 1;
   return 0;
 }
 

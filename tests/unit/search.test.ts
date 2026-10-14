@@ -56,7 +56,7 @@ describe('shop search', () => {
 
   it('does not match inside other words', () => {
     const titles = rankProducts(
-      [...catalogue, product('Cookie Banoffee', { description: 'açúcar amarelo, caramelizada' })],
+      [...catalogue, product('Cookie Banoffee', { description: 'açúcar amarelo, caramelizada, o melhor' })],
       'mel',
     ).map((p) => p.title);
     expect(titles).not.toContain('Cookie Banoffee');
