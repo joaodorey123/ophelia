@@ -114,3 +114,28 @@
     font-size: 24px;
   }
 }
+
+/* Pages the search points to — the menu, the cakes, events — above the products. */
+.pages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pageChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--oph-navy);
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.pageChip:hover,
+.pageChip:focus-visible {
+  background: var(--oph-navy);
+  color: var(--oph-cream);
+}

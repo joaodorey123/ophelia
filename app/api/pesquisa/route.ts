@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 
 import { catalogue } from '@/lib/commerce';
 import { CommerceError } from '@/lib/commerce/types';
-import { toSearchResults } from '@/lib/search';
+import { site } from '@/lib/content';
+import { searchCatalogue, toSearchResults } from '@/lib/search';
+import { matchPages } from '@/lib/search-match';
 
 /**
  * Type-ahead for the header's search sheet.
@@ -17,11 +19,11 @@ export async function GET(request: Request) {
 
   try {
     const products = term
-      ? await catalogue().searchProducts(term, { first: 8 })
+      ? await searchCatalogue(term, 8)
       : await catalogue().getProducts({ first: 6, sortKey: 'BEST_SELLING' });
 
     return NextResponse.json(
-      { results: toSearchResults(products) },
+      { results: toSearchResults(products), pages: matchPages(term, site.reservations.url) },
       { headers: { 'Cache-Control': 'public, max-age=30, stale-while-revalidate=300' } },
     );
   } catch (error) {

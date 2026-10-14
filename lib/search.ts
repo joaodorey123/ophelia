@@ -1,5 +1,7 @@
 import { formatPriceRange } from '@/lib/format';
+import { catalogue } from '@/lib/commerce';
 import type { Product } from '@/lib/commerce/types';
+import { rankProducts } from '@/lib/search-match';
 
 /**
  * The shape the search sheet renders. Deliberately tiny — it crosses the wire
@@ -21,4 +23,13 @@ export function toSearchResults(products: Product[]): SearchResult[] {
       ? { url: product.featuredImage.url, alt: product.featuredImage.altText ?? product.title }
       : null,
   }));
+}
+
+/**
+ * Search the whole catalogue (see lib/search-match.ts). The product list is
+ * one cached request, shared with the shop pages, so each search is instant.
+ */
+export async function searchCatalogue(term: string, limit = 24): Promise<Product[]> {
+  const products = await catalogue().getProducts({ first: 250 });
+  return rankProducts(products, term).slice(0, limit);
 }

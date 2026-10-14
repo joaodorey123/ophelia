@@ -8,13 +8,36 @@ import { useEffect, useRef, useState } from 'react';
 import { TextLink } from '@/components/ui/Button';
 import { productPath } from '@/lib/navigation';
 import type { SearchResult } from '@/lib/search';
+import type { PageShortcut } from '@/lib/search-match';
 
 import styles from './SearchOverlay.module.css';
 
+type Found = { results: SearchResult[]; pages: PageShortcut[] };
+
 type State =
-  | { status: 'idle' | 'loading'; results: SearchResult[] }
-  | { status: 'ready'; results: SearchResult[] }
-  | { status: 'error'; results: [] };
+  | ({ status: 'idle' | 'loading' } & Found)
+  | ({ status: 'ready' } & Found)
+  | { status: 'error'; results: []; pages: [] };
+
+/**
+ * Answers already fetched in this visit, by search term. Going back over a
+ * term — deleting a letter, retyping it — costs no request at all.
+ */
+const answers = new Map<string, Found>();
+
+/** One letter matches almost everything; search from the second one. */
+function queryFor(term: string): string {
+  const trimmed = term.trim();
+  return trimmed.length === 1 ? '' : trimmed;
+}
+
+function stateFor(term: string, current?: State): State {
+  const known = answers.get(queryFor(term));
+  if (known) return { status: 'ready', ...known };
+  return current && current.status !== 'error'
+    ? { status: 'loading', results: current.results, pages: current.pages }
+    : { status: 'loading', results: [], pages: [] };
+}
 
 /**
  * The search sheet.
@@ -27,7 +50,7 @@ type State =
 export function SearchOverlay({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const [term, setTerm] = useState('');
-  const [state, setState] = useState<State>({ status: 'loading', results: [] });
+  const [state, setState] = useState<State>(() => stateFor(''));
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -50,23 +73,28 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
    * so there is no setState inside the effect body and no cascading render.
    */
   useEffect(() => {
-    const controller = new AbortController();
+    // Already answered: the keystroke set the state from the cache.
+    const query = queryFor(term);
+    if (answers.has(query)) return;
 
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        const response = await fetch(`/api/pesquisa?q=${encodeURIComponent(term)}`, {
+        const response = await fetch(`/api/pesquisa?q=${encodeURIComponent(query)}`, {
           signal: controller.signal,
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = (await response.json()) as { results: SearchResult[] };
-        setState({ status: 'ready', results: data.results });
+        const data = (await response.json()) as Partial<Found>;
+        const found = { results: data.results ?? [], pages: data.pages ?? [] };
+        answers.set(query, found);
+        setState({ status: 'ready', ...found });
       } catch {
         // An aborted request is the previous keystroke being superseded, not
         // a failure; the AbortController's own signal tells them apart.
         if (controller.signal.aborted) return;
-        setState({ status: 'error', results: [] });
+        setState({ status: 'error', results: [], pages: [] });
       }
-    }, 250);
+    }, 300);
 
     return () => {
       controller.abort();
@@ -104,8 +132,9 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
               value={term}
               autoComplete="off"
               onChange={(event) => {
-                setTerm(event.target.value);
-                setState((current) => ({ status: 'loading', results: current.results }));
+                const next = event.target.value;
+                setTerm(next);
+                setState((current) => stateFor(next, current));
               }}
             />
             <button type="button" className={styles.close} onClick={onClose}>
@@ -120,10 +149,40 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
                 ? 'A procurar…'
                 : state.results.length === 0
                   ? trimmed
-                    ? `Sem resultados para “${trimmed}”.`
+                    ? state.pages.length > 0
+                      ? `Nenhum produto com “${trimmed}”, mas talvez procure:`
+                      : `Sem resultados para “${trimmed}”.`
                     : 'Ainda não há produtos para mostrar.'
                   : `${state.results.length} ${state.results.length === 1 ? 'resultado' : 'resultados'}`}
           </p>
+
+          {state.pages.length > 0 ? (
+            <div className={styles.pages}>
+              {state.pages.map((page) =>
+                page.external ? (
+                  <a
+                    key={page.href}
+                    href={page.href}
+                    className={styles.pageChip}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={onClose}
+                  >
+                    {page.label} ↗
+                  </a>
+                ) : (
+                  <Link
+                    key={page.href}
+                    href={page.href}
+                    className={styles.pageChip}
+                    onClick={onClose}
+                  >
+                    {page.label} →
+                  </Link>
+                ),
+              )}
+            </div>
+          ) : null}
 
           {state.results.length > 0 ? (
             <div className={styles.results}>

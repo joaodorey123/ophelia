@@ -1,9 +1,9 @@
 import { ProductCard } from '@/components/product/ProductCard';
 import { TextLink } from '@/components/ui/Button';
 import { Display, Kicker } from '@/components/ui/Type';
-import { catalogue } from '@/lib/commerce';
 import type { Product } from '@/lib/commerce/types';
 import { SHOP_INDEX } from '@/lib/navigation';
+import { searchCatalogue } from '@/lib/search';
 import { pageMetadata } from '@/lib/seo/metadata';
 
 import styles from './search.module.css';
@@ -37,7 +37,7 @@ export default async function SearchPage({
 
   if (term) {
     try {
-      products = await catalogue().searchProducts(term, { first: 48 });
+      products = await searchCatalogue(term, 48);
     } catch (error) {
       console.error('[search] Shopify search failed:', error);
       failed = true;
