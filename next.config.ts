@@ -16,9 +16,13 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.shopify.com', pathname: '/**' }],
     formats: ['image/avif', 'image/webp'],
-    // 75 is the default; product photography asks for 85, because the smooth
-    // navy studio backgrounds band and blotch under heavier compression.
-    qualities: [75, 85, 90],
+    /*
+     * An image without its own `quality` gets the closest allowed value to
+     * Next's default of 75 — so 80. Product photos ask for 85 (their smooth
+     * navy backgrounds band under heavier compression) and the full-width
+     * hero for 90.
+     */
+    qualities: [80, 85, 90],
   },
 
   /**

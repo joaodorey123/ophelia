@@ -42,5 +42,10 @@ process.env.NODE_ENV = 'production';
 process.env.HOSTNAME = '127.0.0.1';
 
 const serverDir = path.join(__dirname, 'server');
+
+// Every deploy restarts the app. Drop the optimised-image cache then, so a
+// replaced photo is never served from a stale resized copy.
+fs.rmSync(path.join(serverDir, '.next', 'cache', 'images'), { recursive: true, force: true });
+
 process.chdir(serverDir);
 require(path.join(serverDir, 'server.js'));

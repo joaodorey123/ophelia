@@ -44,7 +44,7 @@ export default function DiarioPage() {
                 ratio="16 / 11"
                 variant={index}
                 priority={index === 0}
-                sizes="(max-width: 900px) 100vw, 760px"
+                sizes="(max-width: 900px) 100vw, 840px"
               />
               <span className={styles.entryMeta}>
                 {post.kicker} · {post.date}

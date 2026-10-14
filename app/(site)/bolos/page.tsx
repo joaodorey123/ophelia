@@ -45,7 +45,7 @@ export default function BolosPage() {
             ratio="4 / 5"
             variant={index}
             className={index === 1 ? styles.galleryRaised : undefined}
-            sizes="(max-width: 700px) 100vw, 380px"
+            sizes="(max-width: 700px) 100vw, 400px"
             priority={index === 0}
           />
         ))}

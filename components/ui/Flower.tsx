@@ -11,32 +11,32 @@ import styles from './Flower.module.css';
  * capturing a click meant for what sits underneath.
  */
 const FLOWERS = {
-  miosotis: [490, 720],
-  cosmos: [368, 720],
-  campainha: [316, 720],
-  'margarida-verde': [720, 612],
-  'flor-branca': [720, 713],
-  'flor-palida': [720, 698],
-  papoila: [342, 720],
-  esporas: [210, 720],
+  miosotis: [772, 1134],
+  cosmos: [578, 1132],
+  campainha: [497, 1132],
+  'margarida-verde': [864, 734],
+  'flor-branca': [864, 856],
+  'flor-palida': [864, 838],
+  papoila: [539, 1134],
+  esporas: [330, 1134],
   prado: [1080, 1350],
   anemona: [507, 540],
   'flor-azul': [493, 480],
   margarida: [461, 416],
-  fresia: [295, 720],
-  haste: [202, 720],
-  gipsofila: [508, 720],
-  ramo: [472, 720],
-  limonada: [405, 720],
-  'cookie-sanduiche': [720, 467],
-  mel: [623, 720],
-  'cookie-maos': [635, 720],
-  bowl: [679, 720],
-  'cookie-caixa': [603, 720],
-  batido: [646, 720],
-  croissants: [720, 711],
-  pavlova: [720, 612],
-  'pavlova-mao': [720, 648],
+  fresia: [465, 1134],
+  haste: [393, 1400],
+  gipsofila: [800, 1134],
+  ramo: [742, 1133],
+  limonada: [472, 840],
+  'cookie-sanduiche': [860, 558],
+  mel: [755, 873],
+  'cookie-maos': [747, 847],
+  bowl: [860, 912],
+  'cookie-caixa': [767, 916],
+  batido: [717, 799],
+  croissants: [730, 721],
+  pavlova: [919, 781],
+  'pavlova-mao': [858, 772],
 } as const;
 
 export type FlowerName = keyof typeof FLOWERS;
@@ -65,7 +65,9 @@ export function Flower({
       aria-hidden
       width={width}
       height={Math.round((width * h) / w)}
-      sizes={`${width}px`}
+      // CSS often draws decorations larger than `width`; leave headroom so
+      // they are never stretched.
+      sizes={`${Math.round(width * 1.4)}px`}
       style={style}
     />
   );

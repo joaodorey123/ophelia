@@ -35,7 +35,7 @@ export function ProductGallery({ images, title }: { images: ProductImage[]; titl
         mountShadow="lg"
         deckle={1}
         priority
-        sizes="(max-width: 900px) 100vw, 560px"
+        sizes="(max-width: 900px) 110vw, 880px"
         tapes={[
           { type: 'torn', top: '2px', left: '10%', width: 118, height: 30, rotate: -5 },
           { type: 'scotch', bottom: '2px', right: '12%', width: 112, height: 28, rotate: 4 },
@@ -58,7 +58,7 @@ export function ProductGallery({ images, title }: { images: ProductImage[]; titl
                 src={image.url}
                 alt=""
                 fill
-                sizes="120px"
+                sizes="260px"
                 quality={85}
               />
             </button>

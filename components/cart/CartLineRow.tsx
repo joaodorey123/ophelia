@@ -35,7 +35,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
             src={line.merchandise.image.url}
             alt=""
             fill
-            sizes="76px"
+            sizes="120px"
             className={styles.thumbImage}
           />
         ) : (

@@ -126,8 +126,8 @@ export function Header({ reservations }: { reservations: { label: string; url: s
               className={styles.logo}
               src="/brand/logo-azul.png"
               alt="Ophelia"
-              width={74}
-              height={52}
+              width={82}
+              height={58}
               priority
             />
           </Link>

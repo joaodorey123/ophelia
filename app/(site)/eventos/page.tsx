@@ -33,7 +33,7 @@ export default function EventosPage() {
               alt={lead.alt}
               ratio="4 / 5"
               variant={1}
-              sizes="(max-width: 900px) 100vw, 620px"
+              sizes="(max-width: 900px) 100vw, 700px"
               priority
             />
             <Flower name="esporas" width={92} className={styles.splitFlower} />
@@ -69,7 +69,7 @@ export default function EventosPage() {
               ratio="4 / 5"
               variant={index + 2}
               className={index === 1 ? styles.galleryRaised : undefined}
-              sizes="(max-width: 700px) 100vw, 420px"
+              sizes="(max-width: 700px) 100vw, 440px"
             />
           ))}
         </div>

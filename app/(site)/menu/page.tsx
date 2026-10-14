@@ -143,7 +143,7 @@ function MenuGroupBlock({
               ratio="4 / 5"
               variant={index + (flip ? 2 : 0)}
               className={index === 0 ? styles.groupPhotoBack : styles.groupPhotoFront}
-              sizes="(max-width: 900px) 50vw, 300px"
+              sizes="(max-width: 900px) 62vw, 440px"
             />
           ))}
         </div>

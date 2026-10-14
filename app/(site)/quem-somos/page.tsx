@@ -58,7 +58,7 @@ export default function AboutPage() {
                   ratio="4 / 5"
                   variant={index}
                   className={styles.photoBack}
-                  sizes="(max-width: 900px) 70vw, 380px"
+                  sizes="(max-width: 900px) 72vw, 420px"
                   priority={index === 0}
                 />
               ) : null}
@@ -69,7 +69,7 @@ export default function AboutPage() {
                   ratio="4 / 5"
                   variant={index + 2}
                   className={styles.photoFront}
-                  sizes="(max-width: 900px) 55vw, 300px"
+                  sizes="(max-width: 900px) 52vw, 320px"
                 />
               ) : null}
               <Flower

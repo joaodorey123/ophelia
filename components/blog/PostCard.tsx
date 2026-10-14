@@ -18,7 +18,7 @@ export function PostCard({
   withExcerpt = false,
   worn = false,
   variant = 0,
-  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 460px',
 }: {
   post: Post;
   withExcerpt?: boolean;

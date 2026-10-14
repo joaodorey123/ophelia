@@ -169,7 +169,7 @@ export default async function ProductPage({ params }: Params) {
                 key={suggestion.id}
                 product={suggestion}
                 compact
-                sizes="(max-width: 640px) 50vw, 230px"
+                sizes="(max-width: 640px) 60vw, 470px"
               />
             ))}
           </div>

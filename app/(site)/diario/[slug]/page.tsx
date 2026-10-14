@@ -85,7 +85,7 @@ export default async function ArticlePage({ params }: Params) {
               ratio="16 / 11"
               variant={pageNumber}
               priority
-              sizes="(max-width: 900px) 100vw, 780px"
+              sizes="(max-width: 900px) 100vw, 820px"
             />
           </div>
 

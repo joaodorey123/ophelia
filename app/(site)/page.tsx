@@ -84,7 +84,8 @@ export default async function HomePage() {
             src={home.hero.image}
             alt={home.hero.alt}
             fill
-            sizes="100vw"
+            // Taller than wide on a phone, so a cropped landscape needs more width.
+            sizes="(max-width: 900px) 140vw, 100vw"
             priority
             // The full-width photograph is the first thing seen; spend the bytes.
             quality={90}
@@ -132,11 +133,7 @@ export default async function HomePage() {
 
           <div className={styles.productGrid}>
             {favourites.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 238px"
-              />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </section>
@@ -153,7 +150,7 @@ export default async function HomePage() {
             alt={home.events.alt}
             ratio="4 / 5"
             variant={1}
-            sizes="(max-width: 900px) 100vw, 640px"
+            sizes="(max-width: 900px) 100vw, 720px"
           />
           <Flower name="esporas" width={92} className={styles.eventsFlower} />
         </div>

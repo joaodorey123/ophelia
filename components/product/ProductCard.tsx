@@ -22,7 +22,12 @@ export function ProductCard({
   compact = false,
   showTag = false,
   priority = false,
-  sizes = '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px',
+  /*
+   * Product shots are landscape, cropped into a portrait card, so the image
+   * drawn is ~1.5× wider than the card. The hint asks for enough to stay
+   * crisp at 2× — on a 3× phone the extra pixels are not visible, only heavy.
+   */
+  sizes = '(max-width: 560px) 100vw, (max-width: 1024px) 52vw, 470px',
 }: {
   product: Product;
   compact?: boolean;
