@@ -15,6 +15,15 @@ const assetUrl = process.env.NEXT_PUBLIC_ASSET_URL?.replace(/\/$/, '') || undefi
 
 const nextConfig: NextConfig = {
   assetPrefix: assetUrl,
+  experimental: {
+    /*
+     * Styles go inside the page (~25 KB), so the first paint waits for no
+     * second connection. Their fonts and background images then load from
+     * this site: about eight requests, well under the hosting's burst limit.
+     * Fonts are not preloaded (app/layout.tsx), so nothing is fetched twice.
+     */
+    inlineCss: true,
+  },
 
   /*
    * A self-contained server (with only the node_modules it needs) for the

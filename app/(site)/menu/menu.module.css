@@ -120,8 +120,8 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  padding: 0 12px;
+  min-height: 36px;
+  padding: 0 14px;
   border: 1px solid var(--oph-line-16);
   border-radius: var(--oph-radius-chip);
   font-size: 11px;
