@@ -5,26 +5,20 @@
  */
 .page {
   position: relative;
-  isolation: isolate;
   /* The flowers pinned to photo corners may poke past the edge; never scroll for them. */
   overflow-x: clip;
-  background-color: var(--oph-cream);
 }
 
 /*
- * The hydrangea ground, on a layer of its own: a pseudo-element's background
- * is decoration to the browser, so it is never mistaken for the page's main
- * content (and the hero photo is measured as that instead).
+ * The hydrangea ground is the page background itself while the home page is
+ * showing: a document background is decoration to the browser, so it is not
+ * mistaken for the page's main content (the hero photo is measured instead).
  */
-.page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
+:global(body):has(.page) {
+  background-color: var(--oph-cream);
   background-image: url('../../public/decor/hortensias.webp');
   background-size: 900px auto;
   background-repeat: repeat;
-  pointer-events: none;
 }
 
 /* ── Hero: the photograph, or a film, and nothing over it ─────────────── */

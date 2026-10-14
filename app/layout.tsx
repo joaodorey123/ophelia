@@ -24,6 +24,11 @@ const bethEllen = localFont({
   weight: '400',
   display: 'swap',
   variable: '--font-beth-ellen',
+  /*
+   * No font is preloaded: on a slow connection the first photo matters more,
+   * and with display: swap the text shows at once in the fallback face.
+   */
+  preload: false,
   /* Handwriting on a cream ground: match the fallback's metrics loosely. */
   fallback: ['cursive'],
 });
@@ -39,6 +44,7 @@ const cormorant = Cormorant_Garamond({
 
 const jost = Jost({
   subsets: ['latin'],
+  preload: false,
   display: 'swap',
   variable: '--font-jost',
 });
