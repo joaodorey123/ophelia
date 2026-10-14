@@ -100,6 +100,7 @@ export default function MenuPage() {
           photos={photos}
           cutouts={cutouts}
           flip={groupIndex % 2 === 1}
+          first={groupIndex === 0}
         />
       ))}
 
@@ -119,12 +120,15 @@ function MenuGroupBlock({
   photos,
   cutouts,
   flip,
+  first = false,
 }: {
   id: string;
   group: MenuGroup;
   photos: { src: string; alt: string }[];
   cutouts: [FlowerName, FlowerName];
   flip: boolean;
+  /** The first group's lead photo is on screen on load: fetch it first. */
+  first?: boolean;
 }) {
   return (
     <section
@@ -143,6 +147,7 @@ function MenuGroupBlock({
               ratio="4 / 5"
               variant={index + (flip ? 2 : 0)}
               className={index === 0 ? styles.groupPhotoBack : styles.groupPhotoFront}
+              priority={first && index === 0}
               sizes="(max-width: 900px) 62vw, 440px"
             />
           ))}

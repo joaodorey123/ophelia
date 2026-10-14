@@ -64,7 +64,8 @@ export function ProductCard({
             alt={image.altText ?? product.title}
             fill
             sizes={sizes}
-            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
           />
         ) : null}
       </Link>

@@ -15,6 +15,13 @@ const assetUrl = process.env.NEXT_PUBLIC_ASSET_URL?.replace(/\/$/, '') || undefi
 
 const nextConfig: NextConfig = {
   assetPrefix: assetUrl,
+  experimental: {
+    /*
+     * Styles go into the page itself rather than separate files: no
+     * render-blocking request before the first paint (the CSS is ~25 KB).
+     */
+    inlineCss: true,
+  },
   /*
    * A self-contained server (with only the node_modules it needs) for the
    * cPanel Node.js hosting — see .github/workflows/deploy.yml.

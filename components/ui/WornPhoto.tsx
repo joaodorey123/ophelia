@@ -52,7 +52,8 @@ export function WornPhoto({
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
         />
         <span className={styles.grain} aria-hidden />
       </div>

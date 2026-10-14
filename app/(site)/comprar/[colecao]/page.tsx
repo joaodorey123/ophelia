@@ -134,7 +134,7 @@ export default async function CollectionPage({
       ) : (
         <div className={styles.grid}>
           {products.map((product, index) => (
-            <ProductCard key={product.id} product={product} showTag priority={index < 4} />
+            <ProductCard key={product.id} product={product} showTag priority={index < 2} />
           ))}
         </div>
       )}

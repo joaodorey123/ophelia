@@ -128,7 +128,7 @@ export function Header({ reservations }: { reservations: { label: string; url: s
               alt="Ophelia"
               width={82}
               height={58}
-              priority
+              loading="eager"
             />
           </Link>
 

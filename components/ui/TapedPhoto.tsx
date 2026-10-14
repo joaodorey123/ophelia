@@ -109,7 +109,8 @@ export function TapedPhoto({
             alt={alt}
             fill
             sizes={sizes}
-            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
           />
         </span>
       </div>
