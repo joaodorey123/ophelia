@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { preload } from 'react-dom';
 import Link from '@/components/ui/Link';
 
 import { PostCard } from '@/components/blog/PostCard';
@@ -14,7 +13,6 @@ import { home, latestPosts, reviews, site } from '@/lib/content';
 import { SHOP_INDEX } from '@/lib/navigation';
 import { pageMetadata } from '@/lib/seo/metadata';
 
-import hortensias from '../../public/decor/hortensias.webp';
 import styles from './home.module.css';
 import paper from '@/styles/paper.module.css';
 import sections from '@/styles/sections.module.css';
@@ -63,14 +61,8 @@ export default async function HomePage() {
   const favourites = await getFavourites();
   const posts = latestPosts(3);
 
-  /*
-   * The hydrangea ground covers the whole first screen, so it counts as the
-   * page's largest paint: ask for it from <head>, not when the CSS is parsed.
-   */
-  preload(hortensias.src, { as: 'image', fetchPriority: 'high' });
-
   return (
-    <div className={styles.page} style={{ backgroundImage: `url(${hortensias.src})` }}>
+    <div className={styles.page}>
       {/* The photograph (or film) on its own. The page still needs a title for
           search engines and screen readers, so it is kept, but only for them. */}
       <section className={styles.hero} data-editor-section="home-hero">

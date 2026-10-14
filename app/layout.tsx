@@ -31,6 +31,8 @@ const bethEllen = localFont({
 const cormorant = Cormorant_Garamond({
   style: ['normal', 'italic'],
   subsets: ['latin'],
+  // Secondary face: not preloaded, so it never competes with the first photo.
+  preload: false,
   display: 'swap',
   variable: '--font-cormorant',
 });
