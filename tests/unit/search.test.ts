@@ -54,6 +54,14 @@ describe('shop search', () => {
     expect(titles).toContain('A Granola da Ophelia');
   });
 
+  it('does not match inside other words', () => {
+    const titles = rankProducts(
+      [...catalogue, product('Cookie Banoffee', { description: 'açúcar amarelo, caramelizada' })],
+      'mel',
+    ).map((p) => p.title);
+    expect(titles).not.toContain('Cookie Banoffee');
+  });
+
   it('requires every word', () => {
     expect(rankProducts(catalogue, 'mel brownie')).toEqual([]);
   });

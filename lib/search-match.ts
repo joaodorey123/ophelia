@@ -27,11 +27,12 @@ function tokens(term: string): string[] {
     .map((word) => (word.length > 3 && word.endsWith('s') ? word.slice(0, -1) : word));
 }
 
-function scoreToken(token: string, title: string[], meta: string[], description: string): number {
+function scoreToken(token: string, title: string[], meta: string[], description: string[]): number {
   if (title.some((word) => word.startsWith(token))) return 10;
   if (title.join(' ').includes(token)) return 6;
   if (meta.some((word) => word.startsWith(token))) return 4;
-  if (description.includes(token)) return 1;
+  // Word starts only: "mel" must not match inside "caramelizados".
+  if (description.some((word) => word.startsWith(token))) return 1;
   return 0;
 }
 
@@ -43,7 +44,7 @@ export function rankProducts(products: Product[], term: string): Product[] {
     .map((product) => {
       const title = normalize(product.title).split(' ');
       const meta = normalize(`${product.productType} ${product.tags.join(' ')}`).split(' ');
-      const description = normalize(product.description);
+      const description = normalize(product.description).split(' ');
       let score = 0;
       for (const word of words) {
         const points = scoreToken(word, title, meta, description);
