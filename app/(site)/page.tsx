@@ -86,6 +86,8 @@ export default async function HomePage() {
             fill
             sizes="100vw"
             priority
+            // The full-width photograph is the first thing seen; spend the bytes.
+            quality={90}
           />
         )}
       </section>

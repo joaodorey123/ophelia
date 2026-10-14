@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     // 75 is the default; product photography asks for 85, because the smooth
     // navy studio backgrounds band and blotch under heavier compression.
-    qualities: [75, 85],
+    qualities: [75, 85, 90],
   },
 
   /**
