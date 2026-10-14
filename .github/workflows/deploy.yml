@@ -67,6 +67,13 @@ jobs:
           key: next-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
           restore-keys: next-${{ hashFiles('package-lock.json') }}-
 
+      - name: Reuse pre-built image sizes
+        uses: actions/cache@v4
+        with:
+          path: public/_img
+          key: img-${{ hashFiles('public/photos/**', 'public/photography/**', 'public/decor/**', 'public/brand/**', 'public/uploads/**', 'scripts/build-images.mjs') }}
+          restore-keys: img-
+
       - name: Build
         run: npm run build
 
@@ -111,6 +118,14 @@ jobs:
           done
           echo "The site did not answer after the upload (last status: $code)."
           exit 1
+
+      - name: Warm up the main pages
+        # The first request after a restart starts the app and renders the
+        # page; do that here rather than for the first visitor.
+        run: |
+          for path in / /em-breve /comprar /menu /quem-somos /bolos /eventos /diario /contacto; do
+            curl -s -o /dev/null -w "$path %{http_code} %{time_total}s\n" "$NEXT_PUBLIC_SITE_URL$path" || true
+          done
 
       - name: Report result
         if: always()

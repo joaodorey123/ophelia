@@ -36,3 +36,6 @@ yarn-error.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Pre-built responsive images (scripts/build-images.mjs)
+public/_img/

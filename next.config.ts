@@ -14,15 +14,16 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'cdn.shopify.com', pathname: '/**' }],
-    formats: ['image/avif', 'image/webp'],
     /*
-     * An image without its own `quality` gets the closest allowed value to
-     * Next's default of 75 — so 80. Product photos ask for 85 (their smooth
-     * navy backgrounds band under heavier compression) and the full-width
-     * hero for 90.
+     * Nothing is resized while a visitor waits: product photos come from
+     * Shopify's CDN, the site's own images are pre-built at every size by
+     * scripts/build-images.mjs. See lib/images/loader.ts.
      */
-    qualities: [80, 85, 90],
+    loader: 'custom',
+    loaderFile: './lib/images/loader.ts',
+    // Must match WIDTHS in scripts/build-images.mjs.
+    deviceSizes: [640, 768, 960, 1200, 1440, 1920, 2560],
+    imageSizes: [96, 160, 256, 384, 512],
   },
 
   /**
@@ -82,6 +83,18 @@ const nextConfig: NextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+      // Pre-built images are named by their content: cache them for a year.
+      {
+        source: '/_img/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      // Backgrounds and decorations keep their names; a week, then revalidate.
+      {
+        source: '/:dir(decor|textures|brand|photos|photography)/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' },
         ],
       },
       { source: '/builder', headers: privateHeaders },

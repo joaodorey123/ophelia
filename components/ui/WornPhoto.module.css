@@ -67,15 +67,17 @@
   transform: translateY(6px);
 }
 
-/* Grain over the photo, blended so it textures both lights and darks. */
+/*
+ * Grain over the photo, at normal blending: a soft-light blend over a large
+ * photo forces the browser to recomposite it as the page scrolls.
+ */
 .grain {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url('/textures/print-grain-1.png');
+  background-image: url('/textures/print-grain-1.webp');
   background-size: 220px 220px;
-  mix-blend-mode: soft-light;
-  opacity: 1;
+  opacity: 0.22;
 }
 
 /*
@@ -87,7 +89,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/textures/print-grain-2.png');
+  background-image: url('/textures/print-grain-2.webp');
   background-size: 160px 160px;
   opacity: 0.8;
 }

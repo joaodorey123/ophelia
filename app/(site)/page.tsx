@@ -87,8 +87,6 @@ export default async function HomePage() {
             // Taller than wide on a phone, so a cropped landscape needs more width.
             sizes="(max-width: 900px) 140vw, 100vw"
             priority
-            // The full-width photograph is the first thing seen; spend the bytes.
-            quality={90}
           />
         )}
       </section>

@@ -1,0 +1,24 @@
+# Keeps the site's Node app awake on the cPanel hosting.
+#
+# Passenger stops an app nobody has visited for a few minutes, and the next
+# visitor then waits seconds for it to start again. A light request every
+# five minutes keeps it running. (GitHub may run scheduled jobs a little late;
+# that is fine.)
+name: Keep the site awake
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Visit the site
+        run: |
+          curl -s -o /dev/null -w 'robots.txt %{http_code} in %{time_total}s\n' https://callmeophelia.com/robots.txt
+          curl -s -o /dev/null -w 'em-breve %{http_code} in %{time_total}s\n' https://callmeophelia.com/em-breve

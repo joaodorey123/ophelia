@@ -74,12 +74,13 @@ export function TapedPhoto({
     '--mount-shadow': MOUNT_SHADOW[mountShadow],
   } as CSSProperties;
 
-  const photoStyle = {
-    '--deckle': deckle === false ? 'none' : `url(#ophDeckle${deckle === 2 ? '2' : ''})`,
-  } as CSSProperties;
-
   return (
-    <div className={className ? `${styles.wrap} ${className}` : styles.wrap} style={wrapStyle}>
+    <div
+      className={[styles.wrap, deckle ? styles[`deckle${deckle}`] : '', className ?? '']
+        .filter(Boolean)
+        .join(' ')}
+      style={wrapStyle}
+    >
       {tapes.map((tape, index) => (
         <span
           // Strips are a fixed, ordered decoration list — index is stable.
@@ -109,8 +110,6 @@ export function TapedPhoto({
             fill
             sizes={sizes}
             priority={priority}
-            style={photoStyle}
-            quality={85}
           />
         </span>
       </div>

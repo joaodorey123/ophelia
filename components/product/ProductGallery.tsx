@@ -53,14 +53,7 @@ export function ProductGallery({ images, title }: { images: ProductImage[]; titl
               aria-pressed={index === active}
               onClick={() => setActive(index)}
             >
-              <Image
-                className={styles.thumbImage}
-                src={image.url}
-                alt=""
-                fill
-                sizes="260px"
-                quality={85}
-              />
+              <Image className={styles.thumbImage} src={image.url} alt="" fill sizes="260px" />
             </button>
           ))}
         </div>

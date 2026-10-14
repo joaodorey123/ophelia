@@ -84,8 +84,8 @@
   position: sticky;
   top: var(--menu-sticky);
   z-index: 20;
-  background: rgba(251, 248, 243, 0.94);
-  backdrop-filter: blur(8px);
+  /* Solid rather than frosted, so scrolling under it stays smooth. */
+  background: var(--oph-cream);
   border-block: 1px solid var(--oph-line-10);
 }
 

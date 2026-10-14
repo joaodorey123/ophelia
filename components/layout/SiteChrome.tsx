@@ -5,7 +5,6 @@ import { CatalogueNotice } from '@/components/layout/CatalogueNotice';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { DeckleFilters } from '@/components/ui/DeckleFilters';
 import { getCart } from '@/lib/cart/get-cart';
 import { getCollectionsSafe } from '@/lib/commerce/safe';
 import { site } from '@/lib/content';
@@ -33,7 +32,6 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
       {themeCss ? <style dangerouslySetInnerHTML={{ __html: themeCss }} /> : null}
 
       <JsonLd data={[organizationSchema(), websiteSchema()]} />
-      <DeckleFilters />
 
       <CartProvider initialCart={cart}>
         <a className="oph-skip-link" href="#conteudo">

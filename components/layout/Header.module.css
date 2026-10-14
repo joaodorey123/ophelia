@@ -2,8 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(251, 248, 243, 0.94);
-  backdrop-filter: blur(10px);
+  /*
+   * Solid, not frosted: a backdrop blur re-blurs everything scrolling
+   * underneath on every frame, which is what makes scrolling stutter.
+   */
+  background: var(--oph-cream);
   border-bottom: 1px solid var(--oph-line-10);
 }
 
