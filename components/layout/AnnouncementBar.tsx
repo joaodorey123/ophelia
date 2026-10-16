@@ -10,7 +10,9 @@ import styles from './AnnouncementBar.module.css';
  * second copy is aria-hidden: a screen reader reads the three messages once.
  */
 export function AnnouncementBar() {
-  const { enabled, messages } = site.announcement;
+  const { enabled } = site.announcement;
+  // A message left blank in the builder would show as an empty gap.
+  const messages = site.announcement.messages.map((message) => message.trim()).filter(Boolean);
   if (!enabled || messages.length === 0) return null;
 
   return (
