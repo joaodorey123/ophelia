@@ -172,15 +172,6 @@ textarea {
   }
 }
 
-@keyframes ophMarquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 /*
  * Reduced motion removes travel, not visibility: every animation here starts
  * from opacity 0 or an offset, so disabling them outright would leave content

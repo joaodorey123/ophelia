@@ -15,13 +15,24 @@
 .track {
   display: flex;
   width: max-content;
-  animation: ophMarquee 38s linear infinite;
+  /* Kept in this module: a CSS module renames the animation, so a global
+   * @keyframes of the same name would never match. */
+  animation: marquee 38s linear infinite;
   /*
-   * Still until the visitor first scrolls, taps or moves the pointer (see
-   * AnnouncementMotion): a strip moving from the first frame keeps the page
-   * "loading" by speed measures, and nobody reads it before then anyway.
+   * Still until the page has settled or the visitor first scrolls, taps or
+   * moves the pointer (see AnnouncementMotion): a strip moving from the very
+   * first frame keeps the page "loading" by speed measures.
    */
   animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 :global(html[data-moved]) .track {
