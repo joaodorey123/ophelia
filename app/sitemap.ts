@@ -30,7 +30,8 @@ const STATIC_PAGES: {
   { path: '/diario', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/contacto', priority: 0.6, changeFrequency: 'yearly' },
   { path: '/envios-e-devolucoes', priority: 0.3, changeFrequency: 'yearly' },
-  { path: '/termos-e-privacidade', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/termos-e-condicoes', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/politica-de-privacidade', priority: 0.3, changeFrequency: 'yearly' },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

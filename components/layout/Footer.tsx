@@ -114,8 +114,8 @@ export function Footer({
         <div className={styles.bottom}>
           <p>
             © {new Date().getFullYear()} {site.brand.name} ·{' '}
-            <Link href="/termos-e-privacidade#termos">Termos e condições</Link> ·{' '}
-            <Link href="/termos-e-privacidade#privacidade">Política de privacidade</Link>
+            <Link href="/termos-e-condicoes">Termos e condições</Link> ·{' '}
+            <Link href="/politica-de-privacidade">Política de privacidade</Link>
           </p>
           <p>{site.footer.legalRight}</p>
         </div>

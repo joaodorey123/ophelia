@@ -9,7 +9,7 @@ import styles from './story.module.css';
 export const metadata = pageMetadata({
   title: 'Quem somos',
   description:
-    'A história da Ophelia: da Guarda ao Estoril, de uma empresa de eventos a uma pastelaria de família.',
+    'A história da Ophelia: da Guarda a Cascais, de uma empresa de eventos a uma pastelaria de família.',
   path: '/quem-somos',
 });
 

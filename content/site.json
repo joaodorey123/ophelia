@@ -1,15 +1,15 @@
 {
   "brand": {
     "name": "Ophelia",
-    "tagline": "Pastelaria, brunch e mercearia. Feito por nós, todos os dias, no Estoril.",
-    "description": "Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, no Estoril.",
-    "since": "estoril · desde 2019"
+    "tagline": "Pastelaria, brunch e mercearia. Feito por nós, todos os dias, em Cascais.",
+    "description": "Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, em Cascais.",
+    "since": "cascais · desde 2019"
   },
   "comingSoon": {
     "enabled": true,
     "kicker": "cake · brunch · friends",
     "title": "em breve",
-    "text": "Estamos a preparar a nova casa da Ophelia online. Até lá, encontre-nos na loja no Estoril ou no Instagram, @callmeophelia.",
+    "text": "Estamos a preparar a nova casa da Ophelia online. Até lá, encontre-nos na loja em Cascais ou no Instagram, @callmeophelia.",
     "passwordLabel": "palavra-passe",
     "cta": "entrar",
     "error": "A palavra-passe não está certa. Tente outra vez."
@@ -48,7 +48,7 @@
       "info@callmeophelia.com"
     ],
     "legalLeft": "© 2026 Ophelia · Termos e condições · Política de privacidade",
-    "legalRight": "Estoril, Portugal · @callmeophelia"
+    "legalRight": "Cascais, Portugal · @callmeophelia"
   },
   "product": {
     "sizeLabelFallback": "escolhe",

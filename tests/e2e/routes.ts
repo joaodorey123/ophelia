@@ -24,7 +24,8 @@ export const PUBLIC_ROUTES = [
   '/diario/granola',
   '/contacto',
   '/envios-e-devolucoes',
-  '/termos-e-privacidade',
+  '/termos-e-condicoes',
+  '/politica-de-privacidade',
 ] as const;
 
 /** Reachable, but must never be indexed. */

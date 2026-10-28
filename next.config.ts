@@ -76,6 +76,8 @@ const nextConfig: NextConfig = {
       { source: '/blog', destination: '/diario', permanent: true },
       { source: '/blog/:slug', destination: '/diario/:slug', permanent: true },
       { source: '/contact', destination: '/contacto', permanent: true },
+      // The two legal texts used to share one page.
+      { source: '/termos-e-privacidade', destination: '/termos-e-condicoes', permanent: true },
       { source: '/checkout', destination: '/carrinho', permanent: true },
       // Retired routes from the previous design.
       { source: '/personalizadas', destination: '/contacto', permanent: true },

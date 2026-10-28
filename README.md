@@ -196,7 +196,7 @@ design-handoff/         The design this is built from — reference, not code
 | `/eventos` | Events |
 | `/diario`, `/diario/[slug]` | Diary |
 | `/contacto` | Contact |
-| `/envios-e-devolucoes`, `/termos-e-privacidade` | Client's legal text |
+| `/envios-e-devolucoes`, `/termos-e-condicoes`, `/politica-de-privacidade` | Client's legal text (`lib/legal.ts`) |
 | `/builder` | Content editor — password-protected, never indexed |
 
 URLs are Portuguese throughout, matching the handoff. `/blog`, `/contact`, `/produtos` and

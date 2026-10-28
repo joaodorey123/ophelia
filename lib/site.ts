@@ -11,7 +11,7 @@ export const SITE = {
   taxId: 'NIPC 517225085',
   tagline: 'pastelaria · brunch · mercearia',
   description:
-    'Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, no Estoril.',
+    'Cookies, mercearia, café torrado na loja e bolos por encomenda. Feito por nós, todos os dias, em Cascais.',
   locale: 'pt-PT',
   language: 'pt',
   currency: 'EUR',
