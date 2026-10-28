@@ -9,7 +9,7 @@ import type { ProductImage } from '@/lib/commerce/types';
 import styles from './ProductGallery.module.css';
 
 /**
- * The product gallery: one taped hero print with up to three square
+ * The product gallery: one mounted hero print with up to three square
  * thumbnails beneath it.
  *
  * The thumbnails are buttons, not links — they change what the hero shows
@@ -36,10 +36,8 @@ export function ProductGallery({ images, title }: { images: ProductImage[]; titl
         deckle={1}
         priority
         sizes="(max-width: 900px) 110vw, 880px"
-        tapes={[
-          { type: 'torn', top: '2px', left: '10%', width: 118, height: 30, rotate: -5 },
-          { type: 'scotch', bottom: '2px', right: '12%', width: 112, height: 28, rotate: 4 },
-        ]}
+        // The client wants the product photo clean on its mount, without tape.
+        tapes={[]}
       />
 
       {images.length > 1 ? (
