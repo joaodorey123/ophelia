@@ -1,7 +1,7 @@
-/* ── Index: a journal, one article after another ─────────────────────── */
+/* ── Index: a journal, the articles zigzagging left and right ────────── */
 .page {
   overflow-x: clip;
-  max-width: 900px;
+  max-width: 1200px;
   margin-inline: auto;
   padding: 84px var(--oph-gutter) 40px;
 }
@@ -40,12 +40,24 @@
 }
 
 .entry + .entry {
-  margin-top: 110px;
+  margin-top: 120px;
 }
 
+/* The print takes one half, the words sit centred in the other. */
 .entryLink {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(40px, 7vw, 110px);
+  align-items: center;
   text-align: center;
+}
+
+.entryFlip .entryPhoto {
+  order: 2;
+}
+
+.entryText {
+  display: block;
 }
 
 .entryLink:hover {
@@ -54,7 +66,6 @@
 
 .entryMeta {
   display: block;
-  margin-top: 44px;
   font-size: 10px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -94,6 +105,23 @@
 
 .entryLink:hover .entryRead {
   border-bottom-color: var(--oph-navy);
+}
+
+@media (max-width: 900px) {
+  .entryLink {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .entryFlip .entryPhoto {
+    order: 0;
+  }
+
+  .entryPhoto {
+    max-width: 520px;
+    width: 100%;
+    margin-inline: auto;
+  }
 }
 
 @media (max-width: 1100px) {

@@ -16,10 +16,10 @@ export const metadata = pageMetadata({
 });
 
 /**
- * The diary index, set like a journal: one article after another down a
- * single centred column — a large worn print pinned with a flower, the title
- * in tracked capitals, and the excerpt beneath. Every article is treated the
- * same; there is no featured one, because the client adds them herself.
+ * The diary index, set like a journal in a zigzag: each article a worn print
+ * on one side and its words on the other, the sides swapping from one article
+ * to the next. On a phone they stack, print first. Every article is treated
+ * the same; there is no featured one, because the client adds them herself.
  */
 export default function DiarioPage() {
   return (
@@ -37,21 +37,27 @@ export default function DiarioPage() {
       <ol className={styles.journal} data-editor-section="diario">
         {posts.map((post, index) => (
           <li key={post.slug} className={styles.entry}>
-            <Link href={postPath(post.slug)} className={styles.entryLink}>
+            <Link
+              href={postPath(post.slug)}
+              className={`${styles.entryLink} ${index % 2 === 1 ? styles.entryFlip : ''}`}
+            >
               <WornPhoto
+                className={styles.entryPhoto}
                 src={post.image}
                 alt=""
-                ratio="16 / 11"
+                ratio="4 / 5"
                 variant={index}
                 priority={index === 0}
-                sizes="(max-width: 900px) 100vw, 840px"
+                sizes="(max-width: 900px) 100vw, 560px"
               />
-              <span className={styles.entryMeta}>
-                {post.kicker} · {post.date}
+              <span className={styles.entryText}>
+                <span className={styles.entryMeta}>
+                  {post.kicker} · {post.date}
+                </span>
+                <h2 className={styles.entryTitle}>{post.title}</h2>
+                <p className={styles.entryExcerpt}>{post.excerpt}</p>
+                <span className={styles.entryRead}>ler o artigo</span>
               </span>
-              <h2 className={styles.entryTitle}>{post.title}</h2>
-              <p className={styles.entryExcerpt}>{post.excerpt}</p>
-              <span className={styles.entryRead}>ler o artigo</span>
             </Link>
           </li>
         ))}
