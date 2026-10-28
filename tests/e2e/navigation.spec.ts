@@ -125,10 +125,11 @@ test.describe('primary navigation', () => {
     await expect(reserve).toHaveAttribute('target', '_blank');
   });
 
-  test('the blue band sends people to the cake catalogue', async ({ page }) => {
+  test('the blue band books a table on UMAI, in a new tab', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('link', { name: /^aqui/ }).click();
-    await expect(page).toHaveURL(/\/bolos$/);
+    const band = page.getByRole('link', { name: /^aqui/ });
+    await expect(band).toHaveAttribute('href', /umai\.io/);
+    await expect(band).toHaveAttribute('target', '_blank');
   });
 
   test('a category pill opens that collection', async ({ page }) => {

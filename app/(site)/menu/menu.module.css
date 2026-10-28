@@ -13,6 +13,17 @@
 }
 
 /* ── Intro ─────────────────────────────────────────────────────────────── */
+
+/* The home page's hydrangea ground, behind the intro only, under the same veil. */
+.introBand {
+  background-color: var(--oph-cream);
+  background-image:
+    linear-gradient(rgb(251 248 243 / 0.3), rgb(251 248 243 / 0.3)),
+    url('../../../public/decor/hortensias.webp');
+  background-size: 900px auto;
+  background-repeat: repeat;
+}
+
 .intro {
   position: relative;
   max-width: 760px;
@@ -32,23 +43,6 @@
   font-size: 19px;
   line-height: 1.6;
   color: var(--oph-ink-body);
-}
-
-.introCutoutLeft,
-.introCutoutRight {
-  position: absolute;
-  top: 60px;
-}
-
-.introCutoutLeft {
-  left: -170px;
-  transform: rotate(-8deg);
-}
-
-.introCutoutRight {
-  right: -150px;
-  top: 110px;
-  transform: rotate(7deg);
 }
 
 /* ── Legend ────────────────────────────────────────────────────────────── */
@@ -179,12 +173,16 @@
 .groupTitleWrap {
   position: relative;
   text-align: center;
+  /* A little lower than the photos' middle, and drawn in towards the page's centre. */
+  transform: translate(-8%, 56px);
 }
 
-.groupCutout {
-  display: block;
-  margin: 18px auto 0;
-  transform: rotate(-6deg);
+.groupHeadFlip .groupTitleWrap {
+  transform: translate(8%, 56px);
+}
+
+.groupTitleWrap .groupTitle {
+  font-size: calc(var(--size) * 1.3);
 }
 
 /* ── Sections, in newspaper columns ────────────────────────────────────── */
@@ -192,12 +190,6 @@
   position: relative;
   columns: 2 380px;
   column-gap: clamp(40px, 6vw, 96px);
-}
-
-.columnsCutout {
-  display: block;
-  margin: 10px auto 0;
-  break-inside: avoid;
 }
 
 .section {
@@ -293,8 +285,7 @@
   position: relative;
   max-width: 720px;
   margin: 40px auto 0;
-  padding: 40px var(--oph-gutter) 0;
-  border-top: 1px solid var(--oph-line-10);
+  padding: 0 var(--oph-gutter);
   text-align: center;
   font-size: 11.5px;
   line-height: 1.7;
@@ -307,17 +298,10 @@
 
 .notesFlower {
   display: block;
-  margin: -78px auto 18px;
+  margin: 0 auto 18px;
 }
 
 /* ── Smaller screens ───────────────────────────────────────────────────── */
-@media (max-width: 1200px) {
-  .introCutoutLeft,
-  .introCutoutRight {
-    display: none;
-  }
-}
-
 @media (max-width: 900px) {
   .page {
     --menu-sticky: 72px;
@@ -336,14 +320,18 @@
     order: 0;
   }
 
+  /* Stacked under the photos, the title is already centred. */
+  .groupTitleWrap,
+  .groupHeadFlip .groupTitleWrap {
+    transform: none;
+    margin-top: 24px;
+  }
+
   .groupPhotos {
     min-height: 0;
     max-width: 520px;
   }
 
-  .groupCutout {
-    width: 140px;
-  }
 }
 
 @media (max-width: 640px) {

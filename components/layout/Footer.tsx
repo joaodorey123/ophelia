@@ -11,8 +11,9 @@ import styles from './Footer.module.css';
 /**
  * The order band and footer.
  *
- * The band points at the cake catalogue. It is hidden on routes that ask for
- * it; pass `orderBand={false}` there.
+ * The band points wherever the builder says: a page on the site, or an outside
+ * address such as the UMAI bookings page, which opens in a new window. It is
+ * hidden on routes that ask for it; pass `orderBand={false}` there.
  *
  * "a loja" is built from the collections Shopify actually has, so the column
  * can never contain a link to a collection that would 404.
@@ -37,10 +38,23 @@ export function Footer({
                 </span>
               ))}
             </Display>
-            <Link href={site.orderBand.href} className={styles.bandButton}>
-              {site.orderBand.cta}
-              <span aria-hidden> →</span>
-            </Link>
+            {/^https?:\/\//.test(site.orderBand.href) ? (
+              <a
+                href={site.orderBand.href}
+                className={styles.bandButton}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {site.orderBand.cta}
+                <span aria-hidden>{'\u00a0→'}</span>
+                <span className="oph-sr-only"> (abre numa nova janela)</span>
+              </a>
+            ) : (
+              <Link href={site.orderBand.href} className={styles.bandButton}>
+                {site.orderBand.cta}
+                <span aria-hidden>{'\u00a0→'}</span>
+              </Link>
+            )}
           </div>
         </section>
       ) : null}

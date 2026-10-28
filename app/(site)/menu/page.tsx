@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 
-import { Flower, type FlowerName } from '@/components/ui/Flower';
+import { Flower } from '@/components/ui/Flower';
 import { Display, Kicker } from '@/components/ui/Type';
 import { WornPhoto } from '@/components/ui/WornPhoto';
 import { menu, type MenuGroup, type MenuItem } from '@/lib/content';
 import { pageMetadata } from '@/lib/seo/metadata';
 
+import { MenuChips } from './MenuChips';
 import styles from './menu.module.css';
 
 export const metadata: Metadata = pageMetadata({
@@ -20,13 +21,12 @@ export const metadata: Metadata = pageMetadata({
  * Three groups — comer, sobremesas, beber — each a run of sections laid out
  * in newspaper columns, so a long menu reads like the paper one instead of a
  * single endless list. Every word and price is content (content/menu.json),
- * editable in the builder; only the photographs that decorate each group are
+ * editable in the builder; only the photographs that illustrate each group are
  * chosen here.
  */
 const GROUPS: {
   id: 'comer' | 'sobremesas' | 'beber';
   photos: { src: string; alt: string }[];
-  cutouts: [FlowerName, FlowerName];
 }[] = [
   {
     id: 'comer',
@@ -34,7 +34,6 @@ const GROUPS: {
       { src: '/photos/casa/02006.jpg', alt: 'Torrada francesa de chocolate e avelã' },
       { src: '/photos/casa/02032.jpg', alt: 'Waffle Rio com frango panado' },
     ],
-    cutouts: ['croissants', 'bowl'],
   },
   {
     id: 'sobremesas',
@@ -42,7 +41,6 @@ const GROUPS: {
       { src: '/photos/casa/02053.jpg', alt: 'A pavlova da Ophelia com frutos vermelhos' },
       { src: '/photos/casa/02127.jpg', alt: 'Brownie de nibs de cacau' },
     ],
-    cutouts: ['pavlova-mao', 'cookie-maos'],
   },
   {
     id: 'beber',
@@ -50,7 +48,6 @@ const GROUPS: {
       { src: '/photos/casa/02039.jpg', alt: 'Sumo de laranja e sumo verde' },
       { src: '/photos/casa/02104.jpg', alt: 'Matcha latte' },
     ],
-    cutouts: ['batido', 'limonada'],
   },
 ];
 
@@ -61,19 +58,19 @@ function sectionId(group: string, index: number) {
 export default function MenuPage() {
   return (
     <div className={styles.page}>
-      <header className={styles.intro} data-editor-section="menu">
-        <Flower name="croissants" width={170} className={styles.introCutoutLeft} />
-        <Flower name="batido" width={150} className={styles.introCutoutRight} />
-        <Kicker>{menu.kicker}</Kicker>
-        <Display as="h1" size="page" className={styles.title}>
-          {menu.title}
-        </Display>
-        <p className={styles.lede}>{menu.intro}</p>
-        <Legend />
-      </header>
+      <div className={styles.introBand}>
+        <header className={styles.intro} data-editor-section="menu">
+          <Kicker>{menu.kicker}</Kicker>
+          <Display as="h1" size="page" className={styles.title}>
+            {menu.title}
+          </Display>
+          <p className={styles.lede}>{menu.intro}</p>
+          <Legend />
+        </header>
+      </div>
 
       <nav className={styles.chips} aria-label="Partes do menu">
-        <div className={styles.chipsInner}>
+        <MenuChips className={styles.chipsInner}>
           {GROUPS.map(({ id }) => {
             const group = menu[id];
             return (
@@ -89,16 +86,15 @@ export default function MenuPage() {
               </div>
             );
           })}
-        </div>
+        </MenuChips>
       </nav>
 
-      {GROUPS.map(({ id, photos, cutouts }, groupIndex) => (
+      {GROUPS.map(({ id, photos }, groupIndex) => (
         <MenuGroupBlock
           key={id}
           id={id}
           group={menu[id]}
           photos={photos}
-          cutouts={cutouts}
           flip={groupIndex % 2 === 1}
           first={groupIndex === 0}
         />
@@ -118,14 +114,12 @@ function MenuGroupBlock({
   id,
   group,
   photos,
-  cutouts,
   flip,
   first = false,
 }: {
   id: string;
   group: MenuGroup;
   photos: { src: string; alt: string }[];
-  cutouts: [FlowerName, FlowerName];
   flip: boolean;
   /** The first group's lead photo is on screen on load: fetch it first. */
   first?: boolean;
@@ -153,10 +147,9 @@ function MenuGroupBlock({
           ))}
         </div>
         <div className={styles.groupTitleWrap}>
-          <Display as="h2" size="pageXl" id={`${id}-title`}>
+          <Display as="h2" size="pageXl" id={`${id}-title`} className={styles.groupTitle}>
             {group.title}
           </Display>
-          <Flower name={cutouts[0]} width={190} className={styles.groupCutout} />
         </div>
       </div>
 
@@ -185,7 +178,6 @@ function MenuGroupBlock({
             </ul>
           </section>
         ))}
-        <Flower name={cutouts[1]} width={170} className={styles.columnsCutout} />
       </div>
     </section>
   );

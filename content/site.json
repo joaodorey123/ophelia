@@ -27,12 +27,12 @@
     "url": "https://restaurants.umai.io/pt/restaurants/ophelia"
   },
   "orderBand": {
-    "kicker": "catálogo de bolos da ophelia",
+    "kicker": "visite-nos na nossa loja em cascais",
     "headingLines": [
-      "faça a sua encomenda"
+      "fazer reserva"
     ],
     "cta": "aqui",
-    "href": "/bolos"
+    "href": "https://restaurants.umai.io/pt/restaurants/ophelia"
   },
   "shipping": {
     "freeShippingFrom": 60,

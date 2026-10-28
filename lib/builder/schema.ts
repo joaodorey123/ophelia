@@ -523,7 +523,7 @@ export const SECTIONS: Section[] = [
         kind: 'text',
         path: 'orderBand.href',
         label: 'Faixa azul — para onde leva',
-        help: 'Por exemplo: /bolos',
+        help: 'Uma página do site, como /bolos, ou um endereço completo, como o do UMAI.',
       },
       { kind: 'text', path: 'footer.helpHeading', label: 'Rodapé — título da coluna' },
       {
