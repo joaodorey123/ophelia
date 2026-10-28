@@ -32,7 +32,8 @@ export function WornPhoto({
   sizes: string;
   variant?: number;
   priority?: boolean;
-  pin?: 'flower' | 'tape';
+  /** What holds the print up: a pinned flower, a strip of tape, or nothing. */
+  pin?: 'flower' | 'tape' | 'none';
   className?: string;
 }) {
   const index = ((variant % 4) + 4) % 4;
@@ -59,9 +60,9 @@ export function WornPhoto({
       </div>
       {pin === 'tape' ? (
         <span className={`${styles.tape} ${styles[tape]}`} aria-hidden />
-      ) : (
+      ) : pin === 'flower' ? (
         <Flower name={flower} width={84} className={`${styles.pin} ${styles[PIN[index]!]}`} />
-      )}
+      ) : null}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 .band {
   background: var(--oph-navy);
   color: var(--oph-on-navy);
-  margin-top: 96px;
+  margin-top: var(--oph-band-gap, 96px);
 }
 
 .bandInner {

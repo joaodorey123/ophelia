@@ -349,7 +349,6 @@ export const SECTIONS: Section[] = [
           { kind: 'textarea', path: 'body', label: 'Texto', rows: 2 },
         ],
       },
-      { kind: 'text', path: 'cta', label: 'Texto do botão' },
       {
         kind: 'list',
         path: 'gallery',

@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-import { ButtonLink } from '@/components/ui/Button';
-import { Flower } from '@/components/ui/Flower';
 import { Display, Kicker } from '@/components/ui/Type';
 import { WornPhoto } from '@/components/ui/WornPhoto';
 import { bolos } from '@/lib/content';
@@ -19,16 +17,14 @@ export const metadata: Metadata = pageMetadata({
  * Bolos.
  *
  * The full cake catalogue is still being written, so this page says so
- * honestly and sends people to the order form rather than listing cakes and
- * prices that are not real yet. When the catalogue arrives it slots in
- * between the steps and the gallery.
+ * honestly rather than listing cakes and prices that are not real yet. When
+ * the catalogue arrives it slots in between the steps and the gallery. The
+ * blue band below is the way on from here, so it sits close to the steps.
  */
 export default function BolosPage() {
   return (
-    <div className={styles.page} data-editor-section="bolos">
+    <div className={`${styles.page} ${styles.pageBeforeBand}`} data-editor-section="bolos">
       <header className={styles.intro}>
-        <Flower name="campainha" width={96} className={styles.introFlowerLeft} />
-        <Flower name="gipsofila" width={150} className={styles.introFlowerRight} />
         <Kicker>{bolos.kicker}</Kicker>
         <Display as="h1" size="pageXl" className={styles.title}>
           {bolos.title}
@@ -44,6 +40,7 @@ export default function BolosPage() {
             alt={photo.alt}
             ratio="4 / 5"
             variant={index}
+            pin="none"
             className={index === 1 ? styles.galleryRaised : undefined}
             sizes="(max-width: 700px) 100vw, 400px"
             priority={index === 0}
@@ -64,12 +61,6 @@ export default function BolosPage() {
           </li>
         ))}
       </ol>
-
-      <div className={styles.cta}>
-        <ButtonLink href="/contacto?assunto=Encomenda de bolos" variant="primary">
-          {bolos.cta}
-        </ButtonLink>
-      </div>
     </div>
   );
 }

@@ -12,6 +12,15 @@
   overflow-x: clip;
 }
 
+/* A page that ends straight into the blue band: draw the band up close. */
+.pageBeforeBand {
+  padding-bottom: 0;
+}
+
+:global(body):has(.pageBeforeBand) {
+  --oph-band-gap: 64px;
+}
+
 /* ── Centred intro ─────────────────────────────────────────────────────── */
 .intro {
   position: relative;
