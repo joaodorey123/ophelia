@@ -97,8 +97,7 @@ export default async function HomePage() {
         aria-labelledby="oph-story"
         data-editor-section="home-story"
       >
-        <Flower name="miosotis" width={150} className={styles.storyFlowerLeft} />
-        <Flower name="fresia" width={110} className={styles.storyFlowerRight} />
+        <Flower name="fresia" width={110} className={styles.storyFlower} />
         <div className={styles.storyInner}>
           <Kicker>{home.story.kicker}</Kicker>
           <Display as="h2" size="band" id="oph-story" className={styles.storyHeading}>
@@ -183,8 +182,8 @@ export default async function HomePage() {
                 </TextLink>
               </div>
               <div className={styles.diaryGrid}>
-                {posts.map((post, index) => (
-                  <PostCard key={post.slug} post={post} worn variant={index} />
+                {posts.map((post) => (
+                  <PostCard key={post.slug} post={post} />
                 ))}
               </div>
             </section>

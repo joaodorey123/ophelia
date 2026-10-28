@@ -4,7 +4,8 @@
 
 .media {
   position: relative;
-  aspect-ratio: 16 / 11;
+  /* Upright, like the photographs themselves (which are all portrait). */
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--oph-photo-well);
 }
@@ -18,14 +19,9 @@
   transform: scale(1.045);
 }
 
-/* The tape hangs above the print, so the card needs room for it. */
-.wornMedia {
-  margin-top: 10px;
-}
-
 .meta {
   display: block;
-  margin-top: 18px;
+  margin-top: 20px;
   font-size: 10px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
