@@ -29,7 +29,7 @@ export default async function ContactoPage({
 
   return (
     <div className={`${sections.wide} ${styles.page}`} data-editor-section="contacto">
-      <Flower name="ramo" width={120} className={styles.flower} />
+      <Flower name="gipsofila" width={130} className={styles.flower} />
 
       <section className={styles.info} aria-labelledby="oph-contact-info">
         <Kicker>{contacto.kicker}</Kicker>
