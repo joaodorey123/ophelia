@@ -4,10 +4,11 @@ import { AnnouncementBar } from '@/components/layout/AnnouncementBar';
 import { CatalogueNotice } from '@/components/layout/CatalogueNotice';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { RouteLoadingOutlet, RouteLoadingProvider } from '@/components/loading/RouteLoading';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { getCart } from '@/lib/cart/get-cart';
 import { getCollectionsSafe } from '@/lib/commerce/safe';
-import { site } from '@/lib/content';
+import { shop, site } from '@/lib/content';
 import { themeStyle } from '@/lib/content/theme';
 import { organizationSchema, websiteSchema } from '@/lib/seo/structured-data';
 
@@ -24,6 +25,17 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
   const [cart, collections] = await Promise.all([getCart(), getCollectionsSafe()]);
   const themeCss = themeStyle();
 
+  // What the route skeletons already know about the shop, so a skeleton shows
+  // real headings and pills instead of bones. Trimmed: this crosses to the client.
+  const skeletonCatalogue = {
+    shop: { kicker: shop.kicker, title: shop.title, lede: shop.lede },
+    collections: collections.map(({ handle, title, description }) => ({
+      handle,
+      title,
+      description,
+    })),
+  };
+
   return (
     <>
       {/* The client's theme overrides, emitted only when they differ from
@@ -34,20 +46,24 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
       <JsonLd data={[organizationSchema(), websiteSchema()]} />
 
       <CartProvider initialCart={cart}>
-        <a className="oph-skip-link" href="#conteudo">
-          Saltar para o conteúdo
-        </a>
+        <RouteLoadingProvider>
+          <a className="oph-skip-link" href="#conteudo">
+            Saltar para o conteúdo
+          </a>
 
-        <CatalogueNotice />
-        <AnnouncementBar />
-        <Header reservations={site.reservations} />
+          <CatalogueNotice />
+          <AnnouncementBar />
+          <Header reservations={site.reservations} />
 
-        <main id="conteudo">{children}</main>
+          <main id="conteudo">
+            <RouteLoadingOutlet catalogue={skeletonCatalogue}>{children}</RouteLoadingOutlet>
+          </main>
 
-        <Footer collections={collections} />
+          <Footer collections={collections} />
 
-        <CartDrawer freeShippingFrom={site.shipping.freeShippingFrom} />
-        <CartToast />
+          <CartDrawer freeShippingFrom={site.shipping.freeShippingFrom} />
+          <CartToast />
+        </RouteLoadingProvider>
       </CartProvider>
     </>
   );

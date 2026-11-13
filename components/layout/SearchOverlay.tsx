@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Link from '@/components/ui/Link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 
+import { useRouteNavigate } from '@/components/loading/RouteLoading';
+import skeleton from '@/components/loading/Skeleton.module.css';
 import { TextLink } from '@/components/ui/Button';
 import { productPath } from '@/lib/navigation';
 import type { SearchResult } from '@/lib/search';
@@ -24,6 +25,9 @@ type State =
  * term — deleting a letter, retyping it — costs no request at all.
  */
 const answers = new Map<string, Found>();
+
+/** Stand-in chip widths while the first answer is on its way. */
+const CHIP_BONES = ['8.5em', '6.5em', '10em', '7.5em', '9em', '6em'];
 
 /** One letter matches almost everything; search from the second one. */
 function queryFor(term: string): string {
@@ -48,7 +52,7 @@ function stateFor(term: string, current?: State): State {
  * the same search server-side — so search works without JavaScript too.
  */
 export function SearchOverlay({ onClose }: { onClose: () => void }) {
-  const router = useRouter();
+  const navigate = useRouteNavigate();
   const [term, setTerm] = useState('');
   const [state, setState] = useState<State>(() => stateFor(''));
   const inputRef = useRef<HTMLInputElement>(null);
@@ -115,7 +119,7 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
             onSubmit={(event) => {
               event.preventDefault();
               if (!trimmed) return;
-              router.push(`/pesquisa?q=${encodeURIComponent(trimmed)}`);
+              navigate(`/pesquisa?q=${encodeURIComponent(trimmed)}`);
               onClose();
             }}
           >
@@ -181,6 +185,20 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
                   </Link>
                 ),
               )}
+            </div>
+          ) : null}
+
+          {/* Chip-shaped bones until the first answer; once there are results,
+              they stay up while the next keystroke's answer loads. */}
+          {state.status === 'loading' && state.results.length === 0 ? (
+            <div className={`${styles.results} ${skeleton.root}`} aria-hidden>
+              {CHIP_BONES.map((width) => (
+                <span key={width} className={`${styles.chip} ${skeleton.chip} ${skeleton.delayed}`}>
+                  <span className={styles.thumb} />
+                  <span className={skeleton.bar} style={{ '--w': width } as CSSProperties} />
+                  <span className={skeleton.bar} style={{ '--w': '3.2em' } as CSSProperties} />
+                </span>
+              ))}
             </div>
           ) : null}
 

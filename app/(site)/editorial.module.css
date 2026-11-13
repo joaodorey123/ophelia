@@ -17,7 +17,7 @@
   padding-bottom: 0;
 }
 
-:global(body):has(.pageBeforeBand) {
+:global(body):not(:has(:global(.oph-route-parked))):has(.pageBeforeBand) {
   --oph-band-gap: 64px;
 }
 

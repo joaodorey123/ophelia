@@ -1,0 +1,132 @@
+/*
+ * Skeletons.
+ *
+ * Every placeholder sits inside the real component's own classes, so the
+ * skeleton takes exactly the room the content will take and nothing jumps
+ * when it arrives. This file only adds the "bone" paint and the motion.
+ *
+ * Motion is one opacity animation per group, never per bone, so a whole
+ * product grid breathes on a single compositor layer: no paint, no layout,
+ * nothing for the main thread to do.
+ */
+
+.root {
+  --sk-bone: rgba(30, 47, 82, 0.075);
+  --sk-bone-strong: rgba(30, 47, 82, 0.11);
+  animation: skIn 0.24s ease both;
+}
+
+/* A text-height bar, sat on the line box of the real text class around it. */
+.bar {
+  display: inline-block;
+  vertical-align: middle;
+  width: var(--w, 60%);
+  max-width: 100%;
+  height: var(--h, 0.72em);
+  border-radius: 2px;
+  background: var(--sk-bone);
+}
+
+/* One line of a paragraph: block, so each keeps the paragraph's line-height. */
+.line {
+  display: block;
+}
+
+/*
+ * Real label, invisible, with a bar painted across its middle. For flex
+ * boxes (buttons, chips) where a bar alone would not hold the line height.
+ */
+.mask {
+  color: transparent !important;
+  background: linear-gradient(var(--sk-bone), var(--sk-bone)) center / 100% 0.72em no-repeat;
+  border-radius: 2px;
+  user-select: none;
+}
+
+/* Outline shapes (buttons, steppers, option boxes) drawn in the bone tone. */
+.ghost {
+  border-color: var(--oph-line-12) !important;
+}
+
+/* The breadcrumb's links are 44px tall on a phone (product.module.css). */
+@media (max-width: 900px) {
+  .crumb {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* A checkbox-sized outline. */
+.box {
+  display: block;
+  border: 1px solid var(--oph-line-14);
+}
+
+/* Solid shapes (the navy primary button) drawn in the bone tone. */
+.solid {
+  border-color: transparent !important;
+  background: var(--sk-bone-strong) !important;
+}
+
+/* Stand-ins for a form's input and button: a single, clipped line. */
+.control {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pulse {
+  animation: skBreathe 1.8s ease-in-out 0.3s infinite;
+}
+
+/*
+ * The search sheet's chips: shown only if the answer takes longer than a
+ * blink, so a cached or fast reply never flashes grey.
+ */
+.delayed {
+  animation:
+    skIn 0.24s ease 0.16s both,
+    skBreathe 1.8s ease-in-out 0.46s infinite;
+}
+
+.chip {
+  pointer-events: none;
+}
+
+/* The page that is leaving stays mounted (and its state with it), just unseen. */
+.parked {
+  display: none;
+}
+
+.passThrough {
+  display: contents;
+}
+
+@keyframes skIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes skBreathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .pulse,
+  .delayed {
+    animation: none;
+  }
+}

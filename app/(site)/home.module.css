@@ -13,8 +13,10 @@
  * The hydrangea ground is the page background itself while the home page is
  * showing: a document background is decoration to the browser, so it is not
  * mistaken for the page's main content (the hero photo is measured instead).
+ * Not while a route skeleton stands in for the next page (the home page is
+ * then parked, still in the document but not showing).
  */
-:global(body):has(.page) {
+:global(body):not(:has(:global(.oph-route-parked))):has(.page) {
   background-color: var(--oph-cream);
   /* A veil of the cream over the watercolour keeps it faint behind the text. */
   background-image:

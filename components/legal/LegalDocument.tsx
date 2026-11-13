@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from 'react';
 
+import Link from '@/components/ui/Link';
 import type { LegalBlock } from '@/lib/legal';
 import { SITE } from '@/lib/site';
 
@@ -72,7 +73,7 @@ function linkify(text: string): ReactNode {
       const own = /callmeophelia\.com$/.test(url);
       parts.push(
         own ? (
-          <a href="/">{url}</a>
+          <Link href="/">{url}</Link>
         ) : (
           <a href={href} target="_blank" rel="noopener noreferrer">
             {url}

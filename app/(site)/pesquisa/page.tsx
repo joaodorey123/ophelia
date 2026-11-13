@@ -6,6 +6,7 @@ import { SHOP_INDEX } from '@/lib/navigation';
 import { searchCatalogue } from '@/lib/search';
 import { pageMetadata } from '@/lib/seo/metadata';
 
+import { SearchForm } from './SearchForm';
 import styles from './search.module.css';
 import sections from '@/styles/sections.module.css';
 
@@ -53,23 +54,7 @@ export default async function SearchPage({
         </Display>
       </div>
 
-      <form className={styles.form} role="search" action="/pesquisa">
-        <label className="oph-sr-only" htmlFor="oph-search-page">
-          Procurar produtos
-        </label>
-        <input
-          id="oph-search-page"
-          className={styles.input}
-          type="search"
-          name="q"
-          defaultValue={term}
-          placeholder="procurar cookies, mel, café…"
-          autoComplete="off"
-        />
-        <button type="submit" className={styles.submit}>
-          procurar
-        </button>
-      </form>
+      <SearchForm term={term} />
 
       {failed ? (
         <div className={styles.error}>
